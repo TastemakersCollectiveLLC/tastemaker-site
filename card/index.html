@@ -15,7 +15,8 @@
 <style>
   :root {
     --black: #231F20;
-    --amethyst: #684385;
+    --amethyst: #684385;       /* frames, borders, fills, rules. 2.12:1, never text */
+    --amethyst-text: #A67FC9;  /* accent text. 5.05:1 on the card black */
     --white: #FFFFFF;
     --grey: #706E6E;
     --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -61,7 +62,7 @@
     font-weight: 500;
     font-size: clamp(24px, 7.7vw, 44px);
     line-height: 1;
-    color: var(--amethyst);
+    color: var(--amethyst-text);
     letter-spacing: 0.2em;
     text-indent: 0.2em;
     white-space: nowrap;
@@ -82,7 +83,7 @@
     font-family: var(--sans);
     font-weight: 400;
     font-size: clamp(12px, 3.6vw, 16px);
-    color: var(--amethyst);
+    color: var(--amethyst-text);
     letter-spacing: 0.42em;
     text-indent: 0.42em;
     white-space: nowrap;

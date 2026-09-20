@@ -17,21 +17,12 @@
 
   /* === BRAND ANIMATION === */
   function animateBrand() {
-    const word1 = 'TASTEMAKERS';
-    const word2 = 'Collective';
     const line1 = document.getElementById('brand-line-1');
-    const line2 = document.getElementById('brand-line-2');
-    if (!line1 || !line2) return;
-    line1.innerHTML = word1
+    if (!line1) return;
+    line1.innerHTML = 'TASTEMAKERS'
       .split('')
       .map(function (c, i) {
         return '<span style="animation-delay:' + (i * 0.05) + 's">' + c + '</span>';
-      })
-      .join('');
-    line2.innerHTML = word2
-      .split('')
-      .map(function (c, i) {
-        return '<span style="animation-delay:' + (0.6 + i * 0.04) + 's">' + c + '</span>';
       })
       .join('');
   }
@@ -43,8 +34,11 @@
         '<section class="tmc-hero">' +
           '<div class="tmc-brand-stack">' +
             '<div class="tmc-brand-line" id="brand-line-1"></div>' +
-            '<div class="tmc-brand-line line-2" id="brand-line-2"></div>' +
-            '<div class="tmc-brand-underline"></div>' +
+            '<div class="tmc-brand-sub-row">' +
+              '<span class="tmc-brand-rule"></span>' +
+              '<span class="tmc-brand-sub">COLLECTIVE</span>' +
+              '<span class="tmc-brand-rule"></span>' +
+            '</div>' +
           '</div>' +
           '<div class="tmc-hero-tagline">We make memorable experiences through cuisine.</div>' +
           '<div class="tmc-hero-sub">Los Angeles</div>' +
