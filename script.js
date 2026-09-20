@@ -24,6 +24,10 @@
       email: 'hello@tastemakerscollective.us'
     },
 
+    /* Formspree. Notifications land in hello@tastemakerscollective.us.
+       Posted to with a plain fetch, no Formspree script library. */
+    formEndpoint: 'https://formspree.io/f/xkjgorkq',
+
     /* Main navigation, in display order. One entry may carry cta: true,
        which renders it as the outlined button at the end of the bar. */
     nav: [
@@ -361,7 +365,9 @@
           '</div>' +
         '</section>' +
         '<section class="tmc-body">' +
-          '<form id="tmc-inquiry-form" autocomplete="on">' +
+          '<form class="tmc-form" id="tmc-inquiry-form" autocomplete="on">' +
+            '<input type="hidden" name="form_source" value="contact">' +
+            '<input type="hidden" name="_subject" value="New inquiry from tastemakerscollective.us">' +
             '<div class="tmc-form-step">' +
               '<h3>The event</h3>' +
               '<div class="tmc-form-field"><label for="f-type">Type</label><select id="f-type" name="type" required><option>Wedding</option><option>Event</option><option>Vending</option><option>Drop-off</option><option>Other</option></select></div>' +
@@ -380,6 +386,7 @@
               '<div class="tmc-form-field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>' +
               '<div class="tmc-form-field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel"></div>' +
               '<div class="tmc-form-field"><label for="f-notes">Additional notes</label><textarea id="f-notes" name="notes" rows="3"></textarea></div>' +
+              '<p class="tmc-form-status" role="alert" hidden></p>' +
               '<button type="submit" class="tmc-form-submit">Send inquiry</button>' +
             '</div>' +
           '</form>' +
@@ -446,33 +453,65 @@
   }
 
   /* === FORM HANDLER ===
-     Builds a mailto: link from the submission so the form works without a
-     backend. Step 3 replaces the body of this function with a fetch() POST
-     to Formspree and keeps this as the failure branch. */
-  function handleFormSubmit(form) {
-    const fd = new FormData(form);
-    const subject = 'New event inquiry: ' + (fd.get('type') || '') + ', ' + (fd.get('name') || '');
-    const body =
-      'Event type: ' + (fd.get('type') || '') + '\n' +
-      'Date: ' + (fd.get('date') || '') + '\n' +
-      'Location: ' + (fd.get('location') || '') + '\n' +
-      'Guest count: ' + (fd.get('guests') || '') + '\n' +
-      'Dietary: ' + (fd.get('dietary') || '') + '\n' +
-      'Budget: ' + (fd.get('budget') || '') + '\n\n' +
-      'Name: ' + (fd.get('name') || '') + '\n' +
-      'Email: ' + (fd.get('email') || '') + '\n' +
-      'Phone: ' + (fd.get('phone') || '') + '\n\n' +
-      'Notes:\n' + (fd.get('notes') || '');
-    window.location.href = 'mailto:' + B.email +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(body);
+     One shared submit path for every form on the site. Contact uses it now,
+     Order joins it in Step 7. Everything the request needs travels in the
+     form itself, including the hidden form_source and _subject, so this
+     function never needs a per-form field list. */
 
-    form.parentNode.innerHTML =
-      '<div class="tmc-form-success">' +
-        '<h3>Opening your email client.</h3>' +
-        '<p>Your inquiry is being drafted in a new email to ' + B.email + '. ' +
-        'If nothing happens, email us directly.</p>' +
-      '</div>';
+  /* Builds a prefilled mailto from whatever visible fields the form has, so
+     a failed request still gets the visitor's answers to us. */
+  function mailtoFallback(form) {
+    const fd = new FormData(form);
+    const lines = [];
+    form.querySelectorAll('input, select, textarea').forEach(function (el) {
+      if (!el.name || el.type === 'hidden') return;
+      const label = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
+      lines.push((label ? label.textContent : el.name) + ': ' + (fd.get(el.name) || ''));
+    });
+    return 'mailto:' + B.email +
+      '?subject=' + encodeURIComponent(fd.get('_subject') || 'Website inquiry') +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+  }
+
+  function handleFormSubmit(form) {
+    const button = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('.tmc-form-status');
+    const buttonLabel = button ? button.textContent : '';
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending';
+    }
+    if (status) {
+      status.hidden = true;
+      status.textContent = '';
+    }
+
+    fetch(CONFIG.formEndpoint, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Form endpoint returned ' + response.status);
+        form.parentNode.innerHTML =
+          '<div class="tmc-form-success">' +
+            '<h3>Thanks. We&rsquo;ll get back to you soon.</h3>' +
+          '</div>';
+      })
+      .catch(function () {
+        if (button) {
+          button.disabled = false;
+          button.textContent = buttonLabel;
+        }
+        if (status) {
+          status.hidden = false;
+          status.innerHTML =
+            'That did not send. Email us at ' +
+            '<a href="mailto:' + B.email + '">' + B.email + '</a> ' +
+            'or <a href="' + mailtoFallback(form) + '">open an email with your answers filled in</a>.';
+        }
+      });
   }
 
   /* === EVENT DELEGATION ===
@@ -490,7 +529,7 @@
   });
 
   document.addEventListener('submit', function (e) {
-    if (!e.target || e.target.id !== 'tmc-inquiry-form') return;
+    if (!e.target || !e.target.classList.contains('tmc-form')) return;
     e.preventDefault();
     handleFormSubmit(e.target);
   });

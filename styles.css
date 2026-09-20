@@ -701,6 +701,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: background-color 0.2s;
 }
 .tmc-form-submit:hover { background: transparent; }
+.tmc-form-submit:disabled {
+  background: transparent;
+  color: var(--white-soft);
+  border-color: var(--hairline);
+  cursor: default;
+}
+
+/* Shown only when a submission fails. */
+.tmc-form-status {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--white);
+  background: var(--black-deep);
+  border-left: 2px solid var(--amethyst);
+  padding: 16px 18px;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+.tmc-form-status a { color: var(--amethyst-text); text-decoration: underline; }
 
 .tmc-form-success {
   background: var(--black-raised);
