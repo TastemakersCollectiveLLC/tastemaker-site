@@ -233,7 +233,7 @@
         route: 'vending',
         title: 'Vending',
         desc: 'Festival food vending, staff meals and artist hospitality.',
-        styles: 'Festivals &nbsp;&middot;&nbsp; Activations &nbsp;&middot;&nbsp; Artist hospitality'
+        styles: 'Festivals &nbsp;&middot;&nbsp; Staff meals &nbsp;&middot;&nbsp; Artist hospitality'
       }
     ],
 
@@ -577,7 +577,7 @@
                 '<div class="tmc-wwd-tile-label">Festival presence</div>' +
                 '<h3 class="tmc-wwd-tile-title">Vending</h3>' +
               '</div>' +
-              '<div class="tmc-wwd-tile-desc">We run our own vending at festivals and markets under the Tastemakers Collective banner, alongside the vending we provide as a service to larger events.</div>' +
+              '<div class="tmc-wwd-tile-desc">We vend at festivals and markets under our own name.</div>' +
             '</div>' +
           '</div>' +
         '</section>' +
