@@ -1,11 +1,11 @@
-# Tastemakers Collective — Site
+# Tastemakers Collective Site
 
 Static site. Three files. No build step. Drop into any static host.
 
 ## Files
-- `index.html` — single-page shell with SEO meta, OG tags, JSON-LD schema
-- `styles.css` — complete design system and all page styles
-- `script.js` — client-side router, page templates, form handler
+- `index.html`: single-page shell with SEO meta, OG tags, JSON-LD schema
+- `styles.css`: complete design system and all page styles
+- `script.js`: client-side router, page templates, form handler
 
 ## Deploy
 
@@ -38,6 +38,6 @@ Edit files directly on GitHub through the web UI. Every commit auto-deploys in ~
 ## Known placeholders to fill in
 
 - Instagram link in footer (`href="#"`)
-- Instagram handle on `/contact` — currently `@tastemakerscollective`, verify and update
-- OG image — add `og-image.jpg` (1200x630) to repo root, uncomment `og:image` meta when ready
-- Favicon — add `favicon.ico` and link it in `<head>`
+- Instagram handle on `/contact`: currently `@tastemakerscollective`, verify and update
+- OG image: add `og-image.jpg` (1200x630) to repo root, uncomment `og:image` meta when ready
+- Favicon: add `favicon.ico` and link it in `<head>`
