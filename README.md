@@ -1,11 +1,16 @@
 # Tastemakers Collective Site
 
-Static site. Three files. No build step. Drop into any static host.
+Static site. No build step. Drop into any static host. The main site is a
+single page at the root, and `card/` is a standalone contact page that the
+printed business card QR codes point to.
 
 ## Files
 - `index.html`: single-page shell with SEO meta, OG tags, JSON-LD schema
 - `styles.css`: complete design system and all page styles
 - `script.js`: client-side router, page templates, form handler
+- `card/index.html`: standalone contact page at `/card`, self contained with its own inline CSS
+- `card/tastemakers.vcf`: vCard the Save contact button downloads
+- `vercel.json`: sets `trailingSlash: false` so `/card` serves without a redirect
 
 ## Deploy
 
