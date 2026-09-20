@@ -255,6 +255,28 @@
       { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
     ],
 
+    /* Vending. No rates anywhere, and no permit claims. The liability
+       insurance line is the active general liability policy on file. Past
+       events are event type and city only, with no artist, promoter or
+       venue names. */
+    vendingBrings: [
+      { title: 'Our own setup', desc: 'We bring our own equipment and run our own station.' },
+      { title: 'Our own staff', desc: 'We staff the service ourselves.' },
+      { title: 'A menu per event', desc: 'We build the menu around the event and the crowd.' },
+      { title: 'Liability insurance', desc: 'We carry general liability insurance and can add your event as additional insured.' }
+    ],
+
+    vendingWays: [
+      { title: 'Public food vending', desc: 'We sell food to guests at your event.' },
+      { title: 'Staff meals and meal tickets', desc: 'We feed your crew, billed by meal ticket or by head.' },
+      { title: 'Artist hospitality', desc: 'We cook for green rooms and artist areas.' }
+    ],
+
+    vendingPast: [
+      { title: 'Warehouse music events', desc: 'Los Angeles' },
+      { title: 'Outdoor pop-ups', desc: 'Los Angeles' }
+    ],
+
     /* Closing band. One per page, always pointing at Contact. */
     cta: {
       kicker: 'Contact',
@@ -594,7 +616,13 @@
         menusBlock() +
         contactBand('events');
     },
-    vending: function () { return simplePage('vending'); },
+    vending: function () {
+      return pageHero('vending') +
+        block('', 'What we bring', '', tiles(CONFIG.vendingBrings, 4)) +
+        block('', 'Ways we work', '', tiles(CONFIG.vendingWays, 3)) +
+        block('', 'Past events', '', rows(CONFIG.vendingPast)) +
+        contactBand('vending');
+    },
     about: function () { return simplePage('about'); },
 
     contact: function () {
