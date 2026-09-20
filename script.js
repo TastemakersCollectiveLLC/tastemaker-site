@@ -303,7 +303,6 @@
     mobileMenu.classList.remove('open');
     mobileToggle.setAttribute('aria-expanded', 'false');
     window.scrollTo({ top: 0, behavior: 'instant' });
-    attachListeners();
     if (page === 'home') setTimeout(animateBrand, 50);
 
     // update document title for each route
@@ -316,24 +315,6 @@
       'menu-private-chef': 'Private Chef Sample Menu | Tastemakers Collective'
     };
     document.title = titles[page] || titles.home;
-  }
-
-  function attachListeners() {
-    document.querySelectorAll('[data-nav]').forEach(function (el) {
-      el.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = el.getAttribute('data-nav');
-        window.location.hash = '#/' + (target === 'home' ? '' : target);
-      });
-    });
-
-    const form = document.getElementById('tmc-inquiry-form');
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        handleFormSubmit(form);
-      });
-    }
   }
 
   /* === FORM HANDLER ===
@@ -365,6 +346,24 @@
         'If nothing happens, email us directly.</p>' +
       '</div>';
   }
+
+  /* === EVENT DELEGATION ===
+     Bound once on the document rather than per render. The nav and the
+     mobile menu live outside #tmc-main and survive every render, so
+     re-binding them on each render used to stack up duplicate handlers. */
+  document.addEventListener('click', function (e) {
+    const el = e.target.closest ? e.target.closest('[data-nav]') : null;
+    if (!el) return;
+    e.preventDefault();
+    const target = el.getAttribute('data-nav');
+    window.location.hash = '#/' + (target === 'home' ? '' : target);
+  });
+
+  document.addEventListener('submit', function (e) {
+    if (!e.target || e.target.id !== 'tmc-inquiry-form') return;
+    e.preventDefault();
+    handleFormSubmit(e.target);
+  });
 
   /* === INIT === */
   window.addEventListener('hashchange', function () {
