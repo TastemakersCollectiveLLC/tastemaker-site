@@ -285,6 +285,17 @@
       guestCounts: ['20 to 30', '30 to 50', '50 to 75', '75 to 100', 'More than 100']
     },
 
+    /* About. Company only, no personal credentials. */
+    aboutWhatWeDo: [
+      { title: 'Catering', desc: 'Custom menus cooked and served at your event.' },
+      { title: 'Events', desc: 'Corporate events, private parties and celebrations.' },
+      { title: 'Festival vending', desc: 'Food vending, staff meals and artist hospitality.' },
+      { title: 'Pop-ups', desc: 'One-night events we run ourselves.' },
+      { title: 'Supper clubs', desc: 'Our own ongoing dinner series.' }
+    ],
+
+    aboutWhereWeWork: 'Los Angeles and Southern California, plus festivals across California.',
+
     /* Closing band. One per page, always pointing at Contact. */
     cta: {
       kicker: 'Contact',
@@ -404,12 +415,6 @@
         '</div>' +
       '</section>'
     );
-  }
-
-  /* An interior page is a hero plus the closing band. Steps 4 to 8 add the
-     body sections between them. */
-  function simplePage(route) {
-    return pageHero(route) + contactBand(route);
   }
 
   /* A plain section: kicker, heading, optional intro, then a body. */
@@ -564,6 +569,7 @@
           '</div>' +
         '</section>' +
 
+        menusBlock() +
         contactBand('home')
       );
     },
@@ -679,7 +685,12 @@
         block('', 'Past events', '', rows(CONFIG.vendingPast)) +
         contactBand('vending');
     },
-    about: function () { return simplePage('about'); },
+    about: function () {
+      return pageHero('about') +
+        block('', 'What we do', '', rows(CONFIG.aboutWhatWeDo)) +
+        block('', 'Where we work', CONFIG.aboutWhereWeWork) +
+        contactBand('about');
+    },
 
     contact: function () {
       return (
