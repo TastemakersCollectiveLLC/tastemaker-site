@@ -225,14 +225,14 @@
         number: '02',
         route: 'events',
         title: 'Events',
-        desc: 'Corporate events, private parties and celebrations. Every menu is custom-curated around the crowd, the occasion and the room.',
+        desc: 'Corporate events, private parties and celebrations. Every menu is built around the crowd and the occasion.',
         styles: 'Corporate &nbsp;&middot;&nbsp; Private parties &nbsp;&middot;&nbsp; Celebrations'
       },
       {
         number: '03',
         route: 'vending',
         title: 'Vending',
-        desc: 'Festival vending, brand activations and large-event operations. Unique menus for every event, plus custom VIP areas for staff and artists.',
+        desc: 'Festival food vending, staff meals and artist hospitality.',
         styles: 'Festivals &nbsp;&middot;&nbsp; Activations &nbsp;&middot;&nbsp; Artist hospitality'
       }
     ],
@@ -242,7 +242,7 @@
       { title: 'Inquiry', desc: 'You tell us the date, the place, the guest count and any dietary needs.' },
       { title: 'Consultation', desc: 'We talk through the food, the service style and how the day runs.' },
       { title: 'Custom menu', desc: 'We write a menu for your event and quote it.' },
-      { title: 'Event day', desc: 'We cook on site, serve, and clean up after ourselves.' }
+      { title: 'Event day', desc: 'We handle the food and the service from start to finish.' }
     ],
 
     serviceStyles: [
@@ -304,7 +304,7 @@
       { title: 'Events', desc: 'Corporate events, private parties and celebrations.' },
       { title: 'Festival vending', desc: 'Food vending, staff meals and artist hospitality.' },
       { title: 'Pop-ups', desc: 'One-night events we run ourselves.' },
-      { title: 'Supper clubs', desc: 'Our own ongoing dinner series.' }
+      { title: 'Supper clubs', desc: 'Private dinners announced to our guest list.' }
     ],
 
     aboutWhereWeWork: 'Los Angeles and Southern California, plus festivals across California.',
@@ -526,7 +526,7 @@
         '<section class="tmc-why">' +
           '<div class="tmc-why-label">Who we are</div>' +
           '<h2 class="tmc-why-headline">A Los Angeles catering and events company.</h2>' +
-          '<p class="tmc-why-body">We bring care and intentionality to every event we work. Music festivals, corporate activations, weddings and private dinners alike.</p>' +
+          '<p class="tmc-why-body">We cook for music festivals, corporate events, weddings and private dinners.</p>' +
         '</section>' +
 
         '<section class="tmc-credibility">' +
@@ -537,7 +537,7 @@
             '</div>' +
             '<div class="tmc-cred-item">' +
               '<div class="tmc-cred-label">Specialty</div>' +
-              '<div class="tmc-cred-text">Custom-curated VIP activations at music festivals.</div>' +
+              '<div class="tmc-cred-text">VIP and artist hospitality at music festivals.</div>' +
             '</div>' +
           '</div>' +
         '</section>' +
@@ -555,7 +555,7 @@
           '<div class="tmc-wwd-header">' +
             '<div class="tmc-section-label">Our events</div>' +
             '<h2 class="tmc-section-heading" style="margin-top:18px">Pop-ups and supper clubs</h2>' +
-            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own programming. These are the nights and operations where Tastemakers Collective sets the menu.</p>' +
+            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own events.</p>' +
           '</div>' +
           '<div class="tmc-wwd-grid">' +
             '<div class="tmc-wwd-tile">' +
@@ -563,14 +563,14 @@
                 '<div class="tmc-wwd-tile-label">One-night events</div>' +
                 '<h3 class="tmc-wwd-tile-title">Pop-Ups</h3>' +
               '</div>' +
-              '<div class="tmc-wwd-tile-desc">Themed concept dinners, guest residencies at partner venues, and brand collaborations. Fixed menu, limited seats, one night only.</div>' +
+              '<div class="tmc-wwd-tile-desc">Themed one-night dinners and pop-ups. Fixed menu, one night only.</div>' +
             '</div>' +
             '<div class="tmc-wwd-tile">' +
               '<div>' +
                 '<div class="tmc-wwd-tile-label">Recurring dinners</div>' +
                 '<h3 class="tmc-wwd-tile-title">Supper Clubs</h3>' +
               '</div>' +
-              '<div class="tmc-wwd-tile-desc">Our own ongoing dinner series. Intimate, curated, and announced to guests directly. The place we cook without a client brief.</div>' +
+              '<div class="tmc-wwd-tile-desc">Private dinners announced to our guest list.</div>' +
             '</div>' +
             '<div class="tmc-wwd-tile">' +
               '<div>' +
