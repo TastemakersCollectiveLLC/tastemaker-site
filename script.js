@@ -127,57 +127,57 @@
           {
             title: 'Lunar New Year street menu',
             items: [
-              { name: 'Duck Tacos', detail: 'Blue corn tacos, Peking-style duck, hoisin, cucumber, daikon, scallion, chili oil.' },
-              { name: 'Beef &amp; Black Bean Tacos', detail: 'Blue corn tacos, velveted eye round, black bean garlic, celery, red bell, scallion.' },
-              { name: 'General Tso&rsquo;s Tofu', detail: 'Koji-marinated crispy tofu, red bell pepper puree, orange, rice vinegar, coconut sugar, ginger, garlic, chiles japones.', tags: ['Vegan'] },
-              { name: 'Longevity Noodles', detail: 'Shanghai noodles, shiitake, Chinese chive, carrot, bean sprouts, scallion oil, sesame.' },
-              { name: 'Dumplings', detail: 'Crispy fried gyoza, veggie or beef, with chili oil, black vinegar, scallion oil and chili sambal.' },
-              { name: 'Cucumber Salad', detail: 'Smashed Persian cucumber, wood ear mushroom, daikon, cilantro, scallion, soy-free soy sauce, black vinegar, sesame oil, chili oil, fried garlic, peanuts, sesame.', tags: ['Vegan', 'Gluten free'] }
+              { name: 'Duck Tacos', detail: 'Blue corn tortilla, roasted duck, hoisin, cucumber, daikon, scallion, chili oil.' },
+              { name: 'Beef &amp; Black Bean Tacos', detail: 'Blue corn tortilla, sliced beef, black bean garlic, white onion, red bell pepper, celery, scallion.' },
+              { name: 'General Tso&rsquo;s Tofu', detail: 'Koji-marinated tofu fried in potato starch, roasted red pepper puree, orange, rice vinegar, coconut sugar, ginger, garlic, dried chiles, red bell pepper, white onion, toasted sesame.', tags: ['Vegan'] },
+              { name: 'Longevity Noodles', detail: 'Shanghai noodles, shiitake, Chinese chive, carrot, napa cabbage, bean sprouts, scallion oil, garlic, ginger, sesame.' },
+              { name: 'Dumplings', detail: 'Crispy fried gyoza, veggie or beef, chili oil, black vinegar, scallion oil, sambal.' },
+              { name: 'Cucumber Salad', detail: 'Smashed Persian cucumber, wood ear mushroom, daikon, cilantro, scallion, toasted peanuts, fried garlic, black and white sesame, coconut aminos, ginger rice vinaigrette, black vinegar, sesame oil, chili oil, Thai chili.', tags: ['Vegan', 'Gluten free'] }
             ]
           },
           {
             title: 'Smash burgers and fries',
             items: [
-              { name: 'Single Smash' },
-              { name: 'Double Smash' },
-              { name: 'Fries' },
-              { name: 'Feral Fries', detail: 'Cheese, caramelized onions, house sauce, chopped chiles.' }
+              { name: 'Single Smash', detail: 'Potato roll, smashed beef patty, American cheese, house sauce, pickle, white onion, chiles.' },
+              { name: 'Double Smash', detail: 'Potato roll, two smashed beef patties, double American cheese, house sauce, pickle, white onion, chiles.' },
+              { name: 'Fries', detail: 'Fried in corn oil, house seasoning blend.' },
+              { name: 'Feral Fries', detail: 'Fries, American cheese, caramelized onion, house sauce, chopped chiles.' }
             ]
           },
           {
             title: 'Wraps and salads',
             items: [
-              { name: 'Grilled Chicken Wrap', detail: 'Koji-marinated chicken, ginger cardamom rice.' },
-              { name: 'Kofta Beef Wrap' },
-              { name: 'Vegan Green Caesar', tags: ['Vegan'] },
+              { name: 'Grilled Chicken Wrap', detail: 'Spinach herb tortilla, marinated grilled chicken, ginger cardamom rice, scallion oil, spring mix, mango, Persian cucumber, cherry tomato, Thai chili, celery, red onion, cilantro, basil, mint, lemon, lime.' },
+              { name: 'Kofta Beef Wrap', detail: 'Roasted red pepper tortilla, beef kofta with caramelized onion, tomato, gochugaru, mustard seed, coriander, fennel, cumin and allspice, seared cherry tomato, toum, hummus, pickled shallot, cucumber, scallion, mint, ginger cardamom rice, spring mix.' },
+              { name: 'Vegan Green Caesar', detail: 'Lacinato kale, arugula, cashew and oat milk caesar, basil, lemon, garlic, toum, lemon-cured cucumber ribbons, lemon supremes, lemon sunflower seeds, parsley, dill.', tags: ['Vegan'] },
               { name: 'Chicken Caesar' },
-              { name: 'Pan de Elote', detail: 'Date, ginger and raspberry compote, lavender.', tags: ['Vegan', 'Gluten free'] }
+              { name: 'Pan de Elote', detail: 'Sweet corn, cornmeal, date sugar, olive oil, date syrup, ginger, raspberry compote, chamomile lavender, freeze-dried raspberry.', tags: ['Vegan', 'Gluten free'] }
             ]
           },
           {
             title: 'Thai tacos',
             items: [
-              { name: 'Panang Beef Barbacoa' },
-              { name: 'Chicken Satay Tacos' },
-              { name: 'Crispy Maitake Tacos' },
-              { name: 'Thai Elote' }
+              { name: 'Panang Beef Barbacoa', detail: 'Beef chuck, panang curry, coconut milk, fish sauce, coconut sugar, makrut lime leaf, caramelized green cabbage, fried Thai basil, peanuts, dried mango and chile manzano sauce.' },
+              { name: 'Chicken Satay Tacos', detail: 'Corn tortilla, coconut-marinated chicken, Madras curry, green papaya, green cabbage, carrot, cucumber, Roma tomato, lime, fish sauce, peanut sauce of coconut cream, tamarind, makrut lime leaf, galangal, ginger and lemongrass.' },
+              { name: 'Crispy Maitake Tacos', detail: 'Maitake and king trumpet mushrooms, potato starch, coconut aminos, tamarind, coconut sugar, roasted mushroom glaze, kombu, avocado, kiwi, serrano, Thai basil, mint, scallion, lime.' },
+              { name: 'Thai Elote', detail: 'Charred corn, cashew lime aioli, makrut lime leaf, garlic, cilantro, chile lime dust, gochugaru, scallion, mint, Thai basil.' }
             ]
           },
           {
             title: 'Italian',
             items: [
-              { name: 'Bruschetta', detail: 'Garlic, herb and lemon crostini oil, tomato-shallot-basil salsa, balsamic, lemon zest.', tags: ['Vegan'] },
-              { name: 'Crispy Gnocchi', detail: 'Seared gnocchi, parsnip-leek soubise or tomato sauce.', tags: ['Vegan', 'Gluten free'] },
-              { name: 'Mortadella Sandwich', detail: 'Toasted ciabatta, pesto, stracciatella, pistachio crumble, mortadella, arugula.' },
-              { name: 'Caprese Sandwich', detail: 'Fresh mozzarella, salted roma, basil chiffonade, olive oil, balsamic.' },
-              { name: 'Hot Meatball Sub', detail: 'Toasted ciabatta, torched provolone, meatballs braised in scrap jus and marinara.' },
-              { name: 'Cucumber Salad', detail: 'Oblique cucumbers, grape tomatoes, cured shallot, ciliegine, basil, arugula, balsamic vinaigrette.' }
+              { name: 'Bruschetta', detail: 'Grilled baguette, garlic, herb and lemon peel oil, tomato, shallot, basil, balsamic, lemon zest.', tags: ['Vegan'] },
+              { name: 'Crispy Gnocchi', detail: 'Gluten-free gnocchi seared in the wok, parsnip puree, leek soubise, basil, or tomato sauce.', tags: ['Vegan', 'Gluten free'] },
+              { name: 'Mortadella Sandwich', detail: 'Toasted ciabatta, pistachio lemon pesto, stracciatella, pistachio crumble, mortadella, arugula.' },
+              { name: 'Caprese Sandwich', detail: 'Toasted ciabatta, fresh mozzarella, salted Roma tomato, basil, olive oil, balsamic, prosciutto on request.' },
+              { name: 'Hot Meatball Sub', detail: 'Ciabatta, meatballs braised in marinara and roasted scrap jus, torched provolone.' },
+              { name: 'Cucumber Salad', detail: 'Oblique cucumber, grape tomato, lemon-cured shallot, ciliegine, basil, arugula, balsamic vinaigrette.' }
             ]
           },
           {
             title: 'Noodle bowls',
             items: [
-              { name: 'Noodle Bowl', detail: 'Chicken thigh or mushroom, cabbage, carrots, thick noodles.' }
+              { name: 'Noodle Bowl', detail: 'Yakisoba noodles, napa cabbage, sugar snap peas, red bell pepper, shiitake, teriyaki chicken thigh or mushroom, pineapple chile salsa.' }
             ]
           }
         ]
@@ -188,24 +188,24 @@
           {
             title: 'Salads',
             items: [
-              { name: 'Duck Caesar', detail: 'Dry cured duck breast, manchego, coconut aminos Caesar, MCT croutons.' },
-              { name: 'Spring Garden', detail: 'Butter lettuce, cured cherry tomatoes, Persian cucumber ribbons, pickled shallot, dill, champagne-yuzu-date vinaigrette, sunflower seeds.', tags: ['Vegan', 'Gluten free'] },
-              { name: 'King Crab Louie', detail: 'Whole king crab leg, jammy egg, MCT aioli with gochugaru and orange zest, heirloom tomato, avocado, lemon.' }
+              { name: 'Duck Caesar', detail: 'Duck cured in fennel, caraway, allspice and coriander, cured yolk and duck fat dressing, dijon, duck fat croutons, manchego, romaine, lemon supremes.' },
+              { name: 'Spring Garden', detail: 'Butter lettuce, tomatoes peeled and brined in lemon and basil, lemon-pickled shallot, cucumber ribbons, dill, sunflower seeds, champagne yuzu date vinaigrette.', tags: ['Vegan', 'Gluten free'] },
+              { name: 'King Crab Louie', detail: 'Whole king crab leg, seven-minute egg, gochugaru and orange Louie, dijon, rice vinegar, cornichon, shallot, heirloom tomato, avocado, lemon.' }
             ]
           },
           {
             title: 'Vegetables',
             items: [
-              { name: 'Potatoes Barigoule', detail: 'Pearl potatoes seared with Castelvetrano olives, braised artichoke hearts, roasted fennel and napa cabbage, caramelized lemon, white wine and olive brine sauce.', tags: ['Vegan', 'Gluten free'] }
+              { name: 'Potatoes Barigoule', detail: 'Pearl potatoes in coriander fennel stock, Castelvetrano olives, braised artichoke, roasted fennel, napa cabbage, white wine, olive brine, caramelized lemon, chervil, parsley.', tags: ['Vegan', 'Gluten free'] }
             ]
           },
           {
             title: 'Proteins',
             items: [
-              { name: 'Salmon', detail: 'Crispy skin, prosecco-dashi beurre blanc, breakfast radish, seared leek, sundried tomato.' },
-              { name: 'Duck Breast', detail: 'Salt and white pepper cure, slow rendered skin, vanilla-amontillado jus, cherry gastrique, three texture corn, hazelnuts, pea shoots.' },
-              { name: 'Chateaubriand', detail: 'Grass-fed tenderloin, espresso-black garlic-gochugaru crust, orange-maitake demi, whole roasted maitakes, green peppercorns.' },
-              { name: 'Lobster Tortelloni', detail: 'House pasta, leek-turnip-trumpet filling, clarified lobster consomme, claws, Japanese turnip, charred leek, lobster chili oil, micro cilantro.' }
+              { name: 'Salmon', detail: 'Salmon, prosecco beurre blanc on salmon dashi with kombu, bonito, leek, turnip and parsnip, radish, leek, sundried tomato.' },
+              { name: 'Duck Breast', detail: 'Duck breast, vanilla amontillado jus, cherry gastrique with red wine vinegar, mirin, pink peppercorn and thyme, three-texture corn, parsnip, hazelnut, pea shoots.' },
+              { name: 'Chateaubriand', detail: 'Beef tenderloin crusted in espresso, black garlic, gochugaru, orange zest and smoked salt, demi of roasted bones, burnt turnip, roasted orange, maitake, parsnip, shallot, amontillado, green peppercorns.' },
+              { name: 'Lobster Tortelloni', detail: 'House pasta filled with leek, turnip and trumpet mushroom, clarified lobster consomm&eacute;, claw meat, Japanese turnip, charred leek, chili oil of Aleppo, annatto, garlic and coriander.' }
             ]
           }
         ]
