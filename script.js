@@ -6,14 +6,238 @@
 (function () {
   'use strict';
 
+  /* ============================================
+     CONFIG
+     Every editable piece of the site lives in this one object: business
+     details, the nav, retired routes, page copy, the services cards, the
+     closing CTA and the footer. Change copy here and nowhere else.
+     ============================================ */
+  const CONFIG = {
+    business: {
+      name: 'Tastemakers Collective',
+      legalName: 'Tastemakers Collective LLC',
+      city: 'Los Angeles',
+      tagline: 'Fine dining for all diets.',
+      phone: '279-271-1170',
+      phoneHref: 'tel:+12792711170',
+      smsHref: 'sms:+12792711170',
+      email: 'hello@tastemakerscollective.us'
+    },
+
+    /* Main navigation, in display order. One entry may carry cta: true,
+       which renders it as the outlined button at the end of the bar. */
+    nav: [
+      { route: 'home', label: 'Home' },
+      { route: 'order', label: 'Order' },
+      { route: 'weddings', label: 'Weddings' },
+      { route: 'events', label: 'Events' },
+      { route: 'vending', label: 'Vending' },
+      { route: 'about', label: 'About' },
+      { route: 'contact', label: 'Contact', cta: true }
+    ],
+
+    /* Retired routes. Printed cards, old links and search results still point
+       at these, so each one forwards to its closest current page. */
+    redirects: {
+      inquire: 'contact',
+      'menu-catering': 'events',
+      'menu-vending': 'vending',
+      'menu-private-chef': 'contact'
+    },
+
+    titles: {
+      home: 'Tastemakers Collective | Catering and Events in Los Angeles',
+      order: 'Drop-off Catering | Tastemakers Collective',
+      weddings: 'Wedding Catering | Tastemakers Collective',
+      events: 'Event Catering | Tastemakers Collective',
+      vending: 'Festival and Event Vending | Tastemakers Collective',
+      about: 'About | Tastemakers Collective',
+      contact: 'Contact | Tastemakers Collective'
+    },
+
+    /* Interior page heroes: eyebrow, headline, one supporting line. */
+    heroes: {
+      order: {
+        eyebrow: 'Order',
+        title: 'Drop-off catering',
+        intro: 'Drop-off catering for offices and gatherings.'
+      },
+      weddings: {
+        eyebrow: 'Weddings',
+        title: 'Wedding catering',
+        intro: 'Custom menus and full service for your wedding day.'
+      },
+      events: {
+        eyebrow: 'Events',
+        title: 'Event catering',
+        intro: 'Corporate events, private parties and celebrations.'
+      },
+      vending: {
+        eyebrow: 'Vending',
+        title: 'Festival vending and event hospitality',
+        intro: 'Food vending, staff meals and artist hospitality for festivals and events.'
+      },
+      about: {
+        eyebrow: 'About',
+        title: 'About Tastemakers Collective',
+        intro: 'Tastemakers Collective is a Los Angeles catering and events company. Fine dining for all diets.'
+      },
+      contact: {
+        eyebrow: 'Contact',
+        title: 'Contact us',
+        intro: 'Tell us about your event and we&rsquo;ll get back to you.'
+      }
+    },
+
+    /* Home services cards. */
+    services: [
+      {
+        number: '01',
+        route: 'weddings',
+        title: 'Weddings',
+        desc: 'Custom menus and full service for your wedding day. We design the menu around you.',
+        styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
+      },
+      {
+        number: '02',
+        route: 'events',
+        title: 'Events',
+        desc: 'Corporate events, private parties and celebrations. Every menu is custom-curated around the crowd, the occasion and the room.',
+        styles: 'Corporate &nbsp;&middot;&nbsp; Private parties &nbsp;&middot;&nbsp; Celebrations'
+      },
+      {
+        number: '03',
+        route: 'vending',
+        title: 'Vending',
+        desc: 'Festival vending, brand activations and large-event operations. Unique menus for every event, plus custom VIP areas for staff and artists.',
+        styles: 'Festivals &nbsp;&middot;&nbsp; Activations &nbsp;&middot;&nbsp; Artist hospitality'
+      }
+    ],
+
+    /* Closing band. One per page, always pointing at Contact. */
+    cta: {
+      kicker: 'Contact',
+      label: 'Contact us',
+      headlines: {
+        home: 'Book your event.',
+        order: 'Request drop-off catering.',
+        weddings: 'Book your wedding.',
+        events: 'Book your event.',
+        vending: 'Book us for your festival or event.',
+        about: 'Work with us.'
+      }
+    },
+
+    footer: {
+      tagline: 'Fine dining for all diets. Catering, events and festival vending across Los Angeles.',
+      columns: [
+        {
+          heading: 'Services',
+          links: [
+            { route: 'weddings', label: 'Weddings' },
+            { route: 'events', label: 'Events' },
+            { route: 'vending', label: 'Vending' },
+            { route: 'order', label: 'Order' }
+          ]
+        },
+        {
+          heading: 'Site',
+          links: [
+            { route: 'home', label: 'Home' },
+            { route: 'about', label: 'About' },
+            { route: 'contact', label: 'Contact' }
+          ]
+        }
+      ]
+    }
+  };
+
+  const B = CONFIG.business;
+
   const main = document.getElementById('tmc-main');
+  const navLinks = document.getElementById('tmc-nav-links');
+  const navCta = document.getElementById('tmc-nav-cta');
   const mobileMenu = document.getElementById('tmc-mobile-menu');
   const mobileToggle = document.getElementById('tmc-mobile-toggle');
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  /* The sticky header height drives both the hero offset and the top of the
+     mobile menu. Measured rather than hardcoded, because the lockup and the
+     nav button both change height once the webfonts land. */
+  function syncNavHeight() {
+    const nav = document.querySelector('.tmc-nav');
+    if (!nav) return;
+    document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+  }
 
   mobileToggle.addEventListener('click', function () {
     const open = mobileMenu.classList.toggle('open');
     mobileToggle.setAttribute('aria-expanded', String(open));
   });
+
+  /* === HELPERS === */
+  function href(route) {
+    return '#/' + (route === 'home' ? '' : route);
+  }
+
+  function navHtml(items, current) {
+    return items.map(function (item) {
+      return '<a href="' + href(item.route) + '" data-nav="' + item.route + '"' +
+        (item.route === current ? ' aria-current="page"' : '') +
+        '>' + item.label + '</a>';
+    }).join('');
+  }
+
+  function renderNav(current) {
+    navLinks.innerHTML = navHtml(CONFIG.nav.filter(function (i) { return !i.cta; }), current);
+
+    const cta = CONFIG.nav.filter(function (i) { return i.cta; })[0];
+    navCta.innerHTML = cta
+      ? '<a class="tmc-nav-btn" href="' + href(cta.route) + '" data-nav="' + cta.route + '"' +
+        (cta.route === current ? ' aria-current="page"' : '') + '>' + cta.label + '</a>'
+      : '';
+
+    mobileMenu.innerHTML = navHtml(CONFIG.nav, current);
+  }
+
+  /* Interior page hero. Full bleed section, centred inner column, with a
+     short amethyst rule under the eyebrow echoing the card lockup. */
+  function pageHero(route) {
+    const h = CONFIG.heroes[route];
+    return (
+      '<section class="tmc-page-hero">' +
+        '<div class="tmc-page-hero-inner">' +
+          '<div class="tmc-page-eyebrow">' + h.eyebrow + '</div>' +
+          '<span class="tmc-page-rule"></span>' +
+          '<h1 class="tmc-page-title">' + h.title + '</h1>' +
+          (h.intro ? '<p class="tmc-page-intro">' + h.intro + '</p>' : '') +
+        '</div>' +
+      '</section>'
+    );
+  }
+
+  function contactBand(route) {
+    return (
+      '<section class="tmc-primary-cta-band">' +
+        '<div class="tmc-primary-cta-inner">' +
+          '<div class="tmc-primary-cta-label">' + CONFIG.cta.kicker + '</div>' +
+          '<h2 class="tmc-primary-cta-headline">' + CONFIG.cta.headlines[route] + '</h2>' +
+          '<a class="tmc-primary-cta-btn" href="#/contact" data-nav="contact">' +
+            CONFIG.cta.label + ' &rarr;</a>' +
+        '</div>' +
+      '</section>'
+    );
+  }
+
+  /* An interior page is a hero plus the closing band. Steps 4 to 8 add the
+     body sections between them. */
+  function simplePage(route) {
+    return pageHero(route) + contactBand(route);
+  }
 
   /* === BRAND ANIMATION === */
   function animateBrand() {
@@ -30,6 +254,17 @@
   /* === PAGE TEMPLATES === */
   const pages = {
     home: function () {
+      const cards = CONFIG.services.map(function (s) {
+        return '<div class="tmc-service-block">' +
+          '<div class="tmc-service-number">' + s.number + '</div>' +
+          '<h3 class="tmc-service-title">' + s.title + '</h3>' +
+          '<p class="tmc-service-desc">' + s.desc + '</p>' +
+          '<div class="tmc-service-styles">' + s.styles + '</div>' +
+          '<a class="tmc-service-menu-link" href="' + href(s.route) + '" data-nav="' + s.route + '">' +
+            s.title + ' &rarr;</a>' +
+        '</div>';
+      }).join('');
+
       return (
         '<section class="tmc-hero">' +
           '<div class="tmc-brand-stack">' +
@@ -40,78 +275,44 @@
               '<span class="tmc-brand-rule"></span>' +
             '</div>' +
           '</div>' +
-          '<div class="tmc-hero-tagline">We make memorable experiences through cuisine.</div>' +
-          '<div class="tmc-hero-sub">Los Angeles</div>' +
+          '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
+          '<div class="tmc-hero-sub">' + B.city + '</div>' +
+          '<span class="tmc-hero-cue" aria-hidden="true"></span>' +
         '</section>' +
 
         '<section class="tmc-why">' +
-          '<div class="tmc-why-label">Why we exist</div>' +
-          '<h2 class="tmc-why-headline">Events are made of memory.<br>The food should match.</h2>' +
-          '<p class="tmc-why-body">Our team\'s training runs through Michelin-awarded kitchens, and we bring that level of care and intentionality to every event we work. Music festivals, corporate activations, weddings, and private dinners alike.</p>' +
-          '<p class="tmc-why-body">We go above and beyond to make sure every bite becomes part of the memory. Custom-curated menus. Intentional sourcing. Real cooking for the rooms and fields that don\'t usually get it.</p>' +
+          '<div class="tmc-why-label">Who we are</div>' +
+          '<h2 class="tmc-why-headline">A Los Angeles catering and events company.</h2>' +
+          '<p class="tmc-why-body">We bring care and intentionality to every event we work. Music festivals, corporate activations, weddings and private dinners alike.</p>' +
         '</section>' +
 
         '<section class="tmc-credibility">' +
           '<div class="tmc-credibility-inner">' +
             '<div class="tmc-cred-item">' +
-              '<div class="tmc-cred-label">Training</div>' +
-              '<div class="tmc-cred-text">Michelin-awarded kitchens</div>' +
-            '</div>' +
-            '<div class="tmc-cred-item">' +
               '<div class="tmc-cred-label">Experience</div>' +
-              '<div class="tmc-cred-text">Decades catering artist green rooms at music events</div>' +
+              '<div class="tmc-cred-text">Over a decade catering artist green rooms at music events.</div>' +
             '</div>' +
             '<div class="tmc-cred-item">' +
               '<div class="tmc-cred-label">Specialty</div>' +
-              '<div class="tmc-cred-text">Custom-curated VIP activations at music festivals</div>' +
+              '<div class="tmc-cred-text">Custom-curated VIP activations at music festivals.</div>' +
             '</div>' +
           '</div>' +
         '</section>' +
 
         '<section class="tmc-section-header">' +
           '<div class="tmc-section-label">Services</div>' +
-          '<h2 class="tmc-section-heading">What we offer.</h2>' +
+          '<h2 class="tmc-section-heading">Catering, events and vending</h2>' +
         '</section>' +
 
         '<div class="tmc-services-wrap">' +
-          '<div class="tmc-service-block">' +
-            '<div class="tmc-service-number">01</div>' +
-            '<h3 class="tmc-service-title">Catering.</h3>' +
-            '<p class="tmc-service-desc">Corporate dinners, private events, and weddings from 20 to 500 guests. Every menu is custom-curated around the crowd, the occasion, and the room. We handle the menu, kitchen, service, rentals, and dietary needs.</p>' +
-            '<div class="tmc-service-styles">Family style &nbsp;&middot;&nbsp; Buffet style &nbsp;&middot;&nbsp; Plated</div>' +
-            '<a class="tmc-service-menu-link" href="#/menu-catering" data-nav="menu-catering">Sample menu &rarr;</a>' +
-          '</div>' +
-
-          '<div class="tmc-service-block">' +
-            '<div class="tmc-service-number">02</div>' +
-            '<h3 class="tmc-service-title">Vending.</h3>' +
-            '<p class="tmc-service-desc">Festival vending, brand activations, and large-event operations. Unique menus tailored to every event we attend. Custom-curated VIP areas for staff and artists. Full mobile setup, permits, commissary logistics, and a kitchen built for volume without sacrificing what goes on the plate.</p>' +
-            '<div class="tmc-service-styles">Festivals &nbsp;&middot;&nbsp; Activations &nbsp;&middot;&nbsp; VIP &amp; artist hospitality</div>' +
-            '<a class="tmc-service-menu-link" href="#/menu-vending" data-nav="menu-vending">Sample menu &rarr;</a>' +
-          '</div>' +
-
-          '<div class="tmc-service-block">' +
-            '<div class="tmc-service-number">03</div>' +
-            '<h3 class="tmc-service-title">Private Chef.</h3>' +
-            '<p class="tmc-service-desc">In-home service for individuals, families, and ongoing engagements. Private dinners, weekly meal planning, and prep. A chef at your table or in your kitchen, cooking what you want, the way you want it.</p>' +
-            '<div class="tmc-service-styles">Private dining &nbsp;&middot;&nbsp; Meal planning &nbsp;&middot;&nbsp; Meal prep</div>' +
-            '<a class="tmc-service-menu-link" href="#/menu-private-chef" data-nav="menu-private-chef">Sample menu &rarr;</a>' +
-          '</div>' +
+          '<div class="tmc-services-grid">' + cards + '</div>' +
         '</div>' +
-
-        '<section class="tmc-primary-cta-band">' +
-          '<div class="tmc-primary-cta-inner">' +
-            '<div class="tmc-primary-cta-label">Ready when you are</div>' +
-            '<h2 class="tmc-primary-cta-headline">Book us<br>for your next event.</h2>' +
-            '<a class="tmc-primary-cta-btn" href="#/inquire" data-nav="inquire">Start an inquiry &rarr;</a>' +
-          '</div>' +
-        '</section>' +
 
         '<section class="tmc-wwd-section">' +
           '<div class="tmc-wwd-header">' +
-            '<div class="tmc-section-label">What we do</div>' +
-            '<h2 class="tmc-section-heading" style="margin-top:18px">Beyond the booking.</h2>' +
-            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own programming. These are the nights and operations where Tastemakers sets the menu.</p>' +
+            '<div class="tmc-section-label">Our events</div>' +
+            '<h2 class="tmc-section-heading" style="margin-top:18px">Pop-ups and supper clubs</h2>' +
+            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own programming. These are the nights and operations where Tastemakers Collective sets the menu.</p>' +
           '</div>' +
           '<div class="tmc-wwd-grid">' +
             '<div class="tmc-wwd-tile">' +
@@ -133,68 +334,45 @@
                 '<div class="tmc-wwd-tile-label">Festival presence</div>' +
                 '<h3 class="tmc-wwd-tile-title">Vending</h3>' +
               '</div>' +
-              '<div class="tmc-wwd-tile-desc">We run our own vending at festivals and markets under the Tastemakers banner, alongside the vending we provide as a service to larger events.</div>' +
+              '<div class="tmc-wwd-tile-desc">We run our own vending at festivals and markets under the Tastemakers Collective banner, alongside the vending we provide as a service to larger events.</div>' +
             '</div>' +
           '</div>' +
         '</section>' +
 
-        '<section class="tmc-inquire-band">' +
-          '<div class="tmc-inquire-inner">' +
-            '<h2 class="tmc-inquire-headline">Still have questions?</h2>' +
-            '<div class="tmc-inquire-email">hello@tastemakerscollective.us</div>' +
-            '<a class="tmc-inquire-btn-band" href="#/inquire" data-nav="inquire">Start an inquiry &rarr;</a>' +
-          '</div>' +
-        '</section>'
+        contactBand('home')
       );
     },
 
-    'menu-catering': function () {
-      return menuDetailPage('Catering', 'Catering. Sample menu.', 'Every event gets its own menu. This is a reference.', [
-        { section: 'Canap&eacute;s', items: [['Hamachi crudo', 'yuzu, shiso, puffed quinoa'], ['Beef tartare', 'crispy potato, horseradish cream'], ['Burrata', 'peach, basil, aged balsamic, sea salt']] },
-        { section: 'First course', items: [['Heirloom tomato', 'burrata, torn herbs, bread crisp'], ['Tuna crudo', 'citrus, chili, olive oil']] },
-        { section: 'Main', items: [['Wood-grilled branzino', 'lemon, capers, brown butter, fennel'], ['Short rib', 'polenta, gremolata, charred onion']] },
-        { section: 'Dessert', items: [['Olive oil cake', 'citrus, cr&egrave;me fra&icirc;che'], ['Chocolate tart', 'salted caramel, hazelnut']] }
-      ]);
-    },
+    order: function () { return simplePage('order'); },
+    weddings: function () { return simplePage('weddings'); },
+    events: function () { return simplePage('events'); },
+    vending: function () { return simplePage('vending'); },
+    about: function () { return simplePage('about'); },
 
-    'menu-vending': function () {
-      return menuDetailPage('Vending', 'Vending. Sample menu.', 'A festival vending menu. Unique menus are built for every event.', [
-        { section: 'The line', items: [['Smash burger', 'double patty, American cheese, shredded lettuce, house sauce'], ['Pulled pork sandwich', 'slaw, pickles, soft bun'], ['Crispy chicken bao', 'spicy mayo, pickled cucumber, herbs']] },
-        { section: 'Plant-based', items: [['Kimchi grilled cheese', 'aged cheddar, sourdough'], ['Crispy tofu bowl', 'ginger rice, scallion, sesame']] },
-        { section: 'Sides', items: [['Truffle fries', 'parmesan, chives'], ['Fresno chili corn', 'lime, cotija']] }
-      ]);
-    },
-
-    'menu-private-chef': function () {
-      return menuDetailPage('Private Chef', 'Private chef. Sample menu.', 'A multi-course tasting menu for in-home service.', [
-        { section: 'Amuse', items: [['Oyster', 'mignonette, cucumber granita']] },
-        { section: 'First', items: [['Sea bream crudo', 'yuzu, fennel pollen, olive oil']] },
-        { section: 'Second', items: [['Handmade agnolotti', 'brown butter, sage, parmesan']] },
-        { section: 'Main', items: [['Duck breast', 'plum, star anise, charred radicchio']] },
-        { section: 'Cheese', items: [['Selection of three', 'local honey, seeded crackers']] },
-        { section: 'Dessert', items: [['Dark chocolate custard', 'olive oil, sea salt, shortbread']] }
-      ]);
-    },
-
-    inquire: function () {
+    contact: function () {
       return (
-        '<section class="tmc-page-hero">' +
-          '<div class="tmc-page-eyebrow">Inquire</div>' +
-          '<h1 class="tmc-page-title">Event inquiry.</h1>' +
+        pageHero('contact') +
+        '<section class="tmc-contact-block">' +
+          '<div class="tmc-contact-grid">' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value"><a href="mailto:' + B.email + '">' + B.email + '</a></p></div>' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Phone</div><p class="tmc-contact-value"><a href="' + B.phoneHref + '">' + B.phone + '</a></p></div>' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Text</div><p class="tmc-contact-value"><a href="' + B.smsHref + '">' + B.phone + '</a></p></div>' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">' + B.city + '</p></div>' +
+          '</div>' +
         '</section>' +
         '<section class="tmc-body">' +
           '<form id="tmc-inquiry-form" autocomplete="on">' +
             '<div class="tmc-form-step">' +
               '<h3>The event</h3>' +
-              '<div class="tmc-form-field"><label for="f-type">Type</label><select id="f-type" name="type" required><option>Catering</option><option>Vending</option><option>Private chef</option><option>Other</option></select></div>' +
+              '<div class="tmc-form-field"><label for="f-type">Type</label><select id="f-type" name="type" required><option>Wedding</option><option>Event</option><option>Vending</option><option>Drop-off</option><option>Other</option></select></div>' +
               '<div class="tmc-form-field"><label for="f-date">Date</label><input id="f-date" name="date" type="text" placeholder="Date or flexible"></div>' +
               '<div class="tmc-form-field"><label for="f-location">Location</label><input id="f-location" name="location" type="text" placeholder="Venue, neighborhood, or TBD"></div>' +
-              '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests"><option>Under 25</option><option>25 to 50</option><option>50 to 100</option><option>100 to 200</option><option>200 to 500</option><option>500+</option></select></div>' +
+              '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests"><option>Under 25</option><option>25 to 50</option><option>50 to 100</option><option>100 to 200</option><option>200 to 500</option><option>More than 500</option></select></div>' +
             '</div>' +
             '<div class="tmc-form-step">' +
               '<h3>Details</h3>' +
-              '<div class="tmc-form-field"><label for="f-budget">Budget</label><select id="f-budget" name="budget"><option>Not sure yet</option><option>Under $10K</option><option>$10K to 25K</option><option>$25K to 50K</option><option>$50K to 100K</option><option>$100K+</option></select></div>' +
-              '<div class="tmc-form-field"><label for="f-dietary">Dietary or cuisine notes</label><textarea id="f-dietary" name="dietary" rows="3"></textarea></div>' +
+              '<div class="tmc-form-field"><label for="f-dietary">Dietary needs and allergies</label><textarea id="f-dietary" name="dietary" rows="3"></textarea></div>' +
+              '<div class="tmc-form-field"><label for="f-budget">Budget (optional)</label><input id="f-budget" name="budget" type="text"></div>' +
             '</div>' +
             '<div class="tmc-form-step">' +
               '<h3>Contact</h3>' +
@@ -207,136 +385,92 @@
           '</form>' +
         '</section>'
       );
-    },
-
-    contact: function () {
-      return (
-        '<section class="tmc-page-hero">' +
-          '<div class="tmc-page-eyebrow">Contact</div>' +
-          '<h1 class="tmc-page-title">Contact.</h1>' +
-          '<p class="tmc-page-intro">For event inquiries, use the <a href="#/inquire" data-nav="inquire">Inquire page</a>.</p>' +
-        '</section>' +
-        '<section class="tmc-contact-block">' +
-          '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value">hello@tastemakerscollective.us</p></div>' +
-          '<div class="tmc-contact-card"><div class="tmc-contact-label">Phone</div><p class="tmc-contact-value"><a href="tel:+12792711170">279-271-1170</a></p></div>' +
-          '<div class="tmc-contact-card"><div class="tmc-contact-label">Instagram</div><p class="tmc-contact-value">@tastemakerscollective</p></div>' +
-          '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">Los Angeles</p></div>' +
-        '</section>'
-      );
     }
   };
 
-  /* === MENU DETAIL HELPER === */
-  function menuDetailPage(title, heading, intro, sections) {
-    let menuHtml = '';
-    sections.forEach(function (s) {
-      menuHtml += '<div class="tmc-menu-section-title">' + s.section + '</div>';
-      s.items.forEach(function (i) {
-        menuHtml += '<div class="tmc-menu-item"><div class="tmc-menu-item-name">' + i[0] + '</div><div class="tmc-menu-item-desc">' + i[1] + '</div></div>';
-      });
-    });
+  /* === FOOTER === */
+  function footerHtml() {
+    const cols = CONFIG.footer.columns.map(function (col) {
+      return '<div class="tmc-footer-col">' +
+        '<h4>' + col.heading + '</h4>' +
+        col.links.map(function (l) {
+          return '<a href="' + href(l.route) + '" data-nav="' + l.route + '">' + l.label + '</a>';
+        }).join('') +
+        '</div>';
+    }).join('');
+
     return (
-      '<section class="tmc-page-hero">' +
-        '<div class="tmc-page-eyebrow">' + title + '</div>' +
-        '<h1 class="tmc-page-title">' + heading + '</h1>' +
-        '<p class="tmc-page-intro">' + intro + '</p>' +
-      '</section>' +
-      '<section class="tmc-menu-detail">' +
-        menuHtml +
-        '<div class="tmc-menu-back-card">' +
-          '<a class="tmc-form-submit" href="#/inquire" data-nav="inquire" style="width:auto;padding:14px 30px;display:inline-block">Start inquiry</a>' +
-          '<div style="margin-top:18px"><a class="tmc-back-link" href="#/" data-nav="home">&larr; Back</a></div>' +
+      '<footer class="tmc-footer">' +
+        '<div class="tmc-footer-grid">' +
+          '<div>' +
+            '<div class="tmc-footer-brand">TASTEMAKERS COLLECTIVE</div>' +
+            '<div class="tmc-footer-tag">' + CONFIG.footer.tagline + '</div>' +
+          '</div>' +
+          cols +
+          '<div class="tmc-footer-col">' +
+            '<h4>Connect</h4>' +
+            '<a href="mailto:' + B.email + '">' + B.email + '</a>' +
+            '<a href="' + B.phoneHref + '">' + B.phone + '</a>' +
+          '</div>' +
         '</div>' +
-      '</section>'
+        '<div class="tmc-footer-bottom">' +
+          '<div>&copy; 2026 ' + B.legalName + '</div>' +
+          '<div>All rights reserved</div>' +
+        '</div>' +
+      '</footer>'
     );
   }
-
-  /* === FOOTER === */
-  const footer =
-    '<footer class="tmc-footer">' +
-      '<div class="tmc-footer-grid">' +
-        '<div>' +
-          '<div class="tmc-footer-brand">TASTEMAKERS COLLECTIVE</div>' +
-          '<div class="tmc-footer-tag">We make memorable experiences through cuisine. Catering, vending, and private chef across Los Angeles.</div>' +
-        '</div>' +
-        '<div class="tmc-footer-col">' +
-          '<h4>Services</h4>' +
-          '<a href="#/menu-catering" data-nav="menu-catering">Catering</a>' +
-          '<a href="#/menu-vending" data-nav="menu-vending">Vending</a>' +
-          '<a href="#/menu-private-chef" data-nav="menu-private-chef">Private Chef</a>' +
-        '</div>' +
-        '<div class="tmc-footer-col">' +
-          '<h4>Site</h4>' +
-          '<a href="#/" data-nav="home">Home</a>' +
-          '<a href="#/inquire" data-nav="inquire">Inquire</a>' +
-          '<a href="#/contact" data-nav="contact">Contact</a>' +
-        '</div>' +
-        '<div class="tmc-footer-col">' +
-          '<h4>Connect</h4>' +
-          '<a href="mailto:hello@tastemakerscollective.us">hello@tastemakerscollective.us</a>' +
-          '<a href="tel:+12792711170">279-271-1170</a>' +
-          '<a href="#">Instagram</a>' +
-        '</div>' +
-      '</div>' +
-      '<div class="tmc-footer-bottom">' +
-        '<div>&copy; 2026 Tastemakers Collective LLC</div>' +
-        '<div>All rights reserved</div>' +
-      '</div>' +
-    '</footer>';
 
   /* === ROUTER === */
   function getRouteFromHash() {
     const hash = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
-    if (!hash || hash === '/' || hash === '') return 'home';
+    if (!hash || hash === '/') return 'home';
     return hash;
   }
 
-  function render(page) {
-    const renderer = pages[page] || pages.home;
-    main.innerHTML = renderer() + footer;
-    mobileMenu.classList.remove('open');
-    mobileToggle.setAttribute('aria-expanded', 'false');
+  function render(route) {
+    /* Retired route: rewrite the address bar, which fires hashchange and
+       brings us straight back here with the current route. */
+    if (CONFIG.redirects[route]) {
+      window.location.replace(href(CONFIG.redirects[route]));
+      return;
+    }
+
+    const page = pages[route] ? route : 'home';
+    main.innerHTML = pages[page]() + footerHtml();
+    renderNav(page);
+    closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (page === 'home') setTimeout(animateBrand, 50);
-
-    // update document title for each route
-    const titles = {
-      home: 'Tastemakers Collective | Culinary Collective in Los Angeles',
-      inquire: 'Inquire | Tastemakers Collective',
-      contact: 'Contact | Tastemakers Collective',
-      'menu-catering': 'Catering Sample Menu | Tastemakers Collective',
-      'menu-vending': 'Vending Sample Menu | Tastemakers Collective',
-      'menu-private-chef': 'Private Chef Sample Menu | Tastemakers Collective'
-    };
-    document.title = titles[page] || titles.home;
+    document.title = CONFIG.titles[page] || CONFIG.titles.home;
   }
 
   /* === FORM HANDLER ===
-     Currently builds a mailto: link from submission data so the site works
-     from day one without a backend. Swap this for a fetch() to a form
-     endpoint (Formspree, Vercel serverless function, etc.) when ready. */
+     Builds a mailto: link from the submission so the form works without a
+     backend. Step 3 replaces the body of this function with a fetch() POST
+     to Formspree and keeps this as the failure branch. */
   function handleFormSubmit(form) {
     const fd = new FormData(form);
-    const subject = 'New event inquiry: ' + (fd.get('type') || '') + ' - ' + (fd.get('name') || '');
+    const subject = 'New event inquiry: ' + (fd.get('type') || '') + ', ' + (fd.get('name') || '');
     const body =
       'Event type: ' + (fd.get('type') || '') + '\n' +
       'Date: ' + (fd.get('date') || '') + '\n' +
       'Location: ' + (fd.get('location') || '') + '\n' +
       'Guest count: ' + (fd.get('guests') || '') + '\n' +
-      'Budget: ' + (fd.get('budget') || '') + '\n' +
-      'Dietary: ' + (fd.get('dietary') || '') + '\n\n' +
+      'Dietary: ' + (fd.get('dietary') || '') + '\n' +
+      'Budget: ' + (fd.get('budget') || '') + '\n\n' +
       'Name: ' + (fd.get('name') || '') + '\n' +
       'Email: ' + (fd.get('email') || '') + '\n' +
       'Phone: ' + (fd.get('phone') || '') + '\n\n' +
       'Notes:\n' + (fd.get('notes') || '');
-    const href = 'mailto:hello@tastemakerscollective.us?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    window.location.href = href;
+    window.location.href = 'mailto:' + B.email +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
 
-    const wrap = form.parentNode;
-    wrap.innerHTML =
+    form.parentNode.innerHTML =
       '<div class="tmc-form-success">' +
         '<h3>Opening your email client.</h3>' +
-        '<p>Your inquiry is being drafted in a new email to hello@tastemakerscollective.us. ' +
+        '<p>Your inquiry is being drafted in a new email to ' + B.email + '. ' +
         'If nothing happens, email us directly.</p>' +
       '</div>';
   }
@@ -349,8 +483,10 @@
     const el = e.target.closest ? e.target.closest('[data-nav]') : null;
     if (!el) return;
     e.preventDefault();
-    const target = el.getAttribute('data-nav');
-    window.location.hash = '#/' + (target === 'home' ? '' : target);
+    /* Closed here as well as in render(), because tapping the link for the
+       page you are already on changes no hash and fires no hashchange. */
+    closeMobileMenu();
+    window.location.hash = href(el.getAttribute('data-nav'));
   });
 
   document.addEventListener('submit', function (e) {
@@ -364,5 +500,11 @@
     render(getRouteFromHash());
   });
 
+  window.addEventListener('resize', syncNavHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncNavHeight);
+  }
+
   render(getRouteFromHash());
+  syncNavHeight();
 })();
