@@ -224,6 +224,7 @@
         '</section>' +
         '<section class="tmc-contact-block">' +
           '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value">hello@tastemakerscollective.us</p></div>' +
+          '<div class="tmc-contact-card"><div class="tmc-contact-label">Phone</div><p class="tmc-contact-value"><a href="tel:+12792711170">279-271-1170</a></p></div>' +
           '<div class="tmc-contact-card"><div class="tmc-contact-label">Instagram</div><p class="tmc-contact-value">@tastemakerscollective</p></div>' +
           '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">Los Angeles</p></div>' +
         '</section>'
@@ -279,6 +280,7 @@
         '<div class="tmc-footer-col">' +
           '<h4>Connect</h4>' +
           '<a href="mailto:hello@tastemakerscollective.us">hello@tastemakerscollective.us</a>' +
+          '<a href="tel:+12792711170">279-271-1170</a>' +
           '<a href="#">Instagram</a>' +
         '</div>' +
       '</div>' +
