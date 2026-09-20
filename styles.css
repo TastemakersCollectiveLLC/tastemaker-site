@@ -782,8 +782,141 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow-wrap: anywhere;
 }
 
+/* === BODY SECTIONS ===
+   The plain, repeating block used by Weddings, Events, Vending, About and
+   Order: a kicker, a heading and either a numbered list or a plain list. */
+.tmc-block {
+  padding: 88px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--black);
+  border-top: 1px solid var(--hairline-soft);
+}
+.tmc-block-head { text-align: center; max-width: 720px; margin: 0 auto 44px; }
+.tmc-block-label { display: block; margin-bottom: 18px; }
+.tmc-block-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 38px);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.tmc-block-intro {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--white-soft);
+  margin: 18px auto 0;
+  max-width: 620px;
+}
+.tmc-block-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.tmc-block-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.tmc-block-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.tmc-block-item {
+  border: 1px solid var(--amethyst);
+  padding: 30px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.tmc-block-step { display: block; margin-bottom: 14px; }
+.tmc-block-item-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--white);
+  margin: 0 0 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.tmc-block-item-desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--white-soft);
+  margin: 0;
+}
+/* Plain list variant, no frames. */
+.tmc-list { max-width: 720px; margin: 0 auto; }
+.tmc-list-item {
+  border-top: 1px solid var(--hairline-soft);
+  padding: 22px 0;
+  text-align: center;
+}
+.tmc-list-item:last-child { border-bottom: 1px solid var(--hairline-soft); }
+.tmc-list-item-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--white);
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+.tmc-list-item-desc {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--white-soft);
+  margin: 0;
+}
+.tmc-block-note {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--white-soft);
+  max-width: 660px;
+  margin: 32px auto 0;
+  text-align: center;
+}
+.tmc-block-cta { text-align: center; margin-top: 40px; }
+
 /* === MENU DETAIL === */
-.tmc-menu-detail { padding: 52px 24px; max-width: 680px; margin: 0 auto; background: var(--black); }
+.tmc-menu-detail { padding: 88px 24px; max-width: 720px; margin: 0 auto; background: var(--black); }
+.tmc-menu-section + .tmc-menu-section { margin-top: 72px; }
+.tmc-menu-section-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 38px);
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+}
+.tmc-menu-group + .tmc-menu-group { margin-top: 12px; }
+
+/* Vegan and gluten free marks, shown only where the source says so. */
+.tmc-menu-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.tmc-menu-tag {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  text-transform: uppercase;
+  color: var(--amethyst-text);
+  border: 1px solid var(--amethyst);
+  padding: 5px 10px;
+}
+
+/* Plain text link out to the Menus page from a service page. */
+.tmc-menu-link-row { text-align: center; margin-top: 8px; }
 .tmc-menu-section-title {
   font-family: var(--font-sans);
   font-size: 10px;
@@ -869,6 +1002,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   .tmc-contact-block { padding: 64px 20px 0; }
   .tmc-contact-grid { grid-template-columns: 1fr 1fr; }
+
+  .tmc-block { padding: 64px 20px; }
+  .tmc-block-grid,
+  .tmc-block-grid.cols-3,
+  .tmc-block-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .tmc-menu-detail { padding: 64px 20px; }
+  .tmc-menu-section + .tmc-menu-section { margin-top: 56px; }
+}
+
+@media (max-width: 560px) {
+  .tmc-block-grid,
+  .tmc-block-grid.cols-3,
+  .tmc-block-grid.cols-2 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {

@@ -51,6 +51,7 @@
 
     titles: {
       home: 'Tastemakers Collective | Catering and Events in Los Angeles',
+      menus: 'Example Menus | Tastemakers Collective',
       order: 'Drop-off Catering | Tastemakers Collective',
       weddings: 'Wedding Catering | Tastemakers Collective',
       events: 'Event Catering | Tastemakers Collective',
@@ -90,8 +91,113 @@
         eyebrow: 'Contact',
         title: 'Contact us',
         intro: 'Tell us about your event and we&rsquo;ll get back to you.'
+      },
+      menus: {
+        eyebrow: 'Menus',
+        title: 'Menus',
+        intro: 'Every menu is custom. These are examples from past events.'
       }
     },
+
+    /* ============================================
+       MENUS
+       Danny's dish names and component lists as they were served. Event
+       names, venues, dates, prices, suppliers, ingredient brands and prep
+       notes are stripped. Vegan and gluten free are marked only where the
+       source says so. The forthcoming menu matrix replaces or extends this
+       array; no other code has to change when it does.
+       ============================================ */
+    menus: [
+      {
+        section: 'Pop-up menus',
+        groups: [
+          {
+            title: 'Lunar New Year street menu',
+            items: [
+              { name: 'Duck Tacos', detail: 'Blue corn tacos, Peking-style duck, hoisin, cucumber, daikon, scallion, chili oil.' },
+              { name: 'Beef &amp; Black Bean Tacos', detail: 'Blue corn tacos, velveted eye round, black bean garlic, celery, red bell, scallion.' },
+              { name: 'General Tso&rsquo;s Tofu', detail: 'Koji-marinated crispy tofu, red bell pepper puree, orange, rice vinegar, coconut sugar, ginger, garlic, chiles japones.', tags: ['Vegan'] },
+              { name: 'Longevity Noodles', detail: 'Shanghai noodles, shiitake, Chinese chive, carrot, bean sprouts, scallion oil, sesame.' },
+              { name: 'Dumplings', detail: 'Crispy fried gyoza, veggie or beef, with chili oil, black vinegar, scallion oil and chili sambal.' },
+              { name: 'Cucumber Salad', detail: 'Smashed Persian cucumber, wood ear mushroom, daikon, cilantro, scallion, soy-free soy sauce, black vinegar, sesame oil, chili oil, fried garlic, peanuts, sesame.', tags: ['Vegan', 'Gluten free'] }
+            ]
+          },
+          {
+            title: 'Smash burgers and fries',
+            items: [
+              { name: 'Single Smash' },
+              { name: 'Double Smash' },
+              { name: 'Fries' },
+              { name: 'Feral Fries', detail: 'Cheese, caramelized onions, house sauce, chopped chiles.' }
+            ]
+          },
+          {
+            title: 'Wraps and salads',
+            items: [
+              { name: 'Grilled Chicken Wrap', detail: 'Koji-marinated chicken, ginger cardamom rice.' },
+              { name: 'Kofta Beef Wrap' },
+              { name: 'Vegan Green Caesar', tags: ['Vegan'] },
+              { name: 'Chicken Caesar' },
+              { name: 'Pan de Elote', detail: 'Date, ginger and raspberry compote, lavender.', tags: ['Vegan', 'Gluten free'] }
+            ]
+          },
+          {
+            title: 'Thai tacos',
+            items: [
+              { name: 'Panang Beef Barbacoa' },
+              { name: 'Chicken Satay Tacos' },
+              { name: 'Crispy Maitake Tacos' },
+              { name: 'Thai Elote' }
+            ]
+          },
+          {
+            title: 'Italian',
+            items: [
+              { name: 'Bruschetta', detail: 'Garlic, herb and lemon crostini oil, tomato-shallot-basil salsa, balsamic, lemon zest.', tags: ['Vegan'] },
+              { name: 'Crispy Gnocchi', detail: 'Seared gnocchi, parsnip-leek soubise or tomato sauce.', tags: ['Vegan', 'Gluten free'] },
+              { name: 'Mortadella Sandwich', detail: 'Toasted ciabatta, pesto, stracciatella, pistachio crumble, mortadella, arugula.' },
+              { name: 'Caprese Sandwich', detail: 'Fresh mozzarella, salted roma, basil chiffonade, olive oil, balsamic.' },
+              { name: 'Hot Meatball Sub', detail: 'Toasted ciabatta, torched provolone, meatballs braised in scrap jus and marinara.' },
+              { name: 'Cucumber Salad', detail: 'Oblique cucumbers, grape tomatoes, cured shallot, ciliegine, basil, arugula, balsamic vinaigrette.' }
+            ]
+          },
+          {
+            title: 'Noodle bowls',
+            items: [
+              { name: 'Noodle Bowl', detail: 'Chicken thigh or mushroom, cabbage, carrots, thick noodles.' }
+            ]
+          }
+        ]
+      },
+      {
+        section: 'Private dining',
+        groups: [
+          {
+            title: 'Salads',
+            items: [
+              { name: 'Duck Caesar', detail: 'Dry cured duck breast, manchego, coconut aminos Caesar, MCT croutons.' },
+              { name: 'Spring Garden', detail: 'Butter lettuce, cured cherry tomatoes, Persian cucumber ribbons, pickled shallot, dill, champagne-yuzu-date vinaigrette, sunflower seeds.', tags: ['Vegan', 'Gluten free'] },
+              { name: 'King Crab Louie', detail: 'Whole king crab leg, jammy egg, MCT aioli with gochugaru and orange zest, heirloom tomato, avocado, lemon.' }
+            ]
+          },
+          {
+            title: 'Vegetables',
+            items: [
+              { name: 'Potatoes Barigoule', detail: 'Pearl potatoes seared with Castelvetrano olives, braised artichoke hearts, roasted fennel and napa cabbage, caramelized lemon, white wine and olive brine sauce.', tags: ['Vegan', 'Gluten free'] }
+            ]
+          },
+          {
+            title: 'Proteins',
+            items: [
+              { name: 'Salmon', detail: 'Crispy skin, prosecco-dashi beurre blanc, breakfast radish, seared leek, sundried tomato.' },
+              { name: 'Duck Breast', detail: 'Salt and white pepper cure, slow rendered skin, vanilla-amontillado jus, cherry gastrique, three texture corn, hazelnuts, pea shoots.' },
+              { name: 'Chateaubriand', detail: 'Grass-fed tenderloin, espresso-black garlic-gochugaru crust, orange-maitake demi, whole roasted maitakes, green peppercorns.' },
+              { name: 'Lobster Tortelloni', detail: 'House pasta, leek-turnip-trumpet filling, clarified lobster consomme, claws, Japanese turnip, charred leek, lobster chili oil, micro cilantro.' }
+            ]
+          }
+        ]
+      }
+    ],
 
     /* Home services cards. */
     services: [
@@ -128,7 +234,8 @@
         weddings: 'Book your wedding.',
         events: 'Book your event.',
         vending: 'Book us for your festival or event.',
-        about: 'Work with us.'
+        about: 'Work with us.',
+        menus: 'Book your event.'
       }
     },
 
@@ -141,7 +248,8 @@
             { route: 'weddings', label: 'Weddings' },
             { route: 'events', label: 'Events' },
             { route: 'vending', label: 'Vending' },
-            { route: 'order', label: 'Order' }
+            { route: 'order', label: 'Order' },
+            { route: 'menus', label: 'Menus' }
           ]
         },
         {
@@ -241,6 +349,58 @@
      body sections between them. */
   function simplePage(route) {
     return pageHero(route) + contactBand(route);
+  }
+
+  /* A plain section: kicker, heading, optional intro, then a body. */
+  function block(label, heading, intro, body, extra) {
+    return '<section class="tmc-block">' +
+      '<div class="tmc-block-head">' +
+        '<div class="tmc-block-label">' + label + '</div>' +
+        '<h2 class="tmc-block-heading">' + heading + '</h2>' +
+        (intro ? '<p class="tmc-block-intro">' + intro + '</p>' : '') +
+      '</div>' +
+      (body || '') +
+      (extra || '') +
+    '</section>';
+  }
+
+  /* Framed tiles. Pass step: true to number them 01, 02, 03. */
+  function tiles(items, cols, numbered) {
+    return '<div class="tmc-block-grid cols-' + cols + '">' +
+      items.map(function (item, i) {
+        return '<div class="tmc-block-item">' +
+          (numbered ? '<div class="tmc-block-step tmc-service-number">' +
+            ('0' + (i + 1)).slice(-2) + '</div>' : '') +
+          '<h3 class="tmc-block-item-title">' + item.title + '</h3>' +
+          '<p class="tmc-block-item-desc">' + item.desc + '</p>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  /* Unframed rows, for lists that read better without boxes. */
+  function rows(items) {
+    return '<div class="tmc-list">' +
+      items.map(function (item) {
+        return '<div class="tmc-list-item">' +
+          '<div class="tmc-list-item-title">' + item.title + '</div>' +
+          '<p class="tmc-list-item-desc">' + item.desc + '</p>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  /* The Menus pointer, used by Weddings, Events and Order. Menus is
+     deliberately not in the main nav. */
+  function menusBlock() {
+    return block(
+      'Menus',
+      'Example menus',
+      CONFIG.heroes.menus.intro,
+      '<div class="tmc-block-cta">' +
+        '<a class="tmc-service-menu-link" href="#/menus" data-nav="menus">See the menus &rarr;</a>' +
+      '</div>'
+    );
   }
 
   /* === BRAND ANIMATION === */
@@ -347,9 +507,45 @@
       );
     },
 
-    order: function () { return simplePage('order'); },
-    weddings: function () { return simplePage('weddings'); },
-    events: function () { return simplePage('events'); },
+    menus: function () {
+      const body = CONFIG.menus.map(function (section) {
+        return '<section class="tmc-menu-section">' +
+          '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' +
+          section.groups.map(function (group) {
+            return '<div class="tmc-menu-group">' +
+              '<div class="tmc-menu-section-title">' + group.title + '</div>' +
+              group.items.map(function (item) {
+                return '<div class="tmc-menu-item">' +
+                  '<div class="tmc-menu-item-name">' + item.name + '</div>' +
+                  (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
+                  (item.tags && item.tags.length
+                    ? '<div class="tmc-menu-tags">' + item.tags.map(function (t) {
+                        return '<span class="tmc-menu-tag">' + t + '</span>';
+                      }).join('') + '</div>'
+                    : '') +
+                '</div>';
+              }).join('') +
+            '</div>';
+          }).join('') +
+        '</section>';
+      }).join('');
+
+      return pageHero('menus') +
+        '<div class="tmc-menu-detail">' + body + '</div>' +
+        contactBand('menus');
+    },
+
+    order: function () {
+      return pageHero('order') + menusBlock() + contactBand('order');
+    },
+
+    weddings: function () {
+      return pageHero('weddings') + menusBlock() + contactBand('weddings');
+    },
+
+    events: function () {
+      return pageHero('events') + menusBlock() + contactBand('events');
+    },
     vending: function () { return simplePage('vending'); },
     about: function () { return simplePage('about'); },
 
