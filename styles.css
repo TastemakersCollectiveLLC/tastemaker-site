@@ -173,7 +173,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* === HERO === */
 .tmc-hero {
-  padding: 88px 24px 84px;
+  /* The bottom padding is the top padding plus the 70px the scroll cue
+     occupies, so the content centres against the space a visitor actually
+     sees rather than against the cue's empty band. */
+  padding: 88px 24px 158px;
   min-height: calc(100vh - var(--nav-h));
   min-height: calc(100svh - var(--nav-h));
   display: flex;
@@ -284,6 +287,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-section-label,
 .tmc-page-eyebrow,
 .tmc-wwd-tile-label,
+.tmc-block-label,
 .tmc-primary-cta-label {
   font-family: var(--font-sans);
   font-size: 10px;
@@ -880,7 +884,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 10px;
 }
 .tmc-menu-tag {
@@ -920,7 +924,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .tmc-menu-item {
   margin-bottom: 26px;
-  text-align: center;
+  /* Left aligned inside each column on desktop, centred on mobile. The menu
+     name and the section heading above stay centred at every width. */
+  text-align: left;
   /* A dish never splits across the column break. */
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
@@ -1136,7 +1142,7 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-footer-bottom { flex-direction: column; gap: 12px; text-align: center; align-items: center; }
 
   /* Sections sit closer together so the page reads as one flow. */
-  .tmc-hero { padding: 56px 20px 64px; }
+  .tmc-hero { padding: 56px 20px 126px; }
   .tmc-brand-stack { margin-bottom: 40px; }
   .tmc-why { padding: 48px 20px; }
   .tmc-section-header { padding: 48px 20px 24px; }
@@ -1148,6 +1154,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-block { padding: 48px 20px; }
   .tmc-menu-detail { padding: 48px 20px; }
   .tmc-menu-items { column-count: 1; }
+  .tmc-menu-item { text-align: center; }
+  .tmc-menu-tags { justify-content: center; }
   .tmc-menu-section-title { font-size: 20px; margin: 36px 0 24px; }
   .tmc-menu-section + .tmc-menu-section { margin-top: 44px; }
   .tmc-contact-block { padding: 48px 20px 0; }
@@ -1220,6 +1228,7 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-hero-tagline,
   .tmc-hero-sub { opacity: 1 !important; }
   .tmc-hero-cue { display: none; }
+  .tmc-hero { padding-bottom: 88px; }
 
   /* script.js already skips the reveal here, so these are belt and braces
      for a preference that changes after the page has rendered. */
