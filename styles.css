@@ -137,7 +137,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-brand-line {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(44px, 11vw, 140px);
+  font-size: clamp(32px, 10.2vw, 140px);
   letter-spacing: -0.04em;
   line-height: 0.85;
   color: var(--aubergine);
