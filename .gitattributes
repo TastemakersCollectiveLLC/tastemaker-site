@@ -1,0 +1,2 @@
+# vCard 3.0 requires CRLF line endings. Keep them byte for byte.
+*.vcf -text

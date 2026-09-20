@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#231F20">
+
+<title>Tastemakers Collective | Contact</title>
+<meta name="description" content="Tastemakers Collective is a Los Angeles culinary collective. Call, text, or email us, start an event inquiry, or save our contact details.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200..400&family=Playfair+Display:wght@400..500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --black: #231F20;
+    --amethyst: #684385;
+    --white: #FFFFFF;
+    --grey: #706E6E;
+    --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --sans: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding:
+      calc(16px + env(safe-area-inset-top, 0px))
+      calc(16px + env(safe-area-inset-right, 0px))
+      calc(16px + env(safe-area-inset-bottom, 0px))
+      calc(16px + env(safe-area-inset-left, 0px));
+  }
+
+  .frame {
+    border: 1px solid var(--amethyst);
+    padding: 44px 22px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* === WORDMARK === */
+  .lockup { width: 100%; text-align: center; }
+
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(27px, 8.4vw, 44px);
+    line-height: 1;
+    color: var(--amethyst);
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    white-space: nowrap;
+  }
+
+  .sub-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--grey);
+  }
+  .sub-word {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: clamp(9px, 2.7vw, 12px);
+    color: var(--amethyst);
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    white-space: nowrap;
+  }
+
+  .tagline {
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    text-align: center;
+  }
+
+  /* === ACTIONS === */
+  .actions {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    padding: 16px 20px;
+    border: 1px solid var(--amethyst);
+    color: var(--white);
+    background: transparent;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-indent: 0.26em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .btn:hover { background: var(--amethyst); color: var(--white); }
+  .btn:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 3px;
+  }
+  .btn.filled {
+    background: var(--amethyst);
+    color: var(--white);
+  }
+  .btn.filled:hover { background: transparent; }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--grey);
+    margin: 28px 0;
+  }
+
+  .save-row { width: 100%; }
+
+  @media (min-width: 480px) {
+    .frame { padding: 60px 40px 54px; }
+    .tagline { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="frame">
+
+  <div class="lockup">
+    <div class="wordmark">TASTEMAKERS</div>
+    <div class="sub-row">
+      <span class="rule"></span>
+      <span class="sub-word">COLLECTIVE</span>
+      <span class="rule"></span>
+    </div>
+    <p class="tagline">Fine dining for all diets.</p>
+  </div>
+
+  <nav class="actions" aria-label="Contact">
+    <a class="btn" href="tel:+12792711170">Call</a>
+    <a class="btn" href="sms:+12792711170">Text</a>
+    <a class="btn" href="mailto:hello@tastemakerscollective.us">Email</a>
+    <a class="btn filled" href="https://tastemakerscollective.us/#/inquire">Start an inquiry</a>
+    <a class="btn" href="https://tastemakerscollective.us">Visit the website</a>
+  </nav>
+
+  <div class="divider"></div>
+
+  <div class="save-row">
+    <a class="btn" href="/card/tastemakers.vcf" download="tastemakers.vcf">Save contact</a>
+  </div>
+
+</main>
+
+</body>
+</html>
