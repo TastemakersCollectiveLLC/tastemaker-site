@@ -14,7 +14,7 @@ printed business card QR codes point to.
 
 ## Deploy
 
-1. Commit all three files (plus this README) to the root of the GitHub repo at `github.com/TastemakersCollectiveLLC/tastemaker-site`.
+1. Commit the site files (plus this README) to the root of the GitHub repo at `github.com/TastemakersCollectiveLLC/tastemaker-site`.
 2. Vercel is already connected, so it auto-deploys on push. First deploy lands at `tastemaker-site.vercel.app` (or similar) within ~60 seconds.
 3. In Vercel project → Domains → Add `tastemakerscollective.us` and `www.tastemakerscollective.us`.
 4. Vercel will show the DNS records to add at Namecheap. Typically:
