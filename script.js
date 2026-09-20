@@ -55,9 +55,22 @@
       order: 'Drop-off Catering | Tastemakers Collective',
       weddings: 'Wedding Catering | Tastemakers Collective',
       events: 'Event Catering | Tastemakers Collective',
-      vending: 'Festival and Event Vending | Tastemakers Collective',
+      vending: 'Festival Vending and Event Hospitality | Tastemakers Collective',
       about: 'About | Tastemakers Collective',
       contact: 'Contact | Tastemakers Collective'
+    },
+
+    /* One meta description per route. The router writes these into the head
+       on navigation. Crawlers see the home one in the served HTML. */
+    descriptions: {
+      home: 'Tastemakers Collective is a Los Angeles catering and events company. Fine dining for all diets: weddings, corporate events, festivals and drop-off catering.',
+      menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom.',
+      order: 'Request drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count.',
+      weddings: 'Wedding catering in Los Angeles. Custom menus, full service, plated, family style, buffet or stations.',
+      events: 'Catering for corporate events, private parties and celebrations in Los Angeles. Custom menus and full service.',
+      vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
+      about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
+      contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles.'
     },
 
     /* Interior page heroes: eyebrow, headline, one supporting line. */
@@ -780,6 +793,14 @@
     input.value = '';
   }
 
+  /* Rewrites a head meta tag in place. The tag already exists in the
+     served HTML, so crawlers that do not run scripts still get the home
+     description. */
+  function setMeta(name, content) {
+    const tag = document.querySelector('meta[name="' + name + '"]');
+    if (tag) tag.setAttribute('content', content);
+  }
+
   /* === ROUTER === */
   function getRouteFromHash() {
     const hash = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
@@ -803,6 +824,7 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (page === 'home') setTimeout(animateBrand, 50);
     document.title = CONFIG.titles[page] || CONFIG.titles.home;
+    setMeta('description', CONFIG.descriptions[page] || CONFIG.descriptions.home);
   }
 
   /* === FORM HANDLER ===
