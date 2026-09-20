@@ -1,4 +1,4 @@
-# Tastemaker Collective — Site
+# Tastemakers Collective — Site
 
 Static site. Three files. No build step. Drop into any static host.
 

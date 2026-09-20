@@ -1,5 +1,5 @@
 /* ============================================
-   TASTEMAKER COLLECTIVE
+   TASTEMAKERS COLLECTIVE
    Client-side router and page templates
    ============================================ */
 
@@ -17,7 +17,7 @@
 
   /* === BRAND ANIMATION === */
   function animateBrand() {
-    const word1 = 'TASTEMAKER';
+    const word1 = 'TASTEMAKERS';
     const word2 = 'Collective';
     const line1 = document.getElementById('brand-line-1');
     const line2 = document.getElementById('brand-line-2');
@@ -117,7 +117,7 @@
           '<div class="tmc-wwd-header">' +
             '<div class="tmc-section-label">What we do</div>' +
             '<h2 class="tmc-section-heading" style="margin-top:18px">Beyond the booking.</h2>' +
-            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own programming. These are the nights and operations where Tastemaker sets the menu.</p>' +
+            '<p class="tmc-wwd-intro">When we\'re not cooking for clients, we run our own programming. These are the nights and operations where Tastemakers sets the menu.</p>' +
           '</div>' +
           '<div class="tmc-wwd-grid">' +
             '<div class="tmc-wwd-tile">' +
@@ -139,7 +139,7 @@
                 '<div class="tmc-wwd-tile-label">Festival presence</div>' +
                 '<h3 class="tmc-wwd-tile-title">Vending</h3>' +
               '</div>' +
-              '<div class="tmc-wwd-tile-desc">We run our own vending at festivals and markets under the Tastemaker banner, alongside the vending we provide as a service to larger events.</div>' +
+              '<div class="tmc-wwd-tile-desc">We run our own vending at festivals and markets under the Tastemakers banner, alongside the vending we provide as a service to larger events.</div>' +
             '</div>' +
           '</div>' +
         '</section>' +
@@ -261,7 +261,7 @@
     '<footer class="tmc-footer">' +
       '<div class="tmc-footer-grid">' +
         '<div>' +
-          '<div class="tmc-footer-brand">TASTEMAKER COLLECTIVE</div>' +
+          '<div class="tmc-footer-brand">TASTEMAKERS COLLECTIVE</div>' +
           '<div class="tmc-footer-tag">We make memorable experiences through cuisine. Catering, vending, and private chef across Los Angeles.</div>' +
         '</div>' +
         '<div class="tmc-footer-col">' +
@@ -283,7 +283,7 @@
         '</div>' +
       '</div>' +
       '<div class="tmc-footer-bottom">' +
-        '<div>&copy; 2026 Tastemaker Collective LLC</div>' +
+        '<div>&copy; 2026 Tastemakers Collective LLC</div>' +
         '<div>All rights reserved</div>' +
       '</div>' +
     '</footer>';
@@ -306,12 +306,12 @@
 
     // update document title for each route
     const titles = {
-      home: 'Tastemaker Collective | Culinary Collective in Los Angeles',
-      inquire: 'Inquire | Tastemaker Collective',
-      contact: 'Contact | Tastemaker Collective',
-      'menu-catering': 'Catering Sample Menu | Tastemaker Collective',
-      'menu-vending': 'Vending Sample Menu | Tastemaker Collective',
-      'menu-private-chef': 'Private Chef Sample Menu | Tastemaker Collective'
+      home: 'Tastemakers Collective | Culinary Collective in Los Angeles',
+      inquire: 'Inquire | Tastemakers Collective',
+      contact: 'Contact | Tastemakers Collective',
+      'menu-catering': 'Catering Sample Menu | Tastemakers Collective',
+      'menu-vending': 'Vending Sample Menu | Tastemakers Collective',
+      'menu-private-chef': 'Private Chef Sample Menu | Tastemakers Collective'
     };
     document.title = titles[page] || titles.home;
   }
