@@ -224,6 +224,37 @@
       }
     ],
 
+    /* Shared by Weddings and Events, which run the same process. */
+    process: [
+      { title: 'Inquiry', desc: 'You tell us the date, the place, the guest count and any dietary needs.' },
+      { title: 'Consultation', desc: 'We talk through the food, the service style and how the day runs.' },
+      { title: 'Custom menu', desc: 'We write a menu for your event and quote it.' },
+      { title: 'Event day', desc: 'We cook on site, serve, and clean up after ourselves.' }
+    ],
+
+    serviceStyles: [
+      { title: 'Plated', desc: 'Courses plated in the kitchen and brought to each seat.' },
+      { title: 'Family style', desc: 'Large shared dishes set down on the table.' },
+      { title: 'Buffet', desc: 'Guests serve themselves from a set line.' },
+      { title: 'Stations', desc: 'Separate stations, cooked and served in front of guests.' }
+    ],
+
+    included: [
+      { title: 'Menu design', desc: 'A menu written for your event, not picked off a list.' },
+      { title: 'Cooking', desc: 'We cook your food.' },
+      { title: 'Service staff', desc: 'Our staff serve the food through the event.' },
+      { title: 'Setup and breakdown', desc: 'We set up our own equipment and break it down when we are done.' }
+    ],
+
+    includedNote: 'We handle the food. We do not provide bar service, linens or decor.',
+    dietaryNote: 'Menus are built around any dietary needs and allergies. Tell us what they are in your inquiry.',
+
+    eventTypes: [
+      { title: 'Corporate events', desc: 'Company meals, meetings and team events.' },
+      { title: 'Private parties', desc: 'Dinners and parties at home or at a venue.' },
+      { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
+    ],
+
     /* Closing band. One per page, always pointing at Contact. */
     cta: {
       kicker: 'Contact',
@@ -355,7 +386,7 @@
   function block(label, heading, intro, body, extra) {
     return '<section class="tmc-block">' +
       '<div class="tmc-block-head">' +
-        '<div class="tmc-block-label">' + label + '</div>' +
+        (label ? '<div class="tmc-block-label">' + label + '</div>' : '') +
         '<h2 class="tmc-block-heading">' + heading + '</h2>' +
         (intro ? '<p class="tmc-block-intro">' + intro + '</p>' : '') +
       '</div>' +
@@ -394,7 +425,7 @@
      deliberately not in the main nav. */
   function menusBlock() {
     return block(
-      'Menus',
+      '',
       'Example menus',
       CONFIG.heroes.menus.intro,
       '<div class="tmc-block-cta">' +
@@ -540,11 +571,28 @@
     },
 
     weddings: function () {
-      return pageHero('weddings') + menusBlock() + contactBand('weddings');
+      return pageHero('weddings') +
+        block('', 'How it works', '', tiles(CONFIG.process, 4, true)) +
+        block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
+        block('', 'What is included', '',
+          rows(CONFIG.included),
+          '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
+        block('', 'Dietary needs', CONFIG.dietaryNote) +
+        menusBlock() +
+        contactBand('weddings');
     },
 
     events: function () {
-      return pageHero('events') + menusBlock() + contactBand('events');
+      return pageHero('events') +
+        block('', 'Event types', '', tiles(CONFIG.eventTypes, 3)) +
+        block('', 'How it works', '', tiles(CONFIG.process, 4, true)) +
+        block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
+        block('', 'What is included', '',
+          rows(CONFIG.included),
+          '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
+        block('', 'Dietary needs', CONFIG.dietaryNote) +
+        menusBlock() +
+        contactBand('events');
     },
     vending: function () { return simplePage('vending'); },
     about: function () { return simplePage('about'); },
