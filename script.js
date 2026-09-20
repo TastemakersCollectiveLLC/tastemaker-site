@@ -17,7 +17,7 @@
       name: 'Tastemakers Collective',
       legalName: 'Tastemakers Collective LLC',
       city: 'Los Angeles',
-      tagline: 'Fine dining for all diets.',
+      tagline: 'Custom menus for every event and every diet.',
       phone: '279-271-1170',
       phoneHref: 'tel:+12792711170',
       smsHref: 'sms:+12792711170',
@@ -63,7 +63,7 @@
     /* One meta description per route. The router writes these into the head
        on navigation. Crawlers see the home one in the served HTML. */
     descriptions: {
-      home: 'Tastemakers Collective is a Los Angeles catering and events company. Fine dining for all diets: weddings, corporate events, festivals and drop-off catering.',
+      home: 'A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.',
       menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom.',
       order: 'Request drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count.',
       weddings: 'Wedding catering in Los Angeles. Custom menus, full service, plated, family style, buffet or stations.',
@@ -98,7 +98,7 @@
       about: {
         eyebrow: 'About',
         title: 'About Tastemakers Collective',
-        intro: 'Tastemakers Collective is a Los Angeles catering and events company. Fine dining for all diets.'
+        intro: 'Tastemakers Collective is a Los Angeles catering and events company. Custom menus for every event and every diet.'
       },
       contact: {
         eyebrow: 'Contact',
@@ -215,21 +215,18 @@
     /* Home services cards. */
     services: [
       {
-        number: '01',
         route: 'weddings',
         title: 'Weddings',
         desc: 'Custom menus and full service for your wedding day. We design the menu around you.',
         styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
       },
       {
-        number: '02',
         route: 'events',
         title: 'Events',
         desc: 'Corporate events, private parties and celebrations. Every menu is built around the crowd and the occasion.',
         styles: 'Corporate &nbsp;&middot;&nbsp; Private parties &nbsp;&middot;&nbsp; Celebrations'
       },
       {
-        number: '03',
         route: 'vending',
         title: 'Vending',
         desc: 'Festival food vending, staff meals and artist hospitality.',
@@ -325,7 +322,7 @@
     },
 
     footer: {
-      tagline: 'Fine dining for all diets. Catering, events and festival vending across Los Angeles.',
+      tagline: 'Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles.',
       columns: [
         {
           heading: 'Services',
@@ -406,7 +403,7 @@
   function pageHero(route) {
     const h = CONFIG.heroes[route];
     return (
-      '<section class="tmc-page-hero">' +
+      '<section class="tmc-page-hero tmc-page-hero-' + route + '">' +
         '<div class="tmc-page-hero-inner">' +
           '<div class="tmc-page-eyebrow">' + h.eyebrow + '</div>' +
           '<span class="tmc-page-rule"></span>' +
@@ -424,7 +421,7 @@
           '<div class="tmc-primary-cta-label">' + CONFIG.cta.kicker + '</div>' +
           '<h2 class="tmc-primary-cta-headline">' + CONFIG.cta.headlines[route] + '</h2>' +
           '<a class="tmc-primary-cta-btn" href="#/contact" data-nav="contact">' +
-            CONFIG.cta.label + ' &rarr;</a>' +
+            CONFIG.cta.label + ' <span class="tmc-arrow">&rarr;</span></a>' +
         '</div>' +
       '</section>'
     );
@@ -443,13 +440,11 @@
     '</section>';
   }
 
-  /* Framed tiles. Pass step: true to number them 01, 02, 03. */
-  function tiles(items, cols, numbered) {
+  /* Framed tiles. */
+  function tiles(items, cols) {
     return '<div class="tmc-block-grid cols-' + cols + '">' +
-      items.map(function (item, i) {
+      items.map(function (item) {
         return '<div class="tmc-block-item">' +
-          (numbered ? '<div class="tmc-block-step tmc-service-number">' +
-            ('0' + (i + 1)).slice(-2) + '</div>' : '') +
           '<h3 class="tmc-block-item-title">' + item.title + '</h3>' +
           '<p class="tmc-block-item-desc">' + item.desc + '</p>' +
         '</div>';
@@ -471,13 +466,15 @@
 
   /* The Menus pointer, used by Weddings, Events and Order. Menus is
      deliberately not in the main nav. */
-  function menusBlock() {
+  /* label is passed only on Home, where the sections either side of it
+     carry kickers. The interior pages have none, so it stays empty there. */
+  function menusBlock(label) {
     return block(
-      '',
+      label || '',
       'Example menus',
       CONFIG.heroes.menus.intro,
       '<div class="tmc-block-cta">' +
-        '<a class="tmc-service-menu-link" href="#/menus" data-nav="menus">See the menus &rarr;</a>' +
+        '<a class="tmc-service-menu-link" href="#/menus" data-nav="menus">See the menus <span class="tmc-arrow">&rarr;</span></a>' +
       '</div>'
     );
   }
@@ -499,12 +496,11 @@
     home: function () {
       const cards = CONFIG.services.map(function (s) {
         return '<div class="tmc-service-block">' +
-          '<div class="tmc-service-number">' + s.number + '</div>' +
           '<h3 class="tmc-service-title">' + s.title + '</h3>' +
           '<p class="tmc-service-desc">' + s.desc + '</p>' +
           '<div class="tmc-service-styles">' + s.styles + '</div>' +
           '<a class="tmc-service-menu-link" href="' + href(s.route) + '" data-nav="' + s.route + '">' +
-            s.title + ' &rarr;</a>' +
+            s.title + ' <span class="tmc-arrow">&rarr;</span></a>' +
         '</div>';
       }).join('');
 
@@ -527,19 +523,7 @@
           '<div class="tmc-why-label">Who we are</div>' +
           '<h2 class="tmc-why-headline">A Los Angeles catering and events company.</h2>' +
           '<p class="tmc-why-body">We cook for music festivals, corporate events, weddings and private dinners.</p>' +
-        '</section>' +
-
-        '<section class="tmc-credibility">' +
-          '<div class="tmc-credibility-inner">' +
-            '<div class="tmc-cred-item">' +
-              '<div class="tmc-cred-label">Experience</div>' +
-              '<div class="tmc-cred-text">Over a decade catering artist green rooms at music events.</div>' +
-            '</div>' +
-            '<div class="tmc-cred-item">' +
-              '<div class="tmc-cred-label">Specialty</div>' +
-              '<div class="tmc-cred-text">VIP and artist hospitality at music festivals.</div>' +
-            '</div>' +
-          '</div>' +
+          '<p class="tmc-why-body">Over a decade cooking for artist green rooms, VIP areas and staff at music festivals.</p>' +
         '</section>' +
 
         '<section class="tmc-section-header">' +
@@ -582,7 +566,7 @@
           '</div>' +
         '</section>' +
 
-        menusBlock() +
+        menusBlock('Menus') +
         contactBand('home')
       );
     },
@@ -593,18 +577,20 @@
           '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' +
           section.groups.map(function (group) {
             return '<div class="tmc-menu-group">' +
-              '<div class="tmc-menu-section-title">' + group.title + '</div>' +
-              group.items.map(function (item) {
-                return '<div class="tmc-menu-item">' +
-                  '<div class="tmc-menu-item-name">' + item.name + '</div>' +
-                  (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
-                  (item.tags && item.tags.length
-                    ? '<div class="tmc-menu-tags">' + item.tags.map(function (t) {
-                        return '<span class="tmc-menu-tag">' + t + '</span>';
-                      }).join('') + '</div>'
-                    : '') +
-                '</div>';
-              }).join('') +
+              '<h3 class="tmc-menu-section-title">' + group.title + '</h3>' +
+              '<div class="tmc-menu-items">' +
+                group.items.map(function (item) {
+                  return '<div class="tmc-menu-item">' +
+                    '<div class="tmc-menu-item-name">' + item.name + '</div>' +
+                    (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
+                    (item.tags && item.tags.length
+                      ? '<div class="tmc-menu-tags">' + item.tags.map(function (t) {
+                          return '<span class="tmc-menu-tag">' + t + '</span>';
+                        }).join('') + '</div>'
+                      : '') +
+                  '</div>';
+                }).join('') +
+              '</div>' +
             '</div>';
           }).join('') +
         '</section>';
@@ -669,10 +655,10 @@
 
     weddings: function () {
       return pageHero('weddings') +
-        block('', 'How it works', '', tiles(CONFIG.process, 4, true)) +
+        block('', 'How it works', '', tiles(CONFIG.process, 4)) +
         block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
         block('', 'What is included', '',
-          rows(CONFIG.included),
+          tiles(CONFIG.included, 4),
           '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
         block('', 'Dietary needs', CONFIG.dietaryNote) +
         menusBlock() +
@@ -682,10 +668,10 @@
     events: function () {
       return pageHero('events') +
         block('', 'Event types', '', tiles(CONFIG.eventTypes, 3)) +
-        block('', 'How it works', '', tiles(CONFIG.process, 4, true)) +
+        block('', 'How it works', '', tiles(CONFIG.process, 4)) +
         block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
         block('', 'What is included', '',
-          rows(CONFIG.included),
+          tiles(CONFIG.included, 4),
           '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
         block('', 'Dietary needs', CONFIG.dietaryNote) +
         menusBlock() +
@@ -711,8 +697,7 @@
         '<section class="tmc-contact-block">' +
           '<div class="tmc-contact-grid">' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value"><a href="mailto:' + B.email + '">' + B.email + '</a></p></div>' +
-            '<div class="tmc-contact-card"><div class="tmc-contact-label">Phone</div><p class="tmc-contact-value"><a href="' + B.phoneHref + '">' + B.phone + '</a></p></div>' +
-            '<div class="tmc-contact-card"><div class="tmc-contact-label">Text</div><p class="tmc-contact-value"><a href="' + B.smsHref + '">' + B.phone + '</a></p></div>' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Call or text</div><p class="tmc-contact-value"><a href="' + B.phoneHref + '">' + B.phone + '</a></p></div>' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">' + B.city + '</p></div>' +
           '</div>' +
         '</section>' +
@@ -801,6 +786,93 @@
     if (tag) tag.setAttribute('content', content);
   }
 
+  /* === SCROLL REVEAL ===
+     Sections and cards fade up as they enter the viewport, once each, with a
+     small stagger between siblings. The hidden state is added by this code
+     and never lives in the stylesheet, so with JavaScript off, or with
+     IntersectionObserver missing, or under prefers-reduced-motion, every
+     element is simply visible from the start. Only opacity and transform
+     animate, so nothing reflows. */
+  const REVEAL_TARGETS = [
+    '.tmc-why > *',
+    '.tmc-section-header > *',
+    '.tmc-service-block',
+    '.tmc-wwd-header > *',
+    '.tmc-wwd-tile',
+    '.tmc-block-head > *',
+    '.tmc-block-item',
+    '.tmc-list-item',
+    '.tmc-block-note',
+    '.tmc-block-cta',
+    '.tmc-menu-section-heading',
+    '.tmc-menu-group',
+    '.tmc-contact-card',
+    '.tmc-form-step',
+    '.tmc-primary-cta-inner > *'
+  ].join(',');
+
+  /* Sections whose top hairline draws in from the left. */
+  const RULE_TARGETS = '.tmc-block, .tmc-primary-cta-band';
+
+  let revealObserver = null;
+
+  function prefersReducedMotion() {
+    return window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function setupReveal() {
+    if (revealObserver) {
+      revealObserver.disconnect();
+      revealObserver = null;
+    }
+    if (!('IntersectionObserver' in window) || prefersReducedMotion()) return;
+
+    const fades = [].slice.call(main.querySelectorAll(REVEAL_TARGETS));
+    const rules = [].slice.call(main.querySelectorAll(RULE_TARGETS));
+
+    /* Stagger siblings inside the same row or grid. Capped so a long list
+       never leaves its last item waiting. */
+    const seen = new Map();
+    fades.forEach(function (el) {
+      el.classList.add('tmc-reveal');
+      const n = seen.get(el.parentNode) || 0;
+      seen.set(el.parentNode, n + 1);
+      el.style.transitionDelay = (Math.min(n, 5) * 70) + 'ms';
+    });
+    rules.forEach(function (el) { el.classList.add('tmc-rule'); });
+
+    const all = fades.concat(rules);
+
+    revealObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+    all.forEach(function (el) { revealObserver.observe(el); });
+
+    /* Failsafe, measured rather than assumed. A working observer reveals
+       whatever is on screen within a frame. If anything is still hidden
+       while its box sits inside the viewport, the observer is not doing its
+       job in this environment, so drop it and show everything. Text must
+       never be left invisible waiting on an API. */
+    setTimeout(function () {
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const stuck = all.some(function (el) {
+        if (el.classList.contains('is-in')) return false;
+        const r = el.getBoundingClientRect();
+        return r.height > 0 && r.top < vh && r.bottom > 0;
+      });
+      if (!stuck) return;
+      revealObserver.disconnect();
+      revealObserver = null;
+      all.forEach(function (el) { el.classList.add('is-in'); });
+    }, 600);
+  }
+
   /* === ROUTER === */
   function getRouteFromHash() {
     const hash = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
@@ -820,6 +892,7 @@
     main.innerHTML = pages[page]() + footerHtml();
     renderNav(page);
     applyLeadTime();
+    setupReveal();
     closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (page === 'home') setTimeout(animateBrand, 50);
