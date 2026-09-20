@@ -277,6 +277,14 @@
       { title: 'Outdoor pop-ups', desc: 'Los Angeles' }
     ],
 
+    /* Drop-off order request. Lead time is in hours so the date picker can
+       compute its own minimum. */
+    order: {
+      leadTimeHours: 48,
+      deliveryWindows: ['11:00', '11:30', '12:00', '12:30', '1:00'],
+      guestCounts: ['20 to 30', '30 to 50', '50 to 75', '75 to 100', 'More than 100']
+    },
+
     /* Closing band. One per page, always pointing at Contact. */
     cta: {
       kicker: 'Contact',
@@ -588,8 +596,56 @@
         contactBand('menus');
     },
 
+    /* The interim Order page: a drop-off request form.
+       TODO: once Danny's menu matrix exists, this page becomes a clickable
+       menu customers order from directly. The form below is what stands in
+       until then. */
     order: function () {
-      return pageHero('order') + menusBlock() + contactBand('order');
+      const windows = CONFIG.order.deliveryWindows.map(function (w) {
+        return '<option>' + w + '</option>';
+      }).join('');
+      const counts = CONFIG.order.guestCounts.map(function (c) {
+        return '<option>' + c + '</option>';
+      }).join('');
+
+      return pageHero('order') +
+        '<section class="tmc-body">' +
+          '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
+            '<input type="hidden" name="form_source" value="order">' +
+            '<input type="hidden" name="_subject" value="New drop-off order request">' +
+            '<div class="tmc-form-step">' +
+              '<h3>Delivery</h3>' +
+              '<div class="tmc-form-field"><label for="o-date">Date</label>' +
+                '<input id="o-date" name="date" type="date" required></div>' +
+              '<div class="tmc-form-field"><label for="o-window">Delivery window</label>' +
+                '<select id="o-window" name="delivery_window" required>' + windows + '</select></div>' +
+              '<div class="tmc-form-field"><label for="o-address">Delivery address or area</label>' +
+                '<input id="o-address" name="address" type="text" required></div>' +
+              '<div class="tmc-form-field"><label for="o-guests">Guest count</label>' +
+                '<select id="o-guests" name="guests" required>' + counts + '</select></div>' +
+            '</div>' +
+            '<div class="tmc-form-step">' +
+              '<h3>Food</h3>' +
+              '<div class="tmc-form-field"><label for="o-dietary">Dietary needs and allergies</label>' +
+                '<textarea id="o-dietary" name="dietary" rows="3"></textarea></div>' +
+              '<div class="tmc-form-field"><label for="o-notes">Notes</label>' +
+                '<textarea id="o-notes" name="notes" rows="3"></textarea></div>' +
+            '</div>' +
+            '<div class="tmc-form-step">' +
+              '<h3>Contact</h3>' +
+              '<div class="tmc-form-field"><label for="o-name">Name</label>' +
+                '<input id="o-name" name="name" type="text" required></div>' +
+              '<div class="tmc-form-field"><label for="o-email">Email</label>' +
+                '<input id="o-email" name="email" type="email" required></div>' +
+              '<div class="tmc-form-field"><label for="o-phone">Phone</label>' +
+                '<input id="o-phone" name="phone" type="tel"></div>' +
+              '<p class="tmc-form-status" role="alert" hidden></p>' +
+              '<button type="submit" class="tmc-form-submit">Send order request</button>' +
+            '</div>' +
+          '</form>' +
+        '</section>' +
+        menusBlock() +
+        contactBand('order');
     },
 
     weddings: function () {
@@ -700,6 +756,19 @@
     );
   }
 
+  /* The order date picker cannot offer a date inside the lead time. Set on
+     the input itself so the browser's own calendar greys the days out. */
+  function applyLeadTime() {
+    const input = document.getElementById('o-date');
+    if (!input) return;
+    const earliest = new Date(Date.now() + CONFIG.order.leadTimeHours * 3600 * 1000);
+    const iso = earliest.getFullYear() + '-' +
+      ('0' + (earliest.getMonth() + 1)).slice(-2) + '-' +
+      ('0' + earliest.getDate()).slice(-2);
+    input.min = iso;
+    input.value = '';
+  }
+
   /* === ROUTER === */
   function getRouteFromHash() {
     const hash = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
@@ -718,6 +787,7 @@
     const page = pages[route] ? route : 'home';
     main.innerHTML = pages[page]() + footerHtml();
     renderNav(page);
+    applyLeadTime();
     closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (page === 'home') setTimeout(animateBrand, 50);
