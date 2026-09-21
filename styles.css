@@ -341,9 +341,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-services-wrap { background: var(--black); padding: 0 24px 88px; }
 .tmc-services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 .tmc-service-block {
@@ -385,9 +385,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* The description absorbs the slack and the button sits last, so a style
    tag line that wraps cannot push one card's button below its neighbours. */
 .tmc-service-menu-link { align-self: center; margin-top: auto; }
-.tmc-service-menu-link,
-.tmc-primary-cta-btn,
-.tmc-inquire-btn-band {
+.tmc-service-menu-link {
   display: inline-block;
   font-family: var(--font-sans);
   font-size: 10px;
@@ -401,9 +399,73 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: background-color 0.2s;
   font-weight: 400;
 }
-.tmc-service-menu-link:hover,
-.tmc-primary-cta-btn:hover,
-.tmc-inquire-btn-band:hover { background: var(--amethyst); }
+.tmc-service-menu-link:hover { background: var(--amethyst); }
+
+/* === BUTTONS ===
+   Two kinds only. Primary is filled, secondary is outlined. A secondary
+   button never borrows the filled style. */
+.tmc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  text-transform: uppercase;
+  padding: 16px 30px;
+  border: 1px solid var(--amethyst);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.tmc-btn-primary {
+  background: var(--amethyst);
+  color: var(--white);
+}
+.tmc-btn-secondary {
+  background: transparent;
+  color: var(--white);
+}
+@media (hover: hover) {
+  .tmc-btn-primary:hover { background: transparent; }
+  .tmc-btn-secondary:hover { background: var(--amethyst); }
+}
+.tmc-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* === STICKY ACTION BAR ===
+   Mobile only. Hidden until script.js adds is-shown, which it does once
+   the hero is behind the visitor and removes again as the footer arrives. */
+.tmc-sticky-bar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  gap: 10px;
+  padding: 10px calc(12px + env(safe-area-inset-left, 0px))
+           calc(10px + env(safe-area-inset-bottom, 0px))
+           calc(12px + env(safe-area-inset-right, 0px));
+  background: rgba(27, 24, 25, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--hairline);
+}
+.tmc-sticky-bar .tmc-btn {
+  flex: 1;
+  padding: 14px 10px;
+  font-size: 10px;
+}
+@media (max-width: 768px) {
+  .tmc-sticky-bar.is-shown { display: flex; }
+}
 
 /* === PRIMARY CTA BAND === */
 .tmc-primary-cta-band {
@@ -424,7 +486,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.22;
   max-width: 780px;
 }
-.tmc-primary-cta-btn { padding: 19px 44px; }
 
 /* === WHAT WE DO === */
 .tmc-wwd-section {
@@ -479,33 +540,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.75;
   color: var(--white-soft);
   flex: 1;
-}
-
-/* === INQUIRE BAND === */
-.tmc-inquire-band {
-  background: var(--black-deep);
-  padding: 92px 24px;
-  text-align: center;
-  border-top: 1px solid var(--hairline-soft);
-}
-.tmc-inquire-headline {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(26px, 3.6vw, 42px);
-  color: var(--white);
-  margin: 0 auto 18px;
-  letter-spacing: 0.01em;
-  line-height: 1.25;
-  max-width: 900px;
-}
-.tmc-inquire-email {
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.8vw, 18px);
-  color: var(--white-soft);
-  margin: 0 0 30px;
-  font-weight: 300;
-  letter-spacing: 0.04em;
-  overflow-wrap: anywhere;
 }
 
 /* === FOOTER === */
@@ -803,6 +837,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 18px;
 }
 .tmc-block-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.tmc-block-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
 .tmc-block-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
 .tmc-block-item {
   border: 1px solid var(--amethyst);
@@ -1118,14 +1153,19 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   margin-bottom: 0;
 }
 .tmc-contact-value a { display: inline-flex; align-items: center; min-height: 44px; }
-.tmc-service-menu-link,
-.tmc-primary-cta-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.tmc-service-menu-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 
 /* === RESPONSIVE === */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .tmc-nav { padding: 16px 22px; }
-  .tmc-nav-links { gap: 18px; }
+  .tmc-nav-links { gap: 16px; }
   .tmc-nav-btn { padding: 13px 16px; }
+}
+
+@media (max-width: 1024px) {
+  .tmc-nav-links { gap: 12px; letter-spacing: 0.14em; }
+  .tmc-nav-btn { padding: 13px 14px; letter-spacing: 0.16em; text-indent: 0.16em; }
+  .tmc-services-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1148,6 +1188,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-section-header { padding: 48px 20px 24px; }
   .tmc-services-wrap { padding: 0 20px 48px; }
   .tmc-services-grid { grid-template-columns: 1fr; gap: 14px; }
+  .tmc-cta-actions { flex-direction: column; align-items: stretch; }
+  .tmc-cta-actions .tmc-btn { width: 100%; }
   .tmc-wwd-section { padding: 48px 20px; }
   .tmc-wwd-grid { grid-template-columns: 1fr; gap: 14px; }
   .tmc-primary-cta-band { padding: 48px 20px; }
@@ -1168,6 +1210,7 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-contact-card { padding: 28px 22px; }
   .tmc-wwd-tile { min-height: 0; }
   .tmc-block-grid,
+  .tmc-block-grid.cols-5,
   .tmc-block-grid.cols-3,
   .tmc-block-grid.cols-2 { grid-template-columns: 1fr; gap: 14px; }
   .tmc-contact-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -1202,8 +1245,13 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-service-title { font-size: 26px; }
 }
 
+@media (max-width: 900px) {
+  .tmc-block-grid.cols-5 { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 560px) {
   .tmc-block-grid,
+  .tmc-block-grid.cols-5,
   .tmc-block-grid.cols-3,
   .tmc-block-grid.cols-2 { grid-template-columns: 1fr; }
 }
@@ -1242,6 +1290,7 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-block-item:hover,
   .tmc-contact-card:hover { transform: none !important; }
   .tmc-arrow { transform: none !important; }
+  .tmc-sticky-bar { transition: none !important; }
   .tmc-nav-links a::after,
   .tmc-mobile-menu a::after,
   .tmc-footer-col a::after { transition: none !important; }

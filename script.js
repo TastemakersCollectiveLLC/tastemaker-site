@@ -34,10 +34,11 @@
       { route: 'home', label: 'Home' },
       { route: 'order', label: 'Order' },
       { route: 'weddings', label: 'Weddings' },
+      { route: 'corporate', label: 'Corporate' },
       { route: 'events', label: 'Events' },
       { route: 'vending', label: 'Vending' },
       { route: 'about', label: 'About' },
-      { route: 'contact', label: 'Contact', cta: true }
+      { route: 'contact', label: 'Book', cta: true }
     ],
 
     /* Retired routes. Printed cards, old links and search results still point
@@ -54,6 +55,7 @@
       menus: 'Example Menus | Tastemakers Collective',
       order: 'Drop-off Catering | Tastemakers Collective',
       weddings: 'Wedding Catering | Tastemakers Collective',
+      corporate: 'Corporate Catering | Tastemakers Collective',
       events: 'Event Catering | Tastemakers Collective',
       vending: 'Festival Vending and Event Hospitality | Tastemakers Collective',
       about: 'About | Tastemakers Collective',
@@ -67,7 +69,8 @@
       menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom.',
       order: 'Request drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count.',
       weddings: 'Wedding catering in Los Angeles. Custom menus, full service, plated, family style, buffet or stations.',
-      events: 'Catering for corporate events, private parties and celebrations in Los Angeles. Custom menus and full service.',
+      corporate: 'Corporate catering in Los Angeles. Office lunches, meetings, company events and client dinners.',
+      events: 'Catering for private parties, celebrations and milestones in Los Angeles. Custom menus and full service.',
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
       about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
       contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles.'
@@ -85,10 +88,15 @@
         title: 'Wedding catering',
         intro: 'Custom menus and full service for your wedding day.'
       },
+      corporate: {
+        eyebrow: 'Corporate',
+        title: 'Corporate catering',
+        intro: 'Office lunches, meetings, company events and client dinners.'
+      },
       events: {
         eyebrow: 'Events',
         title: 'Event catering',
-        intro: 'Corporate events, private parties and celebrations.'
+        intro: 'Private parties, celebrations and milestones.'
       },
       vending: {
         eyebrow: 'Vending',
@@ -102,7 +110,7 @@
       },
       contact: {
         eyebrow: 'Contact',
-        title: 'Contact us',
+        title: 'Book us',
         intro: 'Tell us about your event and we&rsquo;ll get back to you.'
       },
       menus: {
@@ -145,17 +153,16 @@
             ]
           },
           {
-            title: 'Wraps and salads',
+            title: 'Grilled wraps and salads',
             items: [
               { name: 'Grilled Chicken Wrap', detail: 'Spinach herb tortilla, marinated grilled chicken, ginger cardamom rice, scallion oil, spring mix, mango, Persian cucumber, cherry tomato, Thai chili, celery, red onion, cilantro, basil, mint, lemon, lime.' },
               { name: 'Kofta Beef Wrap', detail: 'Roasted red pepper tortilla, beef kofta with caramelized onion, tomato, gochugaru, mustard seed, coriander, fennel, cumin and allspice, seared cherry tomato, toum, hummus, pickled shallot, cucumber, scallion, mint, ginger cardamom rice, spring mix.' },
               { name: 'Vegan Green Caesar', detail: 'Lacinato kale, arugula, cashew and oat milk caesar, basil, lemon, garlic, toum, lemon-cured cucumber ribbons, lemon supremes, lemon sunflower seeds, parsley, dill.', tags: ['Vegan'] },
-              { name: 'Chicken Caesar' },
               { name: 'Pan de Elote', detail: 'Sweet corn, cornmeal, date sugar, olive oil, date syrup, ginger, raspberry compote, chamomile lavender, freeze-dried raspberry.', tags: ['Vegan', 'Gluten free'] }
             ]
           },
           {
-            title: 'Thai tacos',
+            title: 'Thai street tacos',
             items: [
               { name: 'Panang Beef Barbacoa', detail: 'Beef chuck, panang curry, coconut milk, fish sauce, coconut sugar, makrut lime leaf, caramelized green cabbage, fried Thai basil, peanuts, dried mango and chile manzano sauce.' },
               { name: 'Chicken Satay Tacos', detail: 'Corn tortilla, coconut-marinated chicken, Madras curry, green papaya, green cabbage, carrot, cucumber, Roma tomato, lime, fish sauce, peanut sauce of coconut cream, tamarind, makrut lime leaf, galangal, ginger and lemongrass.' },
@@ -164,7 +171,7 @@
             ]
           },
           {
-            title: 'Italian',
+            title: 'Italian sandwiches and snacks',
             items: [
               { name: 'Bruschetta', detail: 'Grilled baguette, garlic, herb and lemon peel oil, tomato, shallot, basil, balsamic, lemon zest.', tags: ['Vegan'] },
               { name: 'Crispy Gnocchi', detail: 'Gluten-free gnocchi seared in the wok, parsnip puree, leek soubise, basil, or tomato sauce.', tags: ['Vegan', 'Gluten free'] },
@@ -188,7 +195,7 @@
           {
             title: 'Salads',
             items: [
-              { name: 'Duck Caesar', detail: 'Duck cured in fennel, caraway, allspice and coriander, cured yolk and duck fat dressing, dijon, duck fat croutons, manchego, romaine, lemon supremes.' },
+              { name: 'Duck Caesar', detail: 'Duck confit, duck fat caesar dressing, no anchovy, duck fat croutons, manchego, romaine, lemon supremes.' },
               { name: 'Spring Garden', detail: 'Butter lettuce, tomatoes peeled and brined in lemon and basil, lemon-pickled shallot, cucumber ribbons, dill, sunflower seeds, champagne yuzu date vinaigrette.', tags: ['Vegan', 'Gluten free'] },
               { name: 'King Crab Louie', detail: 'Whole king crab leg, seven-minute egg, gochugaru and orange Louie, dijon, rice vinegar, cornichon, shallot, heirloom tomato, avocado, lemon.' }
             ]
@@ -221,10 +228,16 @@
         styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
       },
       {
+        route: 'corporate',
+        title: 'Corporate',
+        desc: 'Office lunches, meetings, company events and client dinners.',
+        styles: 'Office lunch &nbsp;&middot;&nbsp; Meetings &nbsp;&middot;&nbsp; Company events'
+      },
+      {
         route: 'events',
         title: 'Events',
-        desc: 'Corporate events, private parties and celebrations. Every menu is built around the crowd and the occasion.',
-        styles: 'Corporate &nbsp;&middot;&nbsp; Private parties &nbsp;&middot;&nbsp; Celebrations'
+        desc: 'Private parties, celebrations and milestones. Every menu is built around the crowd and the occasion.',
+        styles: 'Private parties &nbsp;&middot;&nbsp; Celebrations &nbsp;&middot;&nbsp; Milestones'
       },
       {
         route: 'vending',
@@ -260,9 +273,25 @@
     dietaryNote: 'Menus are built around any dietary needs and allergies. Tell us what they are in your inquiry.',
 
     eventTypes: [
-      { title: 'Corporate events', desc: 'Company meals, meetings and team events.' },
       { title: 'Private parties', desc: 'Dinners and parties at home or at a venue.' },
-      { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
+      { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' },
+      { title: 'Milestones', desc: 'Anniversaries, retirements and send-offs.' }
+    ],
+
+    corporateTypes: [
+      { title: 'Office lunches', desc: 'Lunch brought in for the team.' },
+      { title: 'Meetings and all-day events', desc: 'Food through the day, timed to the agenda.' },
+      { title: 'Company parties', desc: 'Holiday parties, launches and team celebrations.' },
+      { title: 'Client dinners', desc: 'Dinner for clients and guests.' }
+    ],
+
+    /* Corporate adds drop-off to the shared list. */
+    corporateStyles: [
+      { title: 'Plated', desc: 'Courses plated in the kitchen and brought to each seat.' },
+      { title: 'Family style', desc: 'Large shared dishes set down on the table.' },
+      { title: 'Buffet', desc: 'Guests serve themselves from a set line.' },
+      { title: 'Stations', desc: 'Separate stations, cooked and served in front of guests.' },
+      { title: 'Drop-off', desc: 'Delivered ready to serve, with nothing to set up.' }
     ],
 
     /* Vending. No rates anywhere, and no permit claims. The liability
@@ -307,18 +336,60 @@
     aboutWhereWeWork: 'Los Angeles and Southern California, plus festivals across California.',
 
     /* Closing band. One per page, always pointing at Contact. */
+    /* Two verbs only. Book takes a date and a quote, Order is drop-off.
+       One primary and one secondary per page, never more. */
     cta: {
       kicker: 'Contact',
-      label: 'Contact us',
       headlines: {
         home: 'Book your event.',
-        order: 'Request drop-off catering.',
+        order: 'Book your event.',
         weddings: 'Book your wedding.',
+        corporate: 'Book your office lunch or event.',
         events: 'Book your event.',
         vending: 'Book us for your festival or event.',
         about: 'Work with us.',
         menus: 'Book your event.'
+      },
+      buttons: {
+        home:      { primary: 'Book', secondary: 'Order drop-off' },
+        order:     { primary: 'Book' },
+        weddings:  { primary: 'Book', secondary: 'Order drop-off', type: 'wedding' },
+        corporate: { primary: 'Book', secondary: 'Order drop-off', type: 'corporate' },
+        events:    { primary: 'Book', secondary: 'Order drop-off', type: 'private-party' },
+        vending:   { primary: 'Book', secondary: 'Order drop-off', type: 'vending', style: 'vending' },
+        about:     { primary: 'Book' },
+        menus:     { primary: 'Book an event', secondary: 'Order drop-off' }
       }
+    },
+
+    /* Contact form. The prefill maps turn a query value into the option a
+       visitor would have picked, so a Book button carries its page's
+       context. Anything not listed here is ignored and the form opens
+       plain. */
+    contactForm: {
+      eventTypes: ['Wedding', 'Corporate event', 'Private party', 'Celebration',
+                   'Festival or event vending', 'Other'],
+      serviceStyles: ['Plated catering', 'Buffet catering', 'Family style catering',
+                      'Action stations', 'Drop-off catering', 'Vending', 'Not sure yet'],
+      typeFromQuery: {
+        wedding: 'Wedding',
+        corporate: 'Corporate event',
+        'private-party': 'Private party',
+        celebration: 'Celebration',
+        vending: 'Festival or event vending',
+        other: 'Other'
+      },
+      styleFromQuery: {
+        plated: 'Plated catering',
+        buffet: 'Buffet catering',
+        'family-style': 'Family style catering',
+        stations: 'Action stations',
+        'drop-off': 'Drop-off catering',
+        vending: 'Vending'
+      },
+      /* The extra questions a vending enquiry needs. */
+      vendingType: 'Festival or event vending',
+      powerWater: ['Yes', 'No', 'Not sure']
     },
 
     footer: {
@@ -328,6 +399,7 @@
           heading: 'Services',
           links: [
             { route: 'weddings', label: 'Weddings' },
+            { route: 'corporate', label: 'Corporate' },
             { route: 'events', label: 'Events' },
             { route: 'vending', label: 'Vending' },
             { route: 'order', label: 'Order' },
@@ -400,6 +472,10 @@
 
   /* Interior page hero. Full bleed section, centred inner column, with a
      short amethyst rule under the eyebrow echoing the card lockup. */
+  function options(list) {
+    return list.map(function (o) { return '<option>' + o + '</option>'; }).join('');
+  }
+
   function pageHero(route) {
     const h = CONFIG.heroes[route];
     return (
@@ -414,14 +490,34 @@
     );
   }
 
+  /* A Book link carrying its page's context, so the contact form opens
+     with the right answers already chosen. */
+  function bookHref(cfg) {
+    let q = '';
+    if (cfg && cfg.type) q += 'type=' + cfg.type;
+    if (cfg && cfg.style) q += (q ? '&' : '') + 'style=' + cfg.style;
+    return '#/contact' + (q ? '?' + q : '');
+  }
+
+  function ctaButtons(route) {
+    const cfg = CONFIG.cta.buttons[route] || { primary: 'Book' };
+    let html = '<div class="tmc-cta-actions">' +
+      '<a class="tmc-btn tmc-btn-primary" href="' + bookHref(cfg) + '" data-nav="contact">' +
+        cfg.primary + ' <span class="tmc-arrow">&rarr;</span></a>';
+    if (cfg.secondary) {
+      html += '<a class="tmc-btn tmc-btn-secondary" href="#/order" data-nav="order">' +
+        cfg.secondary + ' <span class="tmc-arrow">&rarr;</span></a>';
+    }
+    return html + '</div>';
+  }
+
   function contactBand(route) {
     return (
       '<section class="tmc-primary-cta-band">' +
         '<div class="tmc-primary-cta-inner">' +
           '<div class="tmc-primary-cta-label">' + CONFIG.cta.kicker + '</div>' +
           '<h2 class="tmc-primary-cta-headline">' + CONFIG.cta.headlines[route] + '</h2>' +
-          '<a class="tmc-primary-cta-btn" href="#/contact" data-nav="contact">' +
-            CONFIG.cta.label + ' <span class="tmc-arrow">&rarr;</span></a>' +
+          ctaButtons(route) +
         '</div>' +
       '</section>'
     );
@@ -572,7 +668,7 @@
     },
 
     menus: function () {
-      const body = CONFIG.menus.map(function (section) {
+      function renderSection(section) {
         return '<section class="tmc-menu-section">' +
           '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' +
           section.groups.map(function (group) {
@@ -594,10 +690,22 @@
             '</div>';
           }).join('') +
         '</section>';
-      }).join('');
+      }
 
+      /* The Book and Order pair sits under the pop-up menus and again at
+         the end, so the page always offers a way to act. It is the same
+         pair both times: one action to book, one to order. */
+      const sections = CONFIG.menus.map(function (section) { return renderSection(section); });
       return pageHero('menus') +
-        '<div class="tmc-menu-detail">' + body + '</div>' +
+        '<div class="tmc-menu-detail">' + sections[0] + '</div>' +
+        '<section class="tmc-primary-cta-band">' +
+          '<div class="tmc-primary-cta-inner">' +
+            '<div class="tmc-primary-cta-label">' + CONFIG.cta.kicker + '</div>' +
+            '<h2 class="tmc-primary-cta-headline">' + CONFIG.cta.headlines.menus + '</h2>' +
+            ctaButtons('menus') +
+          '</div>' +
+        '</section>' +
+        '<div class="tmc-menu-detail">' + sections.slice(1).join('') + '</div>' +
         contactBand('menus');
     },
 
@@ -665,6 +773,19 @@
         contactBand('weddings');
     },
 
+    corporate: function () {
+      return pageHero('corporate') +
+        block('', 'What we cater', '', tiles(CONFIG.corporateTypes, 4)) +
+        block('', 'How it works', '', tiles(CONFIG.process, 4)) +
+        block('', 'Service styles', '', tiles(CONFIG.corporateStyles, 5)) +
+        block('', 'What is included', '',
+          tiles(CONFIG.included, 4),
+          '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
+        block('', 'Dietary needs', CONFIG.dietaryNote) +
+        menusBlock() +
+        contactBand('corporate');
+    },
+
     events: function () {
       return pageHero('events') +
         block('', 'Event types', '', tiles(CONFIG.eventTypes, 3)) +
@@ -707,7 +828,20 @@
             '<input type="hidden" name="_subject" value="New inquiry from tastemakerscollective.us">' +
             '<div class="tmc-form-step">' +
               '<h3>The event</h3>' +
-              '<div class="tmc-form-field"><label for="f-type">Type</label><select id="f-type" name="type" required><option>Wedding</option><option>Event</option><option>Vending</option><option>Drop-off</option><option>Other</option></select></div>' +
+              '<div class="tmc-form-field"><label for="f-event-type">Event type</label>' +
+                '<select id="f-event-type" name="event_type" required>' + options(CONFIG.contactForm.eventTypes) + '</select></div>' +
+              '<div class="tmc-form-field"><label for="f-style">Service style</label>' +
+                '<select id="f-style" name="service_style" required>' + options(CONFIG.contactForm.serviceStyles) + '</select></div>' +
+              /* Shown only for a vending enquiry. Disabled while hidden so
+                 the fields do not post empty values. */
+              '<div class="tmc-vending-only" id="f-vending" hidden>' +
+                '<div class="tmc-form-field"><label for="f-attendance">Expected attendance</label>' +
+                  '<input id="f-attendance" name="attendance" type="text" disabled></div>' +
+                '<div class="tmc-form-field"><label for="f-hours">Load-in and service hours</label>' +
+                  '<input id="f-hours" name="service_hours" type="text" disabled></div>' +
+                '<div class="tmc-form-field"><label for="f-power">Power and water on site</label>' +
+                  '<select id="f-power" name="power_water" disabled>' + options(CONFIG.contactForm.powerWater) + '</select></div>' +
+              '</div>' +
               '<div class="tmc-form-field"><label for="f-date">Date</label><input id="f-date" name="date" type="text" placeholder="Date or flexible"></div>' +
               '<div class="tmc-form-field"><label for="f-location">Location</label><input id="f-location" name="location" type="text" placeholder="Venue, neighborhood, or TBD"></div>' +
               '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests"><option>Under 25</option><option>25 to 50</option><option>50 to 100</option><option>100 to 200</option><option>200 to 500</option><option>More than 500</option></select></div>' +
@@ -765,6 +899,36 @@
     );
   }
 
+  /* === CONTACT FORM STATE ===
+     The vending questions only make sense for a vending enquiry, so they
+     are hidden and disabled the rest of the time. Disabled means they are
+     never posted, rather than posted empty. */
+  function syncVendingFields() {
+    const type = document.getElementById('f-event-type');
+    const wrap = document.getElementById('f-vending');
+    if (!type || !wrap) return;
+    const show = type.value === CONFIG.contactForm.vendingType;
+    wrap.hidden = !show;
+    wrap.querySelectorAll('input, select').forEach(function (el) { el.disabled = !show; });
+  }
+
+  /* Preselect from the query a Book button carried. Anything unrecognised
+     is ignored and the form simply opens plain. */
+  function applyPrefill(params) {
+    const form = CONFIG.contactForm;
+    const pick = function (id, wanted) {
+      if (!wanted) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      for (let i = 0; i < el.options.length; i++) {
+        if (el.options[i].textContent === wanted) { el.selectedIndex = i; return; }
+      }
+    };
+    pick('f-event-type', form.typeFromQuery[params.type]);
+    pick('f-style', form.styleFromQuery[params.style]);
+    syncVendingFields();
+  }
+
   /* The order date picker cannot offer a date inside the lead time. Set on
      the input itself so the browser's own calendar greys the days out. */
   function applyLeadTime() {
@@ -784,6 +948,67 @@
   function setMeta(name, content) {
     const tag = document.querySelector('meta[name="' + name + '"]');
     if (tag) tag.setAttribute('content', content);
+  }
+
+  /* === STICKY ACTION BAR ===
+     Mobile only, and only on the pages where a visitor is deciding. It
+     appears once the hero is behind them and hides again as the footer
+     arrives, so it never sits over the footer. Under reduced motion it is
+     simply present from the start, with no transition. */
+  const STICKY_ROUTES = ['weddings', 'corporate', 'events', 'vending', 'menus'];
+  let stickyScrollHandler = null;
+
+  function setupStickyBar(route) {
+    if (stickyScrollHandler) {
+      window.removeEventListener('scroll', stickyScrollHandler);
+      window.removeEventListener('resize', stickyScrollHandler);
+      stickyScrollHandler = null;
+    }
+    const existing = document.getElementById('tmc-sticky-bar');
+    if (existing) existing.remove();
+    if (STICKY_ROUTES.indexOf(route) === -1) return;
+
+    const cfg = CONFIG.cta.buttons[route] || {};
+    const bar = document.createElement('div');
+    bar.id = 'tmc-sticky-bar';
+    bar.className = 'tmc-sticky-bar';
+    bar.innerHTML =
+      '<a class="tmc-btn tmc-btn-primary" href="' + bookHref(cfg) + '" data-nav="contact">Book</a>' +
+      '<a class="tmc-btn tmc-btn-secondary" href="#/order" data-nav="order">Order</a>';
+    document.body.appendChild(bar);
+
+    const hero = main.querySelector('.tmc-page-hero');
+    const foot = main.querySelector('.tmc-footer');
+
+    /* Read geometry rather than trusting an observer's opinion. The bar
+       shows once the hero is above the fold and hides the moment the
+       footer appears, so it can never sit over the footer. */
+    const update = function () {
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const heroR = hero ? hero.getBoundingClientRect() : null;
+      const footR = foot ? foot.getBoundingClientRect() : null;
+      const pastHero = !heroR || heroR.bottom <= 0;
+      const footerInView = !!footR && footR.top < vh;
+      bar.classList.toggle('is-shown', pastHero && !footerInView);
+    };
+
+    if (prefersReducedMotion()) {
+      /* A static bar, no reveal and no transition. It still steps aside
+         for the footer. */
+      const staticUpdate = function () {
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const footR = foot ? foot.getBoundingClientRect() : null;
+        bar.classList.toggle('is-shown', !(footR && footR.top < vh));
+      };
+      stickyScrollHandler = staticUpdate;
+      staticUpdate();
+    } else {
+      stickyScrollHandler = update;
+      update();
+    }
+
+    window.addEventListener('scroll', stickyScrollHandler, { passive: true });
+    window.addEventListener('resize', stickyScrollHandler);
   }
 
   /* === SCROLL REVEAL ===
@@ -874,13 +1099,29 @@
   }
 
   /* === ROUTER === */
-  function getRouteFromHash() {
-    const hash = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
-    if (!hash || hash === '/') return 'home';
-    return hash;
+  /* #/contact?type=wedding splits into a route and its parameters. */
+  function parseHash() {
+    const raw = window.location.hash.replace(/^#\//, '').replace(/^#/, '');
+    const cut = raw.indexOf('?');
+    const route = (cut === -1 ? raw : raw.slice(0, cut)) || 'home';
+    const params = {};
+    if (cut > -1) {
+      raw.slice(cut + 1).split('&').forEach(function (pair) {
+        if (!pair) return;
+        const eq = pair.indexOf('=');
+        const key = decodeURIComponent(eq === -1 ? pair : pair.slice(0, eq));
+        const val = eq === -1 ? '' : decodeURIComponent(pair.slice(eq + 1));
+        if (key) params[key] = val;
+      });
+    }
+    return { route: route === '/' ? 'home' : route, params: params };
   }
 
-  function render(route) {
+  function getRouteFromHash() {
+    return parseHash().route;
+  }
+
+  function render(route, params) {
     /* Retired route: rewrite the address bar, which fires hashchange and
        brings us straight back here with the current route. */
     if (CONFIG.redirects[route]) {
@@ -892,6 +1133,8 @@
     main.innerHTML = pages[page]() + footerHtml();
     renderNav(page);
     applyLeadTime();
+    applyPrefill(params || {});
+    setupStickyBar(page);
     setupReveal();
     closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -912,7 +1155,7 @@
     const fd = new FormData(form);
     const lines = [];
     form.querySelectorAll('input, select, textarea').forEach(function (el) {
-      if (!el.name || el.type === 'hidden') return;
+      if (!el.name || el.type === 'hidden' || el.disabled) return;
       const label = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
       lines.push((label ? label.textContent : el.name) + ': ' + (fd.get(el.name) || ''));
     });
@@ -976,6 +1219,10 @@
     window.location.hash = href(el.getAttribute('data-nav'));
   });
 
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'f-event-type') syncVendingFields();
+  });
+
   document.addEventListener('submit', function (e) {
     if (!e.target || !e.target.classList.contains('tmc-form')) return;
     e.preventDefault();
@@ -984,7 +1231,8 @@
 
   /* === INIT === */
   window.addEventListener('hashchange', function () {
-    render(getRouteFromHash());
+    const parsed = parseHash();
+    render(parsed.route, parsed.params);
   });
 
   window.addEventListener('resize', syncNavHeight);
@@ -992,6 +1240,7 @@
     document.fonts.ready.then(syncNavHeight);
   }
 
-  render(getRouteFromHash());
+  const first = parseHash();
+  render(first.route, first.params);
   syncNavHeight();
 })();
