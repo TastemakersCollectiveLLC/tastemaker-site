@@ -646,7 +646,6 @@
           '</h1>' +
           '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
           '<div class="tmc-hero-sub">' + B.city + '</div>' +
-          '<span class="tmc-hero-cue" aria-hidden="true"></span>' +
         '</section>' +
 
         '<section class="tmc-why">' +
@@ -1094,32 +1093,72 @@
      IntersectionObserver missing, or under prefers-reduced-motion, every
      element is simply visible from the start. Only opacity and transform
      animate, so nothing reflows. */
-  const REVEAL_TARGETS = [
-    '.tmc-why > *',
-    '.tmc-section-header > *',
-    '.tmc-service-block',
-    '.tmc-wwd-header > *',
-    '.tmc-wwd-tile',
-    '.tmc-block-head > *',
-    '.tmc-block-item',
-    '.tmc-list-item',
-    '.tmc-block-note',
-    '.tmc-block-cta',
-    '.tmc-menu-section-heading',
-    '.tmc-menu-group',
-    '.tmc-contact-card',
-    '.tmc-form-step',
-    '.tmc-primary-cta-inner > *'
-  ].join(',');
-
   /* Sections whose top hairline draws in from the left. */
   const RULE_TARGETS = '.tmc-block, .tmc-primary-cta-band';
 
+  /* One animation group per section. The group is what gets observed. */
+  const GROUP_TARGETS = ['.tmc-why', '.tmc-section-header', '.tmc-services-wrap',
+    '.tmc-wwd-section', '.tmc-block', '.tmc-primary-cta-band', '.tmc-menu-section',
+    '.tmc-body', '.tmc-contact-block', '.tmc-page-hero'].join(',');
+
+  /* Claimed last, so nothing in a group is left invisible. */
+  const LEFTOVER_TARGETS = ['.tmc-block-cta', '.tmc-service-menu-link',
+    '.tmc-cta-actions', '.tmc-menu-section-heading', '.tmc-page-rule'].join(',');
+
   let revealObserver = null;
+  let enterTimer = null;
 
   function prefersReducedMotion() {
     return window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /* Elements that lead a section and set its timing. */
+  const KICKER_TARGETS = '.tmc-why-label, .tmc-section-label, .tmc-page-eyebrow,' +
+    '.tmc-wwd-tile-label, .tmc-block-label, .tmc-primary-cta-label';
+  const HEADING_TARGETS = 'h1, h2, .tmc-menu-section-title';
+  const CARD_TARGETS = '.tmc-service-block, .tmc-wwd-tile, .tmc-block-item,' +
+    '.tmc-list-item, .tmc-contact-card, .tmc-form-step, .tmc-menu-back-card';
+
+  /* Splits a heading into one masked wrapper per rendered line, so each
+     line can rise from behind its own mask. Words are wrapped, measured by
+     their offsetTop, then regrouped; this has to happen after layout
+     because where the lines fall depends on the width. Anything with
+     element children is left alone, which is what keeps the animated
+     wordmark out of this. */
+  function splitLines(el) {
+    if (el.children.length || el.dataset.tmcSplit) return 0;
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+    if (!text) return 0;
+    const words = text.split(' ');
+    el.textContent = '';
+    words.forEach(function (w, i) {
+      const sp = document.createElement('span');
+      sp.textContent = (i ? ' ' : '') + w;
+      el.appendChild(sp);
+    });
+    const rows = [];
+    [].forEach.call(el.children, function (sp) {
+      const top = sp.offsetTop;
+      const row = rows[rows.length - 1];
+      if (row && Math.abs(row.top - top) < 4) row.words.push(sp.textContent);
+      else rows.push({ top: top, words: [sp.textContent] });
+    });
+    el.textContent = '';
+    rows.forEach(function (row) {
+      const line = document.createElement('span');
+      line.className = 'tmc-anim-line is-pre';
+      const inner = document.createElement('span');
+      /* The leading space is KEPT, so the heading's textContent still reads
+         as the original sentence. A space at the start of a block level
+         line is collapsed away by normal white space processing, so it
+         costs nothing visually. */
+      inner.textContent = row.words.join('');
+      line.appendChild(inner);
+      el.appendChild(line);
+    });
+    el.dataset.tmcSplit = '1';
+    return rows.length;
   }
 
   function setupReveal() {
@@ -1129,49 +1168,178 @@
     }
     if (!('IntersectionObserver' in window) || prefersReducedMotion()) return;
 
-    const fades = [].slice.call(main.querySelectorAll(REVEAL_TARGETS));
     const rules = [].slice.call(main.querySelectorAll(RULE_TARGETS));
-
-    /* Stagger siblings inside the same row or grid. Capped so a long list
-       never leaves its last item waiting. */
-    const seen = new Map();
-    fades.forEach(function (el) {
-      el.classList.add('tmc-reveal');
-      const n = seen.get(el.parentNode) || 0;
-      seen.set(el.parentNode, n + 1);
-      el.style.transitionDelay = (Math.min(n, 5) * 70) + 'ms';
-    });
     rules.forEach(function (el) { el.classList.add('tmc-rule'); });
 
-    const all = fades.concat(rules);
+    /* Each section is one group: it is observed as a whole and its parts
+       are given delays relative to each other, so a kicker, its heading and
+       its paragraphs read as one gesture rather than three. */
+    const groups = [].slice.call(main.querySelectorAll(GROUP_TARGETS));
+    groups.forEach(function (group) {
+      let base = 0;
+
+      [].forEach.call(group.querySelectorAll(KICKER_TARGETS), function (k) {
+        k.classList.add('tmc-anim-kicker', 'is-pre');
+        k.style.setProperty('--d', '0ms');
+        base = 60;
+      });
+
+      [].forEach.call(group.querySelectorAll(HEADING_TARGETS), function (h) {
+        if (h.closest('.tmc-anim-card')) return;
+        const n = splitLines(h);
+        if (!n) return;
+        [].forEach.call(h.children, function (line, i) {
+          line.firstChild.style.setProperty('--d', (base + i * 80) + 'ms');
+        });
+        base += (n - 1) * 80 + 80;
+      });
+
+      /* Body copy follows the heading, each paragraph 60ms behind the last. */
+      let bi = 0;
+      [].forEach.call(group.querySelectorAll('p, .tmc-block-note, .tmc-list-item-desc,' +
+        '.tmc-service-styles, .tmc-menu-item-desc'), function (b) {
+        if (b.closest('.tmc-anim-card') || b.closest('.tmc-menu-item')) return;
+        b.classList.add('tmc-anim-fade', 'is-pre');
+        b.style.setProperty('--d', (base + bi * 60) + 'ms');
+        bi++;
+      });
+
+      /* Cards draw their frame, then fill. Siblings in a row follow 90ms
+         apart. */
+      let ci = 0;
+      [].forEach.call(group.querySelectorAll(CARD_TARGETS), function (c) {
+        c.classList.add('tmc-anim-card', 'is-pre');
+        c.style.setProperty('--d', (base + Math.min(ci, 5) * 90) + 'ms');
+        if (!c.querySelector('.tmc-sheen')) {
+          const sh = document.createElement('span');
+          sh.className = 'tmc-sheen';
+          sh.setAttribute('aria-hidden', 'true');
+          c.appendChild(sh);
+        }
+        ci++;
+      });
+
+      /* Menu dishes run in sequence, capped so a long menu never feels
+         like it is loading. */
+      let di = 0;
+      [].forEach.call(group.querySelectorAll('.tmc-menu-item'), function (dish) {
+        dish.classList.add('tmc-anim-dish', 'is-pre');
+        dish.style.setProperty('--d', (base + Math.min(di, 14) * 40) + 'ms');
+        di++;
+      });
+
+      /* Anything the classifier did not claim still fades in, so nothing is
+         ever left invisible. */
+      [].forEach.call(group.querySelectorAll(LEFTOVER_TARGETS), function (el) {
+        if (el.classList.contains('tmc-anim-kicker') ||
+            el.classList.contains('tmc-anim-fade') ||
+            el.classList.contains('tmc-anim-card') ||
+            el.classList.contains('tmc-anim-dish') ||
+            el.closest('.tmc-anim-card') ||
+            el.querySelector('.tmc-anim-line')) return;
+        el.classList.add('tmc-reveal', 'is-pre');
+        el.style.setProperty('--d', base + 'ms');
+      });
+    });
+
+    const all = groups.concat(rules);
 
     revealObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
+        play(entry.target);
         obs.unobserve(entry.target);
+        /* Release the masks once the lines have arrived, so a later
+           reflow can never clip a descender. */
+        const lines = entry.target.querySelectorAll('.tmc-anim-line');
+        if (lines.length) {
+          setTimeout(function () {
+            [].forEach.call(lines, function (l) { l.classList.add('is-done'); });
+          }, 1400);
+        }
       });
     }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
 
     all.forEach(function (el) { revealObserver.observe(el); });
 
     /* Failsafe, measured rather than assumed. A working observer reveals
-       whatever is on screen within a frame. If anything is still hidden
+       whatever is on screen within a frame. If a group is still hidden
        while its box sits inside the viewport, the observer is not doing its
-       job in this environment, so drop it and show everything. Text must
-       never be left invisible waiting on an API. */
+       job here, so drop it and show everything. Text must never be left
+       invisible waiting on an API.
+
+       It cannot give up after one look. On Home the hero fills the
+       viewport, so at 600ms no group is on screen yet and there is nothing
+       to judge. The check therefore repeats on scroll until either the
+       observer proves itself by revealing something, or it does not and
+       everything is shown. */
+    /* Playing a group means taking the pre state off its parts. What is
+       left is each element's ordinary CSS, so a group that has played can
+       never be invisible, whatever happens to transitions afterwards. */
+    const play = function (group) {
+      group.classList.add('is-in');
+      const pre = group.querySelectorAll('.is-pre');
+      [].forEach.call(pre, function (el) { el.classList.remove('is-pre'); });
+      if (group.classList.contains('is-pre')) group.classList.remove('is-pre');
+      const lines = group.querySelectorAll('.tmc-anim-line');
+      if (lines.length) {
+        setTimeout(function () {
+          [].forEach.call(lines, function (l) { l.classList.add('is-done'); });
+        }, 1400);
+      }
+    };
+
+    /* Last line of defence. Whatever the observer, the failsafe or a
+       transition does, nothing stays marked pre for more than three
+       seconds. Transitions are suspended for the swap so the element lands
+       on its final value in one step: starting a transition here would
+       just hand the problem to an animation clock that may be throttled
+       for content the browser is not painting. */
+    const ANIMATED = '.tmc-anim-fade, .tmc-anim-dish, .tmc-anim-kicker, .tmc-reveal,' +
+      '.tmc-anim-card, .tmc-anim-card > *, .tmc-anim-line > span';
     setTimeout(function () {
+      const parts = [].slice.call(main.querySelectorAll(ANIMATED));
+      const pre = [].slice.call(main.querySelectorAll('.is-pre'));
+      if (!parts.length && !pre.length) return;
+      /* Transitions are suspended for the swap, so every element lands on
+         its final value in one step. Removing the pre class on its own is
+         not enough: that starts a transition, and a transition is only
+         guaranteed to finish while the browser is actually painting the
+         page. Anything mid flight is snapped to the end here instead. */
+      parts.forEach(function (el) { el.style.transition = 'none'; });
+      pre.forEach(function (el) { el.classList.remove('is-pre'); });
+      void main.offsetWidth;
+      /* setTimeout rather than requestAnimationFrame: a frame callback
+         does not fire for a page the browser is not rendering, which is
+         the very case this is here to cover. */
+      setTimeout(function () {
+        parts.forEach(function (el) { el.style.transition = ''; });
+      }, 60);
+    }, 3000);
+
+    let verified = false;
+    const revealAll = function () {
+      if (revealObserver) { revealObserver.disconnect(); revealObserver = null; }
+      all.forEach(play);
+      window.removeEventListener('scroll', verify);
+    };
+    const verify = function () {
+      if (verified) return;
+      if (all.some(function (el) { return el.classList.contains('is-in'); })) {
+        /* something was revealed, so the observer works here */
+        verified = true;
+        window.removeEventListener('scroll', verify);
+        return;
+      }
       const vh = window.innerHeight || document.documentElement.clientHeight;
       const stuck = all.some(function (el) {
-        if (el.classList.contains('is-in')) return false;
         const r = el.getBoundingClientRect();
         return r.height > 0 && r.top < vh && r.bottom > 0;
       });
-      if (!stuck) return;
-      revealObserver.disconnect();
-      revealObserver = null;
-      all.forEach(function (el) { el.classList.add('is-in'); });
-    }, 600);
+      if (stuck) revealAll();
+    };
+    setTimeout(verify, 600);
+    window.addEventListener('scroll', verify, { passive: true });
   }
 
   /* === ROUTER === */
@@ -1207,6 +1375,21 @@
 
     const page = pages[route] ? route : 'home';
     main.innerHTML = pages[page]() + footerHtml();
+    /* The outgoing page has already faded; this brings the new one up. */
+    main.classList.remove('is-leaving');
+    if (!prefersReducedMotion()) {
+      main.classList.remove('is-entering');
+      void main.offsetWidth;            /* restart the animation */
+      main.classList.add('is-entering');
+      /* Taken off again once it has played. Leaving it on would keep an
+         animation rule pointed at every top level section for the life of
+         the page, which is how a section ends up stuck at its from state. */
+      if (enterTimer) clearTimeout(enterTimer);
+      enterTimer = setTimeout(function () {
+        enterTimer = null;
+        main.classList.remove('is-entering');
+      }, 480);
+    }
     renderNav(page);
     applyLeadTime();
     applyPrefill(params || {});
@@ -1329,9 +1512,23 @@
   });
 
   /* === INIT === */
+  /* On navigation the outgoing page fades before the new one is built, so
+     routes feel connected rather than snapping. Under reduced motion the
+     swap is immediate. The delay is short enough that nothing waits on it:
+     120ms is below the threshold where a tap stops feeling instant. */
+  let leaveTimer = null;
   window.addEventListener('hashchange', function () {
     const parsed = parseHash();
-    render(parsed.route, parsed.params);
+    if (prefersReducedMotion()) {
+      render(parsed.route, parsed.params);
+      return;
+    }
+    if (leaveTimer) clearTimeout(leaveTimer);
+    main.classList.add('is-leaving');
+    leaveTimer = setTimeout(function () {
+      leaveTimer = null;
+      render(parsed.route, parsed.params);
+    }, 120);
   });
 
   window.addEventListener('resize', syncNavHeight);
