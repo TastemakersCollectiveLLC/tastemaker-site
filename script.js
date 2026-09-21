@@ -460,6 +460,19 @@
     mobileToggle.setAttribute('aria-expanded', String(open));
   });
 
+  /* The skip link keeps href="#tmc-main" so it still works with JavaScript
+     off, but a hash router reads that as a route, finds no page called
+     tmc-main and falls back to Home. Landing a keyboard visitor on the
+     homepage is the opposite of skipping to the content they are on, so
+     move focus directly and leave the address bar alone. */
+  const skipLink = document.querySelector('.tmc-skip-link');
+  if (skipLink) {
+    skipLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      main.focus();
+    });
+  }
+
   /* === HELPERS === */
   function href(route) {
     return '#/' + (route === 'home' ? '' : route);
