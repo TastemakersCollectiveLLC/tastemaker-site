@@ -6,6 +6,35 @@
    ============================================ */
 
 /* === TOKENS === */
+/* === FONTS ===
+   Self-hosted rather than fetched from Google. Two files, the latin subsets
+   of the same variable faces the site has always used, served from our own
+   origin so they can be preloaded against a URL that does not change when
+   Google rotates a version, and so a visitor makes no third-party request.
+
+   font-display: swap means the fallback shows immediately and is replaced
+   when the file lands, so text is never invisible while a font loads. */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/playfair-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 200 400;
+  font-display: swap;
+  src: url('/fonts/montserrat-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   /* ground */
   --black: #231F20;
@@ -195,7 +224,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   width: 100%;
   max-width: 820px;
-  margin-bottom: 56px;
+  /* It is an h1, so the default heading margin and size are cleared. Every
+     visible size comes from .tmc-brand-line and .tmc-brand-sub below. */
+  margin: 0 0 56px;
+  font-size: inherit;
+  font-weight: inherit;
 }
 .tmc-brand-line {
   font-family: var(--font-display);
@@ -413,6 +446,40 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   opacity: 0;
   pointer-events: none;
 }
+
+/* === SKIP LINK ===
+   The first focusable element in the document. Kept off screen rather than
+   display:none so it stays in the tab order, and brought into view the
+   moment it takes focus. */
+.tmc-skip-link {
+  position: absolute;
+  left: 8px;
+  top: -200px;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  background: var(--amethyst);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--amethyst);
+  transition: top 0.15s ease;
+}
+.tmc-skip-link:focus {
+  top: calc(8px + env(safe-area-inset-top, 0px));
+}
+/* Elements the script focuses on the visitor's behalf: main, the page h1
+   on every route change, and the form success message. None of them is in
+   the tab order, so there is no keyboard focus to indicate here, and a box
+   drawn around a whole heading or page reads as a rendering fault. Real
+   controls keep their :focus-visible outline, defined below. */
+[tabindex="-1"]:focus,
+[tabindex="-1"]:focus-visible { outline: none; }
 
 /* === BUTTONS ===
    Two kinds only. Primary is filled, secondary is outlined. A secondary
@@ -1304,7 +1371,118 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-contact-card:hover { transform: none !important; }
   .tmc-arrow { transform: none !important; }
   .tmc-sticky-bar { transition: none !important; }
+  .tmc-skip-link { transition: none !important; }
   .tmc-nav-links a::after,
   .tmc-mobile-menu a::after,
   .tmc-footer-col a::after { transition: none !important; }
+}
+
+/* === PRINT ===
+   Aimed at the Menus page, which gets printed for clients and crew, but safe
+   on every route. Black on white, no chrome, nothing that only makes sense
+   on a screen, and no dish broken across a page. */
+@media print {
+  /* The dark ground would empty a toner cartridge and many browsers drop
+     background colours anyway, so commit to paper properly. */
+  :root {
+    --black: #FFFFFF;
+    --black-deep: #FFFFFF;
+    --black-raised: #FFFFFF;
+    --white: #000000;
+    --white-soft: #000000;
+    --white-dim: #1a1a1a;
+    --amethyst: #000000;
+    --amethyst-text: #000000;
+    --grey: #444444;
+    --hairline: rgba(0, 0, 0, 0.35);
+    --hairline-soft: rgba(0, 0, 0, 0.18);
+  }
+
+  html, body, .tmc { background: #FFFFFF !important; color: #000000 !important; }
+
+  /* Everything that is navigation, an action or decoration. A printed page
+     cannot be tapped, so none of it earns its ink. */
+  .tmc-nav,
+  .tmc-mobile-menu,
+  .tmc-mobile-toggle,
+  .tmc-skip-link,
+  .tmc-sticky-bar,
+  .tmc-footer,
+  .tmc-primary-cta-band,
+  .tmc-block-cta,
+  .tmc-cta-actions,
+  .tmc-hero-cue,
+  .tmc-arrow,
+  .tmc-btn { display: none !important; }
+
+  /* The page hero keeps its title and drops the full-height staging. */
+  .tmc-page-hero {
+    min-height: 0 !important;
+    padding: 0 0 18px !important;
+    border-bottom: 1px solid #000000;
+  }
+  .tmc-page-hero-inner { max-width: none; }
+  .tmc-page-title { font-size: 28pt !important; margin: 0 0 6px; }
+  .tmc-page-eyebrow { color: #000000 !important; }
+  .tmc-page-intro { font-size: 11pt !important; color: #000000 !important; }
+
+  /* Reveal animations never ran or are irrelevant on paper; make sure
+     nothing prints at opacity 0. */
+  .tmc-reveal,
+  .tmc-brand-line span,
+  .tmc-brand-sub-row,
+  .tmc-hero-tagline,
+  .tmc-hero-sub {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .tmc-block.tmc-rule::before,
+  .tmc-primary-cta-band.tmc-rule::before { transform: scaleX(1) !important; }
+
+  /* --- the menu itself --- */
+  .tmc-menu-detail { padding: 0 !important; }
+
+  .tmc-menu-section { break-inside: auto; }
+  .tmc-menu-section-title {
+    font-size: 15pt !important;
+    margin: 18pt 0 8pt !important;
+    /* A heading never sits alone at the foot of a page. */
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .tmc-menu-section-heading {
+    font-size: 12pt !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Single column on paper, so the dishes stay in the order they are read
+     on screen rather than snaking down one column and back up another. */
+  .tmc-menu-items { column-count: 1 !important; }
+
+  .tmc-menu-item {
+    /* No dish is ever cut across a page. */
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 10pt !important;
+    text-align: left !important;
+  }
+  .tmc-menu-item-name { font-size: 11pt !important; }
+  .tmc-menu-item-desc { font-size: 9.5pt !important; color: #1a1a1a !important; }
+
+  /* Vegan and gluten free have to survive the trip to paper, so they are
+     outlined rather than relying on a background that may not print. */
+  .tmc-menu-tags { justify-content: flex-start !important; }
+  .tmc-menu-tag {
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+    background: transparent !important;
+    font-size: 7.5pt !important;
+  }
+
+  /* Links print as plain text. A bare URL after every nav link is noise. */
+  a { text-decoration: none !important; color: #000000 !important; }
+
+  @page { margin: 14mm; }
 }

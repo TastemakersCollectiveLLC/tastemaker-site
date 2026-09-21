@@ -10,19 +10,34 @@
 
 <link rel="canonical" href="https://www.tastemakerscollective.us/">
 
+<!-- Interim mark: TC in Playfair Display, amethyst on the site black, drawn
+     from the wordmark. Replaced when the real logo lands. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tastemakers Collective | Catering and Events in Los Angeles">
 <meta property="og:description" content="A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.">
 <meta property="og:url" content="https://www.tastemakerscollective.us/">
 <meta property="og:site_name" content="Tastemakers Collective">
+<meta property="og:image" content="https://www.tastemakerscollective.us/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tastemakers Collective. Custom menus for every event and every diet.">
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tastemakers Collective">
 <meta name="twitter:description" content="A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.">
+<meta name="twitter:image" content="https://www.tastemakerscollective.us/og-image.png">
+<meta name="twitter:image:alt" content="Tastemakers Collective. Custom menus for every event and every diet.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200..400&family=Playfair+Display:wght@400..500&display=swap" rel="stylesheet">
+<!-- Fonts are served from this origin, so there is no third-party
+     preconnect and no stylesheet round trip before they can start. Both are
+     preloaded because the wordmark and body copy need them immediately.
+     font-display: swap lives in styles.css, so text is never invisible. -->
+<link rel="preload" href="/fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <link rel="stylesheet" href="/styles.css">
 
@@ -37,10 +52,20 @@
   "email": "hello@tastemakerscollective.us",
   "telephone": "+1-279-271-1170",
   "description": "A Los Angeles catering and events company offering wedding and event catering, festival vending, and drop-off catering.",
-  "areaServed": {
-    "@type": "City",
-    "name": "Los Angeles"
-  },
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Los Angeles",
+      "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": "Southern California"
+      }
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Southern California"
+    }
+  ],
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Los Angeles",
@@ -64,15 +89,23 @@
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Event catering",
-          "description": "Catering for corporate events, private parties and celebrations."
+          "name": "Corporate catering",
+          "description": "Office lunches, meetings and company events in Los Angeles."
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Festival vending",
+          "name": "Event catering",
+          "description": "Catering for private parties, celebrations and milestones."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Festival vending and event hospitality",
           "description": "Food vending, staff meals and artist hospitality at festivals and large events."
         }
       },
@@ -92,6 +125,9 @@
 <body>
 
 <div class="tmc">
+  <!-- First focusable element on the page. Off screen until focused. -->
+  <a class="tmc-skip-link" href="#tmc-main">Skip to content</a>
+
   <nav class="tmc-nav" aria-label="Primary">
     <a class="tmc-logo" href="#/" data-nav="home" aria-label="Tastemakers Collective, home">
       <span class="tmc-logo-word">TASTEMAKERS</span>
@@ -109,7 +145,7 @@
 
   <div class="tmc-mobile-menu" id="tmc-mobile-menu"></div>
 
-  <main id="tmc-main" role="main"></main>
+  <main id="tmc-main" role="main" tabindex="-1"></main>
 </div>
 
 <script src="/script.js"></script>

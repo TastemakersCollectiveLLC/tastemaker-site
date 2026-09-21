@@ -8,11 +8,28 @@
 <title>Tastemakers Collective | Contact</title>
 <meta name="description" content="Tastemakers Collective is a Los Angeles catering and events company. Call, text, or email us, start an event inquiry, or save our contact details.">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200..400&family=Playfair+Display:wght@400..500&display=swap" rel="stylesheet">
+<!-- Same interim mark as the main site. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Same two self-hosted faces as the main site. -->
+<link rel="preload" href="/fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <style>
+  /* Self-hosted, swap so text is never invisible while a font loads. */
+  @font-face {
+    font-family: 'Playfair Display';
+    font-style: normal; font-weight: 400 500; font-display: swap;
+    src: url('/fonts/playfair-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal; font-weight: 200 400; font-display: swap;
+    src: url('/fonts/montserrat-latin.woff2') format('woff2');
+  }
+
   :root {
     --black: #231F20;
     --amethyst: #684385;       /* frames, borders, fills, rules. 2.12:1, never text */

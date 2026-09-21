@@ -617,14 +617,19 @@
 
       return (
         '<section class="tmc-hero">' +
-          '<div class="tmc-brand-stack">' +
-            '<div class="tmc-brand-line" id="brand-line-1"></div>' +
-            '<div class="tmc-brand-sub-row">' +
+          /* The lockup IS the page heading, so it carries the h1 rather
+             than Home having no h1 at all. No visible change: the class
+             keeps every style and the reset below kills the default margin.
+             aria-label gives assistive tech the name in one piece, because
+             the visible text is split across animated spans. */
+          '<h1 class="tmc-brand-stack" aria-label="Tastemakers Collective">' +
+            '<span class="tmc-brand-line" id="brand-line-1"></span>' +
+            '<span class="tmc-brand-sub-row" aria-hidden="true">' +
               '<span class="tmc-brand-rule"></span>' +
               '<span class="tmc-brand-sub">COLLECTIVE</span>' +
               '<span class="tmc-brand-rule"></span>' +
-            '</div>' +
-          '</div>' +
+            '</span>' +
+          '</h1>' +
           '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
           '<div class="tmc-hero-sub">' + B.city + '</div>' +
           '<span class="tmc-hero-cue" aria-hidden="true"></span>' +
@@ -771,7 +776,7 @@
                 '<input id="o-email" name="email" type="email" required></div>' +
               '<div class="tmc-form-field"><label for="o-phone">Phone</label>' +
                 '<input id="o-phone" name="phone" type="tel"></div>' +
-              '<p class="tmc-form-status" role="alert" hidden></p>' +
+              '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
               '<button type="submit" class="tmc-form-submit">Send order request</button>' +
             '</div>' +
           '</form>' +
@@ -883,7 +888,7 @@
               '<div class="tmc-form-field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>' +
               '<div class="tmc-form-field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel"></div>' +
               '<div class="tmc-form-field"><label for="f-notes">Additional notes</label><textarea id="f-notes" name="notes" rows="3"></textarea></div>' +
-              '<p class="tmc-form-status" role="alert" hidden></p>' +
+              '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
               '<button type="submit" class="tmc-form-submit">Send inquiry</button>' +
             '</div>' +
           '</form>' +
@@ -1164,6 +1169,17 @@
     setupReveal();
     closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
+
+    /* A hash route swaps the document without a page load, so nothing moves
+       focus on its own. Without this a keyboard or screen reader visitor is
+       left wherever the old page had them, usually mid-nav, and hears
+       nothing about the page they just opened. Prefer the h1 so the new
+       page announces itself by name; fall back to main. Neither is in the
+       tab order, so the next Tab still lands on the first real control. */
+    const heading = main.querySelector('h1');
+    const target = heading || main;
+    if (heading && !heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
     if (page === 'home') setTimeout(animateBrand, 50);
     document.title = CONFIG.titles[page] || CONFIG.titles.home;
     setMeta('description', CONFIG.descriptions[page] || CONFIG.descriptions.home);
@@ -1214,10 +1230,16 @@
     })
       .then(function (response) {
         if (!response.ok) throw new Error('Form endpoint returned ' + response.status);
-        form.parentNode.innerHTML =
-          '<div class="tmc-form-success">' +
+        /* The form is replaced, so focus would fall back to body and a
+           screen reader would hear nothing. Announce the message and put
+           focus on it, so the next Tab continues from here. */
+        const host = form.parentNode;
+        host.innerHTML =
+          '<div class="tmc-form-success" role="status" aria-live="polite" tabindex="-1">' +
             '<h3>Thanks. We&rsquo;ll get back to you soon.</h3>' +
           '</div>';
+        const done = host.querySelector('.tmc-form-success');
+        if (done) done.focus({ preventScroll: true });
       })
       .catch(function () {
         if (button) {

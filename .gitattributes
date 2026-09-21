@@ -1,2 +1,7 @@
 # vCard 3.0 requires CRLF line endings. Keep them byte for byte.
 *.vcf -text
+
+# Images are binary. Never let line ending conversion touch them.
+*.png binary
+*.ico binary
+*.woff2 binary
