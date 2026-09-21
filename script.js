@@ -657,7 +657,7 @@
 
         '<section class="tmc-section-header">' +
           '<div class="tmc-section-label">Services</div>' +
-          '<h2 class="tmc-section-heading">Catering, events and vending</h2>' +
+          '<h2 class="tmc-section-heading is-list">Catering Events Vending</h2>' +
         '</section>' +
 
         '<div class="tmc-services-wrap">' +

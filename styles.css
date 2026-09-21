@@ -84,7 +84,27 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 :focus-visible { outline: 2px solid var(--amethyst-text); outline-offset: 3px; }
 
-.tmc { background: var(--black); color: var(--white); min-height: 100vh; }
+/* === GROUND PROGRESSION ===
+   One gradient on the page wrapper rather than a colour per section. The
+   sections are narrow boxes (.tmc-body is 720px), so painting them
+   individually would have drawn visible stripes down the middle of the
+   page; a gradient behind transparent sections runs edge to edge.
+
+   The travel is deliberately small. Amethyst text on a card already sits
+   at 4.61:1 against a 4.5:1 floor, so the ground has very little room to
+   lighten before real text fails. Red and green climb by 15, blue by 11,
+   so it warms slightly on the way down without turning brown.
+
+   Alternation is kept as a wash rather than a colour: a band that used to
+   be --black-deep now darkens whatever is behind it by a fixed
+   proportion, so it stays distinguishable at every position on the ramp. */
+.tmc {
+  --ground-top: #1B1819;
+  --ground-bottom: #2A2625;
+  background: linear-gradient(to bottom, var(--ground-top) 0%, var(--ground-bottom) 100%);
+  color: var(--white);
+  min-height: 100vh;
+}
 
 /* === NAV === */
 .tmc-nav {
@@ -214,7 +234,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   text-align: center;
   position: relative;
-  background: var(--black);
+  background: transparent;
   border-bottom: 1px solid var(--hairline-soft);
   overflow: hidden;
 }
@@ -233,7 +253,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-brand-line {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(26px, 7.5vw, 88px);
+  /* Sized from the gutter, not from a guessed clamp. The lockup is eleven
+     letters at 0.2em tracking and measures 11.53x its font size, so the
+     largest size that leaves 16px of air each side is (100vw - 32px) / 11.53.
+     Dividing by 11.60 instead keeps a little headroom against rounding, and
+     94px caps it on desktop. There is deliberately no floor: on a very
+     narrow phone the wordmark gets smaller rather than crowding the edges. */
+  font-size: min(94px, calc(8.62vw - 2.76px));
   letter-spacing: 0.2em;
   text-indent: 0.2em;
   line-height: 1.05;
@@ -241,6 +267,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   white-space: nowrap;
 }
+
 .tmc-brand-line span {
   display: inline-block;
   opacity: 0;
@@ -314,7 +341,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   max-width: 880px;
   margin: 0 auto;
   text-align: center;
-  background: var(--black);
+  background: transparent;
 }
 .tmc-why-label,
 .tmc-section-label,
@@ -357,7 +384,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   max-width: 880px;
   margin: 0 auto;
   text-align: center;
-  background: var(--black);
+  background: transparent;
 }
 .tmc-section-label { display: block; margin-bottom: 22px; }
 .tmc-section-heading {
@@ -369,9 +396,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   letter-spacing: 0.01em;
   line-height: 1.22;
 }
+/* Three items, not a sentence: the gap does the work a comma and an "and"
+   used to. Wrapping to two lines on a phone is fine; breaking a word is
+   not, so the words stay whole and the spacing is trimmed at the ends. */
+.tmc-section-heading.is-list {
+  word-spacing: 0.5em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+@media (max-width: 560px) {
+  .tmc-section-heading.is-list { word-spacing: 0.34em; }
+}
 
 /* === SERVICES === */
-.tmc-services-wrap { background: var(--black); padding: 0 24px 88px; }
+.tmc-services-wrap { background: transparent; padding: 0 24px 88px; }
 .tmc-services-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -380,7 +419,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0 auto;
 }
 .tmc-service-block {
-  background: var(--black);
+  background: transparent;
   border: 1px solid var(--amethyst);
   padding: 40px 28px;
   text-align: center;
@@ -551,7 +590,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-primary-cta-band {
   padding: 88px 24px;
   text-align: center;
-  background: var(--black-deep);
+  /* Darkens the ground beneath it rather than naming a colour, so the band
+     stays distinguishable wherever it lands on the ramp. */
+  background: rgba(0, 0, 0, 0.32);
   border-top: 1px solid var(--hairline-soft);
   border-bottom: 1px solid var(--hairline-soft);
 }
@@ -569,7 +610,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* === WHAT WE DO === */
 .tmc-wwd-section {
-  background: var(--black);
+  background: transparent;
   padding: 88px 24px;
 }
 .tmc-wwd-header {
@@ -594,7 +635,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0 auto;
 }
 .tmc-wwd-tile {
-  background: var(--black);
+  background: transparent;
   border: 1px solid var(--amethyst);
   padding: 40px 28px;
   text-align: center;
@@ -623,8 +664,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* === FOOTER === */
+/* The footer is the darkest band, not the lightest. It already was, it
+   gives the lowest contrast text on the site its best ground, and after a
+   page that has been getting steadily lighter, resolving back to black
+   reads as an ending rather than the fade running out. */
 .tmc-footer {
-  background: var(--black-deep);
+  background: var(--ground-top);
   padding: 64px 24px 30px;
   border-top: 1px solid var(--hairline);
 }
@@ -700,7 +745,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   border-bottom: 1px solid var(--hairline-soft);
   text-align: center;
-  background: var(--black);
+  background: transparent;
 }
 .tmc-page-hero-inner { width: 100%; max-width: 900px; }
 .tmc-page-eyebrow { display: block; margin-bottom: 18px; }
@@ -734,7 +779,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-page-intro a { color: var(--amethyst-text); cursor: pointer; }
 
 /* === BODY / FORM === */
-.tmc-body { padding: 52px 24px; max-width: 720px; margin: 0 auto; background: var(--black); }
+.tmc-body { padding: 52px 24px; max-width: 720px; margin: 0 auto; background: transparent; }
 
 .tmc-form-step {
   background: var(--black-raised);
@@ -814,7 +859,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-weight: 300;
   line-height: 1.7;
   color: var(--white);
-  background: var(--black-deep);
+  background: rgba(0, 0, 0, 0.32);
   border-left: 2px solid var(--amethyst);
   padding: 16px 18px;
   margin-top: 8px;
@@ -846,7 +891,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* === CONTACT === */
-.tmc-contact-block { padding: 88px 24px 0; max-width: 1240px; margin: 0 auto; background: var(--black); }
+.tmc-contact-block { padding: 88px 24px 0; max-width: 1240px; margin: 0 auto; background: transparent; }
 .tmc-contact-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -888,7 +933,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 88px 24px;
   max-width: 1100px;
   margin: 0 auto;
-  background: var(--black);
+  background: transparent;
   border-top: 1px solid var(--hairline-soft);
 }
 .tmc-block-head { text-align: center; max-width: 720px; margin: 0 auto 44px; }
@@ -980,7 +1025,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-block-cta { text-align: center; margin-top: 40px; }
 
 /* === MENU DETAIL === */
-.tmc-menu-detail { padding: 88px 24px; max-width: 980px; margin: 0 auto; background: var(--black); }
+.tmc-menu-detail { padding: 88px 24px; max-width: 980px; margin: 0 auto; background: transparent; }
 .tmc-menu-section + .tmc-menu-section { margin-top: 72px; }
 .tmc-menu-section-heading {
   font-family: var(--font-display);
@@ -1398,7 +1443,13 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
     --hairline-soft: rgba(0, 0, 0, 0.18);
   }
 
+  /* The ground progression is a gradient on .tmc plus translucent washes
+     on some bands. On paper none of it applies: kill the gradient, then
+     clear every background inside main so no wash tints the page. The tag
+     outlines below are borders, so they survive this. */
   html, body, .tmc { background: #FFFFFF !important; color: #000000 !important; }
+  .tmc { background-image: none !important; }
+  #tmc-main, #tmc-main * { background-color: transparent !important; }
 
   /* Everything that is navigation, an action or decoration. A printed page
      cannot be tapped, so none of it earns its ink. */
