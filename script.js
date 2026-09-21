@@ -726,6 +726,7 @@
           '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="order">' +
             '<input type="hidden" name="_subject" value="New drop-off order request">' +
+            '<input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">' +
             '<div class="tmc-form-step">' +
               '<h3>Delivery</h3>' +
               '<div class="tmc-form-field"><label for="o-date">Date</label>' +
@@ -826,6 +827,10 @@
           '<form class="tmc-form" id="tmc-inquiry-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="contact">' +
             '<input type="hidden" name="_subject" value="New inquiry from tastemakerscollective.us">' +
+            /* Formspree honeypot. Off screen rather than display:none, so a
+               bot still sees a fillable field, and out of the tab order so a
+               person never lands on it. */
+            '<input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">' +
             '<div class="tmc-form-step">' +
               '<h3>The event</h3>' +
               '<div class="tmc-form-field"><label for="f-event-type">Event type</label>' +
@@ -1156,6 +1161,7 @@
     const lines = [];
     form.querySelectorAll('input, select, textarea').forEach(function (el) {
       if (!el.name || el.type === 'hidden' || el.disabled) return;
+      if (el.classList.contains('tmc-hp')) return;
       const label = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
       lines.push((label ? label.textContent : el.name) + ': ' + (fd.get(el.name) || ''));
     });
