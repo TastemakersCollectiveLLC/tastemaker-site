@@ -24,8 +24,23 @@
       email: 'hello@tastemakerscollective.us'
     },
 
-    /* Formspree. Notifications land in hello@tastemakerscollective.us.
-       Posted to with a plain fetch, no Formspree script library. */
+    /* ONE Formspree endpoint, shared by BOTH forms. There is no second
+       project. Notifications land in hello@tastemakerscollective.us, posted
+       with a plain fetch, no Formspree script library.
+
+       The two forms are told apart by two hidden fields they each carry:
+
+         BOOKING ENQUIRY  (#/contact, form id tmc-inquiry-form)
+           form_source = "contact"
+           _subject    = "New inquiry from tastemakerscollective.us"
+
+         DROP-OFF ORDER   (#/order, form id tmc-order-form)
+           form_source = "order"
+           _subject    = "New drop-off order request"
+
+       In the Formspree dashboard, filter or sort on form_source. In the
+       inbox, the two subject lines are already distinct, so no filter is
+       needed to tell a booking enquiry from a drop-off order. */
     formEndpoint: 'https://formspree.io/f/xkjgorkq',
 
     /* Main navigation, in display order. One entry may carry cta: true,
@@ -723,6 +738,9 @@
 
       return pageHero('order') +
         '<section class="tmc-body">' +
+          /* DROP-OFF ORDER form. Shares the one endpoint with the booking
+             enquiry form on #/contact; form_source="order" is what separates
+             the two in the dashboard and the inbox. */
           '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="order">' +
             '<input type="hidden" name="_subject" value="New drop-off order request">' +
@@ -824,6 +842,9 @@
           '</div>' +
         '</section>' +
         '<section class="tmc-body">' +
+          /* BOOKING ENQUIRY form. Shares the one endpoint with the drop-off
+             order form on #/order; form_source="contact" is what separates
+             the two in the dashboard and the inbox. */
           '<form class="tmc-form" id="tmc-inquiry-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="contact">' +
             '<input type="hidden" name="_subject" value="New inquiry from tastemakerscollective.us">' +
@@ -1184,6 +1205,8 @@
       status.textContent = '';
     }
 
+    /* One submit path for both forms. Which form this is rides along in the
+       hidden form_source and _subject fields, so nothing here is per-form. */
     fetch(CONFIG.formEndpoint, {
       method: 'POST',
       body: new FormData(form),
