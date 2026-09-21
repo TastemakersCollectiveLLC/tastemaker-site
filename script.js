@@ -436,6 +436,7 @@
   const B = CONFIG.business;
 
   const main = document.getElementById('tmc-main');
+  const shell = document.querySelector('.tmc');
   const navLinks = document.getElementById('tmc-nav-links');
   const navCta = document.getElementById('tmc-nav-cta');
   const mobileMenu = document.getElementById('tmc-mobile-menu');
@@ -1001,6 +1002,37 @@
      simply present from the start, with no transition. */
   const STICKY_ROUTES = ['weddings', 'corporate', 'events', 'vending', 'menus'];
   let stickyScrollHandler = null;
+  let glowScrollHandler = null;
+
+  /* === HERO GLOW ===
+     Home only. The wash is a CSS pseudo-element; all this does is write
+     --hero-glow so it fades out as the hero leaves. Under reduced motion no
+     handler is bound at all and the stylesheet's fallback holds it at full
+     strength, which is a static glow rather than a missing one. */
+  function setupHeroGlow() {
+    if (glowScrollHandler) {
+      window.removeEventListener('scroll', glowScrollHandler);
+      window.removeEventListener('resize', glowScrollHandler);
+      glowScrollHandler = null;
+    }
+    const hero = main.querySelector('.tmc-hero');
+    if (!hero) return;
+    if (prefersReducedMotion()) {
+      hero.style.setProperty('--hero-glow', '1');
+      return;
+    }
+    const update = function () {
+      const r = hero.getBoundingClientRect();
+      const travel = (r.height || 1) * 0.7;
+      let t = 1 - (-r.top) / travel;
+      t = t < 0 ? 0 : (t > 1 ? 1 : t);
+      hero.style.setProperty('--hero-glow', t.toFixed(3));
+    };
+    glowScrollHandler = update;
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
 
   function setupStickyBar(route) {
     if (stickyScrollHandler) {
@@ -1179,7 +1211,10 @@
     applyLeadTime();
     applyPrefill(params || {});
     setupStickyBar(page);
+    setupHeroGlow();
     setupReveal();
+    /* Drives the per route ground tint in the stylesheet. */
+    if (shell) shell.setAttribute('data-route', page);
     closeMobileMenu();
     window.scrollTo({ top: 0, behavior: 'instant' });
 

@@ -39,7 +39,11 @@
   /* ground */
   --black: #231F20;
   --black-deep: #1B1819;
-  --black-raised: #2B2627;
+  /* Raised card surface. Shifted by HUE into the ground's family rather
+     than by lightness: it is a touch darker than the old #2B2627, so
+     amethyst on a card measures 4.66:1 instead of 4.61:1, and it still
+     sits 8 above the ground at its lightest so a card always reads raised. */
+  --black-raised: #2A2430;
 
   /* amethyst.
      --amethyst is the printed card value. On this ground it measures
@@ -85,26 +89,58 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 :focus-visible { outline: 2px solid var(--amethyst-text); outline-offset: 3px; }
 
 /* === GROUND PROGRESSION ===
-   One gradient on the page wrapper rather than a colour per section. The
-   sections are narrow boxes (.tmc-body is 720px), so painting them
-   individually would have drawn visible stripes down the middle of the
-   page; a gradient behind transparent sections runs edge to edge.
+   A four stop gradient on the page wrapper, which spans nav, main and
+   footer and so refits itself on every route change. The travel is in HUE,
+   not lightness: near black at the top, an aubergine tinted charcoal
+   through the middle, back to near black at the footer. That buys a shift
+   the eye can actually see without moving the ground's luminance, which is
+   what the contrast floor is sensitive to.
 
-   The travel is deliberately small. Amethyst text on a card already sits
-   at 4.61:1 against a 4.5:1 floor, so the ground has very little room to
-   lighten before real text fails. Red and green climb by 15, blue by 11,
-   so it warms slightly on the way down without turning brown.
-
-   Alternation is kept as a wash rather than a colour: a band that used to
-   be --black-deep now darkens whatever is behind it by a fixed
-   proportion, so it stays distinguishable at every position on the ramp. */
+   Sections stay transparent so the ground runs edge to edge; painting them
+   individually would stripe the page, because .tmc-body and friends are
+   narrow centred boxes. */
 .tmc {
-  --ground-top: #1B1819;
-  --ground-bottom: #2A2625;
-  background: linear-gradient(to bottom, var(--ground-top) 0%, var(--ground-bottom) 100%);
+  --ground-0: #0C0A0D;
+  --ground-1: #16121A;
+  --ground-mid: #1E1823;
+  --ground-3: #0C0A0D;
+  background:
+    linear-gradient(to bottom,
+      var(--ground-0) 0%,
+      var(--ground-1) 35%,
+      var(--ground-mid) 70%,
+      var(--ground-3) 100%);
   color: var(--white);
   min-height: 100vh;
+  position: relative;
 }
+
+/* Per route tint. Only the middle stop moves, and every variant is matched
+   to the same luminance within one percent, so the pages differ in hue and
+   not in how dark they are. */
+.tmc[data-route="weddings"]  { --ground-mid: #21181C; }   /* warmer        */
+.tmc[data-route="events"],
+.tmc[data-route="vending"]   { --ground-mid: #1B1829; }   /* cooler purple */
+.tmc[data-route="corporate"],
+.tmc[data-route="menus"]     { --ground-mid: #1C191F; }   /* neutral       */
+
+/* === GRAIN ===
+   Fixed to the viewport so it never slides against the page, inert to the
+   pointer, and painted between the ground and the content: .tmc::before
+   sits at z-index 0 and #tmc-main is lifted to 1. Cards have opaque
+   backgrounds so the grain stops at their edges and never sits under text
+   on a card. The noise is an inline SVG data URI, so it costs no request.
+   It does not animate, so prefers-reduced-motion leaves it alone. */
+.tmc::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23g%29%27%2F%3E%3C%2Fsvg%3E");
+}
+#tmc-main { position: relative; z-index: 1; }
 
 /* === NAV === */
 .tmc-nav {
@@ -200,7 +236,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   top: var(--nav-h);
   left: 0;
   right: 0;
-  background: var(--black);
+  /* Opaque overlay, matched to the top of the ground so it does
+     not read warm against an aubergine page. */
+  background: #16121A;
   border-bottom: 1px solid var(--hairline);
   padding: 18px 24px;
   display: none;
@@ -234,9 +272,36 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   text-align: center;
   position: relative;
+  /* Keeps the glow below in its own stacking context; overflow: hidden
+     clips it to the hero, so no glow reaches the rest of the page. */
+  isolation: isolate;
   background: transparent;
   border-bottom: 1px solid var(--hairline-soft);
   overflow: hidden;
+}
+
+/* === HERO GLOW ===
+   One soft radial wash behind the wordmark, on Home only, in the frame
+   amethyst rather than the text amethyst. Centred above the lockup rather
+   than on it. script.js fades it as the hero leaves by writing
+   --hero-glow; under prefers-reduced-motion it binds no scroll handler and
+   the fallback below holds it at full strength. */
+.tmc-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: min(1200px, 155vw);
+  height: min(760px, 98vw);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center,
+    rgba(104, 67, 133, 0.18) 0%,
+    rgba(104, 67, 133, 0.11) 36%,
+    rgba(104, 67, 133, 0.04) 58%,
+    rgba(104, 67, 133, 0) 72%);
+  opacity: var(--hero-glow, 1);
+  pointer-events: none;
+  z-index: -1;
 }
 .tmc-brand-stack {
   display: flex;
@@ -669,7 +734,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    page that has been getting steadily lighter, resolving back to black
    reads as an ending rather than the fade running out. */
 .tmc-footer {
-  background: var(--ground-top);
+  background: var(--ground-0);
   padding: 64px 24px 30px;
   border-top: 1px solid var(--hairline);
 }
@@ -813,7 +878,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-form-field select,
 .tmc-form-field textarea {
   width: 100%;
-  background: var(--black);
+  /* A well inside a card: darker than the card and in the same family
+     rather than the old warm grey. */
+  background: #1E1A26;
   border: 1px solid var(--hairline);
   color: var(--white);
   padding: 15px 16px;
@@ -1449,6 +1516,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
      outlines below are borders, so they survive this. */
   html, body, .tmc { background: #FFFFFF !important; color: #000000 !important; }
   .tmc { background-image: none !important; }
+  .tmc::before,
+  .tmc-hero::before { display: none !important; }
   #tmc-main, #tmc-main * { background-color: transparent !important; }
 
   /* Everything that is navigation, an action or decoration. A printed page
