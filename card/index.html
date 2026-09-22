@@ -31,6 +31,16 @@
   }
 
   :root {
+    /* Same ground system as the main site, in the same family. This page is
+       short, so the gradient is sized to the page rather than to a long
+       scroll: html carries the flat base, which stops body's background
+       propagating to the canvas, and body then paints the ramp inside its
+       own box. Its own middle stop, so /card reads as part of the set
+       without being any one of the other pages. */
+    --ground-0: #0C0A0D;
+    --ground-1: #1C1626;
+    --ground-mid: #231C37;
+    --ground-3: #0C0A0D;
     --black: #231F20;
     --amethyst: #684385;       /* frames, borders, fills, rules. 2.12:1, never text */
     --amethyst-text: #A67FC9;  /* accent text. 5.05:1 on the card black */
@@ -42,10 +52,18 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { -webkit-text-size-adjust: 100%; }
+  /* The flat base lives on html. Without it body's background propagates
+     to the canvas and the gradient stretches over the whole viewport
+     instead of sitting inside the page. */
+  html { -webkit-text-size-adjust: 100%; background: var(--ground-0); }
 
   body {
-    background: var(--black);
+    background:
+      linear-gradient(to bottom,
+        var(--ground-0) 0%,
+        var(--ground-1) 35%,
+        var(--ground-mid) 70%,
+        var(--ground-3) 100%);
     color: var(--white);
     font-family: var(--sans);
     font-weight: 300;
@@ -60,7 +78,23 @@
       calc(16px + env(safe-area-inset-left, 0px));
   }
 
+  /* Grain, between the ground and the content. Fixed to the viewport,
+     inert to the pointer, inline SVG so it costs no request. It does not
+     animate, so reduced motion leaves it alone. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.8%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23g%29%27%2F%3E%3C%2Fsvg%3E");
+  }
+
   .frame {
+    /* Lifted above the grain. */
+    position: relative;
+    z-index: 1;
     border: 1px solid var(--amethyst);
     padding: 44px 22px 40px;
     max-width: 520px;

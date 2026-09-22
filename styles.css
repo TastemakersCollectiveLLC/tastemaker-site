@@ -39,11 +39,13 @@
   /* ground */
   --black: #231F20;
   --black-deep: #1B1819;
-  /* Raised card surface. Shifted by HUE into the ground's family rather
-     than by lightness: it is a touch darker than the old #2B2627, so
-     amethyst on a card measures 4.66:1 instead of 4.61:1, and it still
-     sits 8 above the ground at its lightest so a card always reads raised. */
-  --black-raised: #2A2430;
+  /* Raised card surface, solved against the widened ground. It is the
+     lightest aubergine that still keeps amethyst text at 4.60:1, which
+     leaves it 15% above the ground at the ground's lightest point, so a
+     card reads as raised even in the middle of a long page. Blue leads,
+     red second, green last, matching the ground's own hue direction: a
+     warm grey card on an aubergine ground read as a dirty patch. */
+  --black-raised: #2D233A;
 
   /* amethyst.
      --amethyst is the printed card value. On this ground it measures
@@ -101,8 +103,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    narrow centred boxes. */
 .tmc {
   --ground-0: #0C0A0D;
-  --ground-1: #16121A;
-  --ground-mid: #1E1823;
+  --ground-1: #1C1626;
+  --ground-mid: #261C33;
   --ground-3: #0C0A0D;
   background:
     linear-gradient(to bottom,
@@ -118,11 +120,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Per route tint. Only the middle stop moves, and every variant is matched
    to the same luminance within one percent, so the pages differ in hue and
    not in how dark they are. */
-.tmc[data-route="weddings"]  { --ground-mid: #21181C; }   /* warmer        */
+.tmc[data-route="weddings"]  { --ground-mid: #2A183D; }   /* deeper violet */
 .tmc[data-route="events"],
-.tmc[data-route="vending"]   { --ground-mid: #1B1829; }   /* cooler purple */
+.tmc[data-route="vending"]   { --ground-mid: #211C3A; }   /* cooler purple */
 .tmc[data-route="corporate"],
-.tmc[data-route="menus"]     { --ground-mid: #1C191F; }   /* neutral       */
+.tmc[data-route="menus"]     { --ground-mid: #241E2B; }   /* neutral       */
 
 /* === GRAIN ===
    Fixed to the viewport so it never slides against the page, inert to the
@@ -236,9 +238,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   top: var(--nav-h);
   left: 0;
   right: 0;
-  /* Opaque overlay, matched to the top of the ground so it does
-     not read warm against an aubergine page. */
-  background: #16121A;
+  /* Opaque overlay, matched to the top of the ground, where it opens. */
+  background: #16121F;
   border-bottom: 1px solid var(--hairline);
   padding: 18px 24px;
   display: none;
@@ -902,9 +903,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-form-field select,
 .tmc-form-field textarea {
   width: 100%;
-  /* A well inside a card: darker than the card and in the same family
-     rather than the old warm grey. */
-  background: #1E1A26;
+  /* A well inside a card: darker than the card, same family. */
+  background: #1E1828;
   border: 1px solid var(--hairline);
   color: var(--white);
   padding: 15px 16px;
