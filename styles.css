@@ -189,7 +189,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-logo-sub {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 7px;
+  font-size: 9px;
   color: var(--amethyst-text);
   letter-spacing: 0.42em;
   text-indent: 0.42em;
@@ -719,9 +719,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .tmc-wwd-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Two tiles: Pop-ups and Supper Clubs. Vending has its own service card
+     above, so a third tile here said it twice. */
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
 }
 .tmc-wwd-tile {
@@ -831,7 +833,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* === INTERIOR PAGE HERO === */
 .tmc-page-hero {
   padding: 96px 24px 88px;
-  min-height: 60vh;
+  /* 42, not 60: at 60vh a title and one line sat on a black stage with
+     nothing else on it, which read as an empty page. */
+  min-height: 42vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -870,6 +874,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0 auto;
 }
 .tmc-page-intro a { color: var(--amethyst-text); cursor: pointer; }
+/* The service styles row, same style as on the Home cards. */
+.tmc-page-styles {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amethyst-text);
+  font-weight: 400;
+  margin-top: 26px;
+  line-height: 2;
+}
 
 /* === BODY / FORM === */
 .tmc-body { padding: 52px 24px; max-width: 720px; margin: 0 auto; background: transparent; }
@@ -1299,21 +1314,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-anim-card::before {
   border-top-width: 1px;
   border-left-width: 1px;
-  transition: clip-path 0.26s ease-out;
+  transition: clip-path 0.18s ease-out;
   transition-delay: var(--d, 0ms);
 }
 /* bottom and right, following from the opposite corner */
 .tmc-anim-card::after {
   border-bottom-width: 1px;
   border-right-width: 1px;
-  transition: clip-path 0.26s ease-out;
-  transition-delay: calc(var(--d, 0ms) + 240ms);
+  transition: clip-path 0.18s ease-out;
+  transition-delay: calc(var(--d, 0ms) + 140ms);
 }
 .tmc-anim-card.is-pre::before { clip-path: inset(0 100% 100% 0); }
 .tmc-anim-card.is-pre::after  { clip-path: inset(100% 0 0 100%); }
+/* Contents follow the frame closely. At +500ms the fourth card in a row
+   was an empty frame for over a second at phone scroll speed. */
 .tmc-anim-card > *:not(.tmc-sheen) {
   transition: opacity 0.4s ease;
-  transition-delay: calc(var(--d, 0ms) + 500ms);
+  transition-delay: calc(var(--d, 0ms) + 260ms);
 }
 .tmc-anim-card.is-pre > *:not(.tmc-sheen) { opacity: 0; }
 
@@ -1564,6 +1581,13 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
      scroll cue, which no longer exists. The hero is min-height driven, so
      this re-centres the lockup rather than changing the page height. */
   .tmc-hero { padding: 56px 20px; }
+  /* 72, not 100: a full screen of dark with 190px of content in it was
+     580px of nothing before the page began. The first section now starts
+     at the fold. */
+  .tmc-hero {
+    min-height: calc(72vh - var(--nav-h));
+    min-height: calc(72svh - var(--nav-h));
+  }
   .tmc-brand-stack { margin-bottom: 40px; }
   /* One vertical rhythm on phones: 44px at the top and foot of a band,
      20px where a band leads straight into the next one. */

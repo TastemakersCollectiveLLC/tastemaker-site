@@ -98,25 +98,32 @@
         title: 'Drop-off catering',
         intro: 'Drop-off catering for offices and gatherings.'
       },
+      /* styles is the small amethyst row under the intro, the same one the
+         Home service cards carry, so a service page names its service
+         styles before the visitor scrolls. */
       weddings: {
         eyebrow: 'Weddings',
         title: 'Wedding catering',
-        intro: 'Custom menus and full service for your wedding day.'
+        intro: 'Custom menus and full service for your wedding day.',
+        styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
       },
       corporate: {
         eyebrow: 'Corporate',
         title: 'Corporate catering',
-        intro: 'Office lunches, meetings, company events and client dinners.'
+        intro: 'Office lunches, meetings, company events and client dinners.',
+        styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations &nbsp;&middot;&nbsp; Drop-off'
       },
       events: {
         eyebrow: 'Events',
         title: 'Event catering',
-        intro: 'Private parties, celebrations and milestones.'
+        intro: 'Private parties, celebrations and milestones.',
+        styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
       },
       vending: {
         eyebrow: 'Vending',
         title: 'Festival vending and event hospitality',
-        intro: 'Food vending, staff meals and artist hospitality for festivals and events.'
+        intro: 'Food vending, staff meals and artist hospitality for festivals and events.',
+        styles: 'Public vending &nbsp;&middot;&nbsp; Staff meals &nbsp;&middot;&nbsp; Artist hospitality'
       },
       about: {
         eyebrow: 'About',
@@ -277,9 +284,10 @@
       { title: 'Stations', desc: 'Separate stations, cooked and served in front of guests.' }
     ],
 
+    /* Three. "Cooking: We cook your food." was a tile that said nothing a
+       catering page needs saying, and it was only there to make four. */
     included: [
       { title: 'Menu design', desc: 'A menu written for your event, not picked off a list.' },
-      { title: 'Cooking', desc: 'We cook your food.' },
       { title: 'Service staff', desc: 'Our staff serve the food through the event.' },
       { title: 'Setup and breakdown', desc: 'We set up our own equipment and break it down when we are done.' }
     ],
@@ -287,10 +295,11 @@
     includedNote: 'We handle the food. We do not provide bar service, linens or decor.',
     dietaryNote: 'Menus are built around any dietary needs and allergies. Tell us what they are in your inquiry.',
 
+    /* Two, not three. A third "Milestones" tile repeated "anniversaries"
+       from the tile beside it and existed only to fill a row. */
     eventTypes: [
       { title: 'Private parties', desc: 'Dinners and parties at home or at a venue.' },
-      { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' },
-      { title: 'Milestones', desc: 'Anniversaries, retirements and send-offs.' }
+      { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
     ],
 
     corporateTypes: [
@@ -376,6 +385,10 @@
         menus:     { primary: 'Book an event', secondary: 'Order drop-off' }
       }
     },
+
+    /* Phone sticky bar. Every route in it gets Book; Order is dropped where
+       drop-off is not what that visitor came for. */
+    stickyBookOnly: ['weddings'],
 
     /* Contact form. The prefill maps turn a query value into the option a
        visitor would have picked, so a Book button carries its page's
@@ -514,6 +527,7 @@
           '<span class="tmc-page-rule"></span>' +
           '<h1 class="tmc-page-title">' + h.title + '</h1>' +
           (h.intro ? '<p class="tmc-page-intro">' + h.intro + '</p>' : '') +
+          (h.styles ? '<div class="tmc-page-styles">' + h.styles + '</div>' : '') +
         '</div>' +
       '</section>'
     );
@@ -685,13 +699,6 @@
               '</div>' +
               '<div class="tmc-wwd-tile-desc">Private dinners announced to our guest list.</div>' +
             '</div>' +
-            '<div class="tmc-wwd-tile">' +
-              '<div>' +
-                '<div class="tmc-wwd-tile-label">Festival presence</div>' +
-                '<h3 class="tmc-wwd-tile-title">Vending</h3>' +
-              '</div>' +
-              '<div class="tmc-wwd-tile-desc">We vend at festivals and markets under our own name.</div>' +
-            '</div>' +
           '</div>' +
         '</section>' +
 
@@ -803,7 +810,7 @@
         block('', 'How it works', '', tiles(CONFIG.process, 4)) +
         block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
         block('', 'What is included', '',
-          tiles(CONFIG.included, 4),
+          tiles(CONFIG.included, 3),
           '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
         block('', 'Dietary needs', CONFIG.dietaryNote) +
         menusBlock() +
@@ -816,7 +823,7 @@
         block('', 'How it works', '', tiles(CONFIG.process, 4)) +
         block('', 'Service styles', '', tiles(CONFIG.corporateStyles, 5)) +
         block('', 'What is included', '',
-          tiles(CONFIG.included, 4),
+          tiles(CONFIG.included, 3),
           '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
         block('', 'Dietary needs', CONFIG.dietaryNote) +
         menusBlock() +
@@ -825,11 +832,11 @@
 
     events: function () {
       return pageHero('events') +
-        block('', 'Event types', '', tiles(CONFIG.eventTypes, 3)) +
+        block('', 'Event types', '', tiles(CONFIG.eventTypes, 2)) +
         block('', 'How it works', '', tiles(CONFIG.process, 4)) +
         block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
         block('', 'What is included', '',
-          tiles(CONFIG.included, 4),
+          tiles(CONFIG.included, 3),
           '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
         block('', 'Dietary needs', CONFIG.dietaryNote) +
         menusBlock() +
@@ -1054,7 +1061,9 @@
     bar.className = 'tmc-sticky-bar';
     bar.innerHTML =
       '<a class="tmc-btn tmc-btn-primary" href="' + bookHref(cfg) + '" data-nav="contact">Book</a>' +
-      '<a class="tmc-btn tmc-btn-secondary" href="#/order" data-nav="order">Order</a>';
+      (CONFIG.stickyBookOnly.indexOf(route) === -1
+        ? '<a class="tmc-btn tmc-btn-secondary" href="#/order" data-nav="order">Order</a>'
+        : '');
     document.body.appendChild(bar);
 
     const hero = main.querySelector('.tmc-page-hero');
@@ -1202,7 +1211,7 @@
       /* Body copy follows the heading, each paragraph 60ms behind the last. */
       let bi = 0;
       [].forEach.call(group.querySelectorAll('p, .tmc-block-note, .tmc-list-item-desc,' +
-        '.tmc-service-styles, .tmc-menu-item-desc'), function (b) {
+        '.tmc-service-styles, .tmc-page-styles, .tmc-menu-item-desc'), function (b) {
         if (b.closest('.tmc-anim-card') || b.closest('.tmc-menu-item')) return;
         b.classList.add('tmc-anim-fade', 'is-pre');
         b.style.setProperty('--d', (base + bi * 60) + 'ms');
