@@ -18,9 +18,9 @@
       legalName: 'Tastemakers Collective LLC',
       city: 'Los Angeles',
       tagline: 'Custom menus for every event and every diet.',
-      phone: '279-271-1170',
-      phoneHref: 'tel:+12792711170',
-      smsHref: 'sms:+12792711170',
+      /* The display form. The tel: and sms: hrefs are derived from its
+         digits below, so the three can never disagree. */
+      phone: '(213) 293-8518',
       email: 'hello@tastemakerscollective.us'
     },
 
@@ -457,6 +457,11 @@
   };
 
   const B = CONFIG.business;
+  /* One number, three forms. Everything after the country code is the
+     display string stripped to digits: (213) 293-8518 -> +12132938518. */
+  const PHONE_E164 = '+1' + B.phone.replace(/\D/g, '');
+  B.phoneHref = 'tel:' + PHONE_E164;
+  B.smsHref = 'sms:' + PHONE_E164;
 
   const main = document.getElementById('tmc-main');
   const shell = document.querySelector('.tmc');
