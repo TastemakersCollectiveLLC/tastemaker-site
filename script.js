@@ -739,10 +739,20 @@
         '</section>';
       }
 
-      /* The Book and Order pair sits under the pop-up menus and again at
-         the end, so the page always offers a way to act. It is the same
-         pair both times: one action to book, one to order. */
-      const sections = CONFIG.menus.map(function (section) { return renderSection(section); });
+      /* The Book and Order pair sits under the first menu section and
+         again at the end, so the page always offers a way to act. It is
+         the same pair both times: one action to book, one to order. */
+      /* A couple from Weddings or a buyer from Corporate or Events wants
+         the private dining menus first, not the taco pop-ups. From Home,
+         Vending or a direct link the pop-ups lead, as before. */
+      const leadWithPrivate = ['weddings', 'corporate', 'events'].indexOf(previousRoute) > -1;
+      const ordered = CONFIG.menus.slice();
+      if (leadWithPrivate) {
+        ordered.sort(function (a, b) {
+          return (a.section === 'Private dining' ? 0 : 1) - (b.section === 'Private dining' ? 0 : 1);
+        });
+      }
+      const sections = ordered.map(function (section) { return renderSection(section); });
       return pageHero('menus') +
         '<div class="tmc-menu-detail">' + sections[0] + '</div>' +
         '<section class="tmc-primary-cta-band">' +
@@ -1129,6 +1139,11 @@
   let revealObserver = null;
   let enterTimer = null;
 
+  /* The route the visitor was on before this one. Menus uses it to lead
+     with the section that answers the page they came from. */
+  let previousRoute = null;
+  let currentRoute = null;
+
   function prefersReducedMotion() {
     return window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1395,6 +1410,8 @@
     }
 
     const page = pages[route] ? route : 'home';
+    previousRoute = currentRoute;
+    currentRoute = page;
     main.innerHTML = pages[page]() + footerHtml();
     /* The outgoing page has already faded; this brings the new one up. */
     main.classList.remove('is-leaving');
