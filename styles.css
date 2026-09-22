@@ -1023,8 +1023,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-contact-block { padding: 88px 24px 0; max-width: 1240px; margin: 0 auto; background: transparent; }
 .tmc-contact-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Two cards, Email and Call or text. Serving is a sentence in the hero
+     intro now rather than a card with one word in it. */
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
+  max-width: 820px;
+  margin: 0 auto;
 }
 .tmc-contact-card {
   background: var(--black-raised);

@@ -133,7 +133,7 @@
       contact: {
         eyebrow: 'Contact',
         title: 'Book us',
-        intro: 'Tell us about your event and we&rsquo;ll get back to you.'
+        intro: 'Tell us about your event and we&rsquo;ll get back to you. Serving Los Angeles.'
       },
       menus: {
         eyebrow: 'Menus',
@@ -873,14 +873,64 @@
         contactBand('about');
     },
 
-    contact: function () {
+    contact: function (params) {
+      /* The three steps of the form. The order they appear in depends on
+         how the visitor arrived: from a Book button the event type is
+         already chosen, so The event leads as before. Opened plain, the
+         easy step comes first: a name and an email before any question
+         that needs thinking about, which is where people were leaving. */
+      const eventStep =
+        '<div class="tmc-form-step">' +
+          '<h3>The event</h3>' +
+          '<div class="tmc-form-field"><label for="f-event-type">Event type</label>' +
+            '<select id="f-event-type" name="event_type" required>' + options(CONFIG.contactForm.eventTypes) + '</select></div>' +
+          '<div class="tmc-form-field"><label for="f-style">Service style</label>' +
+            '<select id="f-style" name="service_style" required>' + options(CONFIG.contactForm.serviceStyles) + '</select></div>' +
+          /* Shown only for a vending enquiry. Disabled while hidden so
+             the fields do not post empty values. */
+          '<div class="tmc-vending-only" id="f-vending" hidden>' +
+            '<div class="tmc-form-field"><label for="f-attendance">Expected attendance</label>' +
+              '<input id="f-attendance" name="attendance" type="text" disabled></div>' +
+            '<div class="tmc-form-field"><label for="f-hours">Load-in and service hours</label>' +
+              '<input id="f-hours" name="service_hours" type="text" disabled></div>' +
+            '<div class="tmc-form-field"><label for="f-power">Power and water on site</label>' +
+              '<select id="f-power" name="power_water" disabled>' + options(CONFIG.contactForm.powerWater) + '</select></div>' +
+          '</div>' +
+          '<div class="tmc-form-field"><label for="f-date">Date</label><input id="f-date" name="date" type="text" placeholder="Date or flexible"></div>' +
+          '<div class="tmc-form-field"><label for="f-location">Location</label><input id="f-location" name="location" type="text" placeholder="Venue, neighborhood, or TBD"></div>' +
+          '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests"><option>Under 25</option><option>25 to 50</option><option>50 to 100</option><option>100 to 200</option><option>200 to 500</option><option>More than 500</option></select></div>' +
+        '</div>';
+      const detailsStep =
+        '<div class="tmc-form-step">' +
+          '<h3>Details</h3>' +
+          '<div class="tmc-form-field"><label for="f-dietary">Dietary needs and allergies</label><textarea id="f-dietary" name="dietary" rows="3"></textarea></div>' +
+          '<div class="tmc-form-field"><label for="f-budget">Budget (optional)</label><input id="f-budget" name="budget" type="text"></div>' +
+        '</div>';
+      const contactStep =
+        '<div class="tmc-form-step">' +
+          '<h3>Contact</h3>' +
+          '<div class="tmc-form-field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" required></div>' +
+          '<div class="tmc-form-field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>' +
+          '<div class="tmc-form-field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel"></div>' +
+          '<div class="tmc-form-field"><label for="f-notes">Additional notes</label><textarea id="f-notes" name="notes" rows="3"></textarea></div>' +
+        '</div>';
+      /* The status line and the button always close the last step. */
+      const tail =
+        '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
+        '<button type="submit" class="tmc-form-submit">Send inquiry</button>';
+      const prefilled = !!(params && CONFIG.contactForm.typeFromQuery[params.type]);
+      const steps = prefilled
+        ? [eventStep, detailsStep, contactStep]
+        : [contactStep, eventStep, detailsStep];
+      const last = steps.length - 1;
+      steps[last] = steps[last].replace(/<\/div>$/, tail + '</div>');
+
       return (
         pageHero('contact') +
         '<section class="tmc-contact-block">' +
           '<div class="tmc-contact-grid">' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value"><a href="mailto:' + B.email + '">' + B.email.replace('@', '<wbr>@') + '</a></p></div>' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Call or text</div><p class="tmc-contact-value"><a href="' + B.phoneHref + '">' + B.phone + '</a></p></div>' +
-            '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">' + B.city + '</p></div>' +
           '</div>' +
         '</section>' +
         '<section class="tmc-body">' +
@@ -894,40 +944,7 @@
                bot still sees a fillable field, and out of the tab order so a
                person never lands on it. */
             '<input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-            '<div class="tmc-form-step">' +
-              '<h3>The event</h3>' +
-              '<div class="tmc-form-field"><label for="f-event-type">Event type</label>' +
-                '<select id="f-event-type" name="event_type" required>' + options(CONFIG.contactForm.eventTypes) + '</select></div>' +
-              '<div class="tmc-form-field"><label for="f-style">Service style</label>' +
-                '<select id="f-style" name="service_style" required>' + options(CONFIG.contactForm.serviceStyles) + '</select></div>' +
-              /* Shown only for a vending enquiry. Disabled while hidden so
-                 the fields do not post empty values. */
-              '<div class="tmc-vending-only" id="f-vending" hidden>' +
-                '<div class="tmc-form-field"><label for="f-attendance">Expected attendance</label>' +
-                  '<input id="f-attendance" name="attendance" type="text" disabled></div>' +
-                '<div class="tmc-form-field"><label for="f-hours">Load-in and service hours</label>' +
-                  '<input id="f-hours" name="service_hours" type="text" disabled></div>' +
-                '<div class="tmc-form-field"><label for="f-power">Power and water on site</label>' +
-                  '<select id="f-power" name="power_water" disabled>' + options(CONFIG.contactForm.powerWater) + '</select></div>' +
-              '</div>' +
-              '<div class="tmc-form-field"><label for="f-date">Date</label><input id="f-date" name="date" type="text" placeholder="Date or flexible"></div>' +
-              '<div class="tmc-form-field"><label for="f-location">Location</label><input id="f-location" name="location" type="text" placeholder="Venue, neighborhood, or TBD"></div>' +
-              '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests"><option>Under 25</option><option>25 to 50</option><option>50 to 100</option><option>100 to 200</option><option>200 to 500</option><option>More than 500</option></select></div>' +
-            '</div>' +
-            '<div class="tmc-form-step">' +
-              '<h3>Details</h3>' +
-              '<div class="tmc-form-field"><label for="f-dietary">Dietary needs and allergies</label><textarea id="f-dietary" name="dietary" rows="3"></textarea></div>' +
-              '<div class="tmc-form-field"><label for="f-budget">Budget (optional)</label><input id="f-budget" name="budget" type="text"></div>' +
-            '</div>' +
-            '<div class="tmc-form-step">' +
-              '<h3>Contact</h3>' +
-              '<div class="tmc-form-field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" required></div>' +
-              '<div class="tmc-form-field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>' +
-              '<div class="tmc-form-field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel"></div>' +
-              '<div class="tmc-form-field"><label for="f-notes">Additional notes</label><textarea id="f-notes" name="notes" rows="3"></textarea></div>' +
-              '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
-              '<button type="submit" class="tmc-form-submit">Send inquiry</button>' +
-            '</div>' +
+            steps.join('') +
           '</form>' +
         '</section>'
       );
@@ -1412,7 +1429,7 @@
     const page = pages[route] ? route : 'home';
     previousRoute = currentRoute;
     currentRoute = page;
-    main.innerHTML = pages[page]() + footerHtml();
+    main.innerHTML = pages[page](params || {}) + footerHtml();
     /* The outgoing page has already faded; this brings the new one up. */
     main.classList.remove('is-leaving');
     if (!prefersReducedMotion()) {
