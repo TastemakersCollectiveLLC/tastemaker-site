@@ -1,0 +1,3 @@
+# Not part of the site. The form backend runs in Google Apps Script and is
+# kept here only so it is versioned with the site that calls it.
+apps-script
