@@ -101,6 +101,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    Sections stay transparent so the ground runs edge to edge; painting them
    individually would stripe the page, because .tmc-body and friends are
    narrow centred boxes. */
+/* Registered so the middle stop can be transitioned. An unregistered
+   custom property has no type, so it snaps; a registered <color> can be
+   interpolated, and because the gradient reads it, the whole ground
+   crossfades between routes. Browsers without @property snap, as before.
+
+   This is the one exception to the transform and opacity rule: a custom
+   property transition shifts no layout. Approved 9/21/2026. */
+@property --ground-mid {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #261C33;
+}
 .tmc {
   --ground-0: #0C0A0D;
   --ground-1: #1C1626;
@@ -115,6 +127,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--white);
   min-height: 100vh;
   position: relative;
+  /* 600ms, so the tint is still moving as the new page fades up and the
+     two read as one change. Under 700ms like everything else. */
+  transition: --ground-mid 0.6s ease;
 }
 
 /* Per route tint. Only the middle stop moves, and every variant is matched
