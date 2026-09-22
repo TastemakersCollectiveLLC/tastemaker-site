@@ -120,7 +120,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Per route tint. Only the middle stop moves, and every variant is matched
    to the same luminance within one percent, so the pages differ in hue and
    not in how dark they are. */
-.tmc[data-route="weddings"]  { --ground-mid: #2A183D; }   /* deeper violet */
+.tmc[data-route="weddings"]  { --ground-mid: #241A40; }   /* deeper, cooler */
 .tmc[data-route="events"],
 .tmc[data-route="vending"]   { --ground-mid: #211C3A; }   /* cooler purple */
 .tmc[data-route="corporate"],
