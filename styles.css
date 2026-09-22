@@ -415,6 +415,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   animation: fadeIn 1s ease 1.1s forwards;
 }
 
+/* Five dish names, the last thing in the hero. Same small amethyst row
+   as the service styles on the cards, allowed to wrap on a phone. It is
+   the nearest thing to a photograph a text only page has, and it fades in
+   last so the lockup and the tagline land first. */
+.tmc-hero-dishes {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amethyst-text);
+  font-weight: 400;
+  line-height: 2.1;
+  /* Wide enough for the five names on one line at 1280; it wraps to
+     two or three lines on a phone. */
+  max-width: 920px;
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.3s forwards;
+}
+
 /* === WHY === */
 .tmc-why {
   padding: 88px 24px;
@@ -1716,7 +1736,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-brand-line span { opacity: 1 !important; transform: none !important; }
   .tmc-brand-sub-row,
   .tmc-hero-tagline,
-  .tmc-hero-sub { opacity: 1 !important; }
+  .tmc-hero-sub,
+  .tmc-hero-dishes { opacity: 1 !important; }
 
   /* script.js already skips the whole motion system here, so these are
      belt and braces for a preference that changes after the page has
@@ -1837,7 +1858,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-brand-line span,
   .tmc-brand-sub-row,
   .tmc-hero-tagline,
-  .tmc-hero-sub {
+  .tmc-hero-sub,
+  .tmc-hero-dishes {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;

@@ -241,6 +241,12 @@
       }
     ],
 
+    /* Five dishes named in the Home hero, so the food is on the page
+       before the visitor scrolls. Real dishes from the menus below, in
+       Danny's order. Static: it is a line of type, not a ticker. */
+    heroDishes: ['Duck Tacos', 'Panang Beef Barbacoa', 'Lobster Tortelloni',
+                 'Crispy Maitake Tacos', 'Chateaubriand'],
+
     /* Home services cards. */
     services: [
       {
@@ -660,6 +666,7 @@
           '</h1>' +
           '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
           '<div class="tmc-hero-sub">' + B.city + '</div>' +
+          '<div class="tmc-hero-dishes">' + CONFIG.heroDishes.join(' &nbsp;&middot;&nbsp; ') + '</div>' +
         '</section>' +
 
         '<section class="tmc-why">' +
