@@ -52,6 +52,10 @@
       { route: 'corporate', label: 'Corporate' },
       { route: 'events', label: 'Events' },
       { route: 'vending', label: 'Vending' },
+      /* In the nav since 9/21/2026. On a text only site the menus are the
+         only evidence of the food, and a couple or a buyer wants that
+         before the process. */
+      { route: 'menus', label: 'Menus' },
       { route: 'about', label: 'About' },
       { route: 'contact', label: 'Book', cta: true }
     ],
@@ -609,8 +613,8 @@
     '</div>';
   }
 
-  /* The Menus pointer, used by Weddings, Events and Order. Menus is
-     deliberately not in the main nav. */
+  /* The in-page Menus pointer, used by Home, Weddings, Corporate, Events
+     and Order. Menus is in the main nav as well. */
   /* label is passed only on Home, where the sections either side of it
      carry kickers. The interior pages have none, so it stays empty there. */
   function menusBlock(label) {

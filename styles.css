@@ -1628,6 +1628,15 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-services-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Eight links. Below 900 the row is tightened by gap, tracking and the
+   bar's own padding, never by size, so it keeps clear air on both sides
+   down to the point where the phone menu takes over. */
+@media (max-width: 900px) {
+  .tmc-nav { padding: 16px 16px; }
+  .tmc-nav-links { gap: 8px; letter-spacing: 0.08em; }
+  .tmc-nav-btn { padding: 13px 12px; letter-spacing: 0.12em; text-indent: 0.12em; }
+}
+
 @media (max-width: 768px) {
   /* Shorter header padding here, so the fallback shrinks with it. */
   :root { --nav-h: 69px; }
