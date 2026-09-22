@@ -854,7 +854,7 @@
         pageHero('contact') +
         '<section class="tmc-contact-block">' +
           '<div class="tmc-contact-grid">' +
-            '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value"><a href="mailto:' + B.email + '">' + B.email + '</a></p></div>' +
+            '<div class="tmc-contact-card"><div class="tmc-contact-label">Email</div><p class="tmc-contact-value"><a href="mailto:' + B.email + '">' + B.email.replace('@', '<wbr>@') + '</a></p></div>' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Call or text</div><p class="tmc-contact-value"><a href="' + B.phoneHref + '">' + B.phone + '</a></p></div>' +
             '<div class="tmc-contact-card"><div class="tmc-contact-label">Serving</div><p class="tmc-contact-value">' + B.city + '</p></div>' +
           '</div>' +
@@ -931,7 +931,12 @@
           cols +
           '<div class="tmc-footer-col">' +
             '<h4>Connect</h4>' +
-            '<a href="mailto:' + B.email + '">' + B.email + '</a>' +
+            /* The only break the address is allowed. wbr offers the
+               opportunity before the @; the stylesheet forbids every other
+               one, so it reads whole or splits into local part and domain,
+               never mid word. */
+            '<a href="mailto:' + B.email + '">' +
+              B.email.replace('@', '<wbr>@') + '</a>' +
             '<a href="' + B.phoneHref + '">' + B.phone + '</a>' +
           '</div>' +
         '</div>' +

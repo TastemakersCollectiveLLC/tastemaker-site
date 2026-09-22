@@ -807,7 +807,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 12px;
   cursor: pointer;
   transition: color 0.2s;
-  overflow-wrap: anywhere;
+  /* An address is one word. It may only break where the markup offers a
+     break, which is before the @, never inside a run of letters. */
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 .tmc-footer-col a:hover { color: var(--white); }
 .tmc-footer-bottom {
@@ -1014,7 +1017,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--white);
   margin: 0;
   letter-spacing: 0.03em;
-  overflow-wrap: anywhere;
+  /* Same rule as the footer: an address is one word, and the only break it
+     is offered is the one before the @ in the markup. */
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 /* === BODY SECTIONS ===
@@ -1513,11 +1519,18 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
 .tmc-footer-col a {
   display: flex;
   align-items: center;
-  width: fit-content;
+  /* max-content, not fit-content: inside a flex container fit-content was
+     resolving short of the text's natural width, which split the address
+     over two lines even where the column had room for it. Capped at the
+     column so it still wraps, at the @, when it genuinely does not fit. */
+  width: max-content;
+  max-width: 100%;
   min-height: 44px;
   margin-bottom: 0;
 }
-.tmc-contact-value a { display: inline-flex; align-items: center; min-height: 44px; }
+/* Not a flex container: a wbr inside one becomes a flex item and stops
+   being a break opportunity at all. Padding carries the tap height. */
+.tmc-contact-value a { display: inline-block; min-height: 44px; padding: 9px 0; }
 .tmc-service-menu-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 
 /* === RESPONSIVE === */
@@ -1547,32 +1560,41 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-footer-bottom { flex-direction: column; gap: 12px; text-align: center; align-items: center; }
 
   /* Sections sit closer together so the page reads as one flow. */
-  .tmc-hero { padding: 56px 20px 126px; }
+  /* Symmetric again: the extra 70px at the foot was making room for the
+     scroll cue, which no longer exists. The hero is min-height driven, so
+     this re-centres the lockup rather than changing the page height. */
+  .tmc-hero { padding: 56px 20px; }
   .tmc-brand-stack { margin-bottom: 40px; }
-  .tmc-why { padding: 48px 20px; }
-  .tmc-section-header { padding: 48px 20px 24px; }
-  .tmc-services-wrap { padding: 0 20px 48px; }
+  /* One vertical rhythm on phones: 44px at the top and foot of a band,
+     20px where a band leads straight into the next one. */
+  .tmc-why { padding: 44px 20px; }
+  .tmc-section-header { padding: 44px 20px 20px; }
+  .tmc-services-wrap { padding: 0 20px 44px; }
   .tmc-services-grid { grid-template-columns: 1fr; gap: 14px; }
   .tmc-cta-actions { flex-direction: column; align-items: stretch; }
   .tmc-cta-actions .tmc-btn { width: 100%; }
-  .tmc-wwd-section { padding: 48px 20px; }
+  .tmc-wwd-section { padding: 44px 20px; }
   .tmc-wwd-grid { grid-template-columns: 1fr; gap: 14px; }
-  .tmc-primary-cta-band { padding: 48px 20px; }
-  .tmc-block { padding: 48px 20px; }
-  .tmc-menu-detail { padding: 48px 20px; }
+  /* The closing band's foot plus the footer's head used to leave a 112px
+     empty run above the footer. 40 + 36 is enough to separate them. */
+  .tmc-primary-cta-band { padding: 44px 20px 40px; }
+  .tmc-block { padding: 44px 20px; }
+  .tmc-menu-detail { padding: 44px 20px; }
   .tmc-menu-items { column-count: 1; }
   .tmc-menu-item { text-align: center; }
   .tmc-menu-tags { justify-content: center; }
   .tmc-menu-section-title { font-size: 20px; margin: 36px 0 24px; }
   .tmc-menu-section + .tmc-menu-section { margin-top: 44px; }
-  .tmc-contact-block { padding: 48px 20px 0; }
+  .tmc-contact-block { padding: 44px 20px 0; }
   .tmc-body { padding: 40px 20px; }
 
   /* One column, one padding value for every card and tile. */
   .tmc-service-block,
   .tmc-wwd-tile,
   .tmc-block-item,
-  .tmc-contact-card { padding: 28px 22px; }
+  .tmc-contact-card,
+  .tmc-form-step,
+  .tmc-menu-back-card { padding: 28px 22px; }
   .tmc-wwd-tile { min-height: 0; }
   .tmc-block-grid,
   .tmc-block-grid.cols-5,
@@ -1595,10 +1617,16 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-footer-tag { font-size: 16px; line-height: 1.6; }
   /* Stays below the 20px menu name above it. */
   .tmc-menu-item-name { font-size: 17px; }
-  .tmc-footer-col a { font-size: 15px; }
+  .tmc-footer-col a { font-size: 16px; }
+
+  /* A form control under 16px makes iOS zoom the page when it takes focus,
+     which then leaves the visitor scrolled sideways. 16px prevents it. */
+  .tmc-form-field input,
+  .tmc-form-field select,
+  .tmc-form-field textarea { font-size: 16px; }
 
   /* Headings come down a step and keep their balance. */
-  .tmc-page-hero { min-height: 38vh; padding: 56px 20px 48px; }
+  .tmc-page-hero { min-height: 30vh; padding: 56px 20px 48px; }
   /* Contact leads with a form, so its heading gets room to breathe. */
   .tmc-page-hero-contact { min-height: 48vh; }
   .tmc-page-title { font-size: clamp(28px, 8vw, 40px); }
@@ -1615,6 +1643,29 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
 }
 
 @media (max-width: 560px) {
+  /* Tighter rhythm, still two columns. Stacking starts at 400, below. */
+  .tmc-footer { padding: 36px 24px 22px; }
+  .tmc-footer-grid { gap: 22px; margin-bottom: 24px; }
+  .tmc-footer-col h4 { margin-bottom: 10px; }
+  /* The link fills the column here rather than shrinking to its text. As a
+     shrink to fit flex container it was resolving narrower than the address
+     needs, which split it over two lines even with room to spare. Full
+     width gives the text the whole column, so it stays on one line and the
+     break before the @ is only used when it is genuinely needed. */
+  .tmc-footer-col a {
+    /* Block, not flex. As a flex container the wbr became a flex item, so
+       it could not act as a break opportunity at all and a long address
+       would have overflowed instead of wrapping. As a block the text flows
+       normally, the wbr is a real break point, and the padding carries the
+       44px tap height. */
+    display: block;
+    width: auto;
+    max-width: 100%;
+    padding: 9px 0;
+    min-height: 44px;
+  }
+  .tmc-footer-bottom { padding-top: 18px; }
+
   .tmc-block-grid,
   .tmc-block-grid.cols-5,
   .tmc-block-grid.cols-3,
@@ -1625,6 +1676,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-contact-grid { grid-template-columns: 1fr; }
 }
 
+/* One column only where two genuinely stop fitting. Stacking at 560 made
+   the page taller at 430, which is the opposite of the point. */
 @media (max-width: 400px) {
   .tmc-footer-grid { grid-template-columns: 1fr; }
 }
