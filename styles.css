@@ -878,8 +878,34 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid var(--hairline-soft);
   text-align: center;
   background: transparent;
+  /* Own stacking context and clip, so the glow below stays in the hero. */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
-.tmc-page-hero-inner { width: 100%; max-width: 900px; }
+/* === INNER HERO GLOW ===
+   The Home wash at a little over a third of its strength, 0.07 against
+   0.18, centred on the hero. Without it every inner hero was a flat black
+   stage, which is what made them read as empty. Same drift as Home. The
+   contrast audit composites it under every text style in the hero. */
+.tmc-page-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(1200px, 155vw);
+  height: min(760px, 98vw);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center,
+    rgba(104, 67, 133, 0.07) 0%,
+    rgba(104, 67, 133, 0.043) 36%,
+    rgba(104, 67, 133, 0.016) 58%,
+    rgba(104, 67, 133, 0) 72%);
+  pointer-events: none;
+  z-index: -1;
+  animation: tmcGlowDrift 8s ease-in-out infinite;
+}
+.tmc-page-hero-inner { width: 100%; max-width: 900px; position: relative; }
 .tmc-page-eyebrow { display: block; margin-bottom: 18px; }
 /* Short rule under the eyebrow, echoing the hairlines on the card lockup. */
 .tmc-page-rule {
@@ -1784,7 +1810,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-anim-card::after,
   .tmc-anim-card .tmc-sheen { display: none !important; }
   .tmc-btn::before { transition: none !important; }
-  .tmc-hero::before { animation: none !important; }
+  .tmc-hero::before,
+  .tmc-page-hero::before { animation: none !important; }
   #tmc-main,
   #tmc-main.is-entering > * { animation: none !important; transition: none !important; opacity: 1 !important; }
   .tmc-block.tmc-rule,
@@ -1831,7 +1858,8 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   html, body, .tmc { background: #FFFFFF !important; color: #000000 !important; }
   .tmc { background-image: none !important; }
   .tmc::before,
-  .tmc-hero::before { display: none !important; }
+  .tmc-hero::before,
+  .tmc-page-hero::before { display: none !important; }
   /* No motion layer survives to paper. */
   .tmc-anim-card::before,
   .tmc-anim-card::after,
