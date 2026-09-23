@@ -214,18 +214,29 @@ function appendSubmission(sheet, data, flag) {
   row[header.indexOf('Status')] = '';
   row[header.indexOf('Flag')] = flag;
   fields.forEach(function (key) {
-    row[header.indexOf(key)] = data[key];
+    row[header.indexOf(key)] = asLiteral(data[key]);
   });
 
   var rowNumber = sheet.getLastRow() + 1;
   var target = sheet.getRange(rowNumber, 1, 1, row.length);
-  /* Plain text first, then the values. Without this, Sheets reads a value
-     that starts with = + - or @ as a formula and turns a phone number or
-     a zip code into a number, dropping the + and any leading zero. The
-     timestamp in Received is already a formatted string and stays one. */
+  /* Plain text first, then the values. The text format stops Sheets from
+     turning a phone number or a zip code into a number, which would drop
+     the + and any leading zero. It does NOT stop setValues from evaluating
+     a string that begins with = as a formula (confirmed on the real sheet:
+     "=1+1" landed as 2), so asLiteral above adds the apostrophe prefix as
+     well. Received is a formatted string and stays one. */
   target.setNumberFormat('@');
   target.setValues([row]);
   return rowNumber;
+}
+
+/* A submitted value, made safe for a cell. Anything beginning with = + -
+   or @ gets a single leading apostrophe, which Sheets reads as "this is
+   text" and does not display. Only the cell gets this; the email carries
+   the value exactly as submitted. */
+function asLiteral(value) {
+  var v = String(value);
+  return /^[=+\-@]/.test(v) ? "'" + v : v;
 }
 
 
