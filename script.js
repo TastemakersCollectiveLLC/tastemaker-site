@@ -7,6 +7,27 @@
   'use strict';
 
   /* ============================================
+     FORM ENDPOINT
+     ONE endpoint, shared by BOTH forms: the Google Apps Script web app in
+     apps-script/Code.gs, deployed from the hello@ Workspace. It writes
+     every submission to a spreadsheet, one tab per form_source, and
+     emails hello@tastemakerscollective.us. Nothing is ever dropped there:
+     a honeypot hit is written and sent with a flag.
+
+     The site posts JSON as a plain string with no Content-Type header, so
+     the browser sends it as text/plain and makes no CORS preflight, which
+     a web app cannot answer. Google replies with a redirect to
+     script.googleusercontent.com carrying {"ok":true} or
+     {"ok":false,"error":"..."}; fetch follows it.
+
+     The two forms are told apart by the hidden form_source field they
+     each carry: "contact" for the booking enquiry on #/contact and
+     "order" for the drop-off request on #/order. The script names the
+     tab and the email subject from it.
+     ============================================ */
+  const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyyHqJLrDdlsNhMX8yK0lq0hC232ooJ1g3FqA0oK34SsQrmTcpPQC_S30ENrFhWGEISTQ/exec';
+
+  /* ============================================
      CONFIG
      Every editable piece of the site lives in this one object: business
      details, the nav, retired routes, page copy, the services cards, the
@@ -23,25 +44,6 @@
       phone: '(213) 293-8518',
       email: 'hello@tastemakerscollective.us'
     },
-
-    /* ONE Formspree endpoint, shared by BOTH forms. There is no second
-       project. Notifications land in hello@tastemakerscollective.us, posted
-       with a plain fetch, no Formspree script library.
-
-       The two forms are told apart by two hidden fields they each carry:
-
-         BOOKING ENQUIRY  (#/contact, form id tmc-inquiry-form)
-           form_source = "contact"
-           _subject    = "New inquiry from tastemakerscollective.us"
-
-         DROP-OFF ORDER   (#/order, form id tmc-order-form)
-           form_source = "order"
-           _subject    = "New drop-off order request"
-
-       In the Formspree dashboard, filter or sort on form_source. In the
-       inbox, the two subject lines are already distinct, so no filter is
-       needed to tell a booking enquiry from a drop-off order. */
-    formEndpoint: 'https://formspree.io/f/xkjgorkq',
 
     /* Main navigation, in display order. One entry may carry cta: true,
        which renders it as the outlined button at the end of the bar. */
@@ -791,10 +793,9 @@
         '<section class="tmc-body">' +
           /* DROP-OFF ORDER form. Shares the one endpoint with the booking
              enquiry form on #/contact; form_source="order" is what separates
-             the two in the dashboard and the inbox. */
+             the two in the spreadsheet and the inbox. */
           '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="order">' +
-            '<input type="hidden" name="_subject" value="New drop-off order request">' +
             '<input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">' +
             '<div class="tmc-form-step">' +
               '<h3>Delivery</h3>' +
@@ -945,11 +946,10 @@
         '<section class="tmc-body">' +
           /* BOOKING ENQUIRY form. Shares the one endpoint with the drop-off
              order form on #/order; form_source="contact" is what separates
-             the two in the dashboard and the inbox. */
+             the two in the spreadsheet and the inbox. */
           '<form class="tmc-form" id="tmc-inquiry-form" autocomplete="on">' +
             '<input type="hidden" name="form_source" value="contact">' +
-            '<input type="hidden" name="_subject" value="New inquiry from tastemakerscollective.us">' +
-            /* Formspree honeypot. Off screen rather than display:none, so a
+            /* Honeypot. Off screen rather than display:none, so a
                bot still sees a fillable field, and out of the tab order so a
                person never lands on it. */
             '<input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">' +
@@ -1481,10 +1481,26 @@
   }
 
   /* === FORM HANDLER ===
-     One shared submit path for every form on the site. Contact uses it now,
-     Order joins it in Step 7. Everything the request needs travels in the
-     form itself, including the hidden form_source and _subject, so this
-     function never needs a per-form field list. */
+     One shared submit path for every form on the site. Everything the
+     request needs travels in the form itself, including the hidden
+     form_source, so this function never needs a per-form field list. */
+
+  /* The subject of the fallback email, by form. */
+  const MAILTO_SUBJECTS = {
+    contact: 'New inquiry from tastemakerscollective.us',
+    order: 'New drop-off order request'
+  };
+
+  /* Every field the form would post, as one object of strings. FormData
+     already leaves out disabled controls, which is how the vending-only
+     questions stay out of a non-vending enquiry. */
+  function formToObject(form) {
+    const data = {};
+    new FormData(form).forEach(function (value, key) {
+      data[key] = typeof value === 'string' ? value : String(value);
+    });
+    return data;
+  }
 
   /* Builds a prefilled mailto from whatever visible fields the form has, so
      a failed request still gets the visitor's answers to us. */
@@ -1497,8 +1513,9 @@
       const label = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
       lines.push((label ? label.textContent : el.name) + ': ' + (fd.get(el.name) || ''));
     });
+    const source = fd.get('form_source');
     return 'mailto:' + B.email +
-      '?subject=' + encodeURIComponent(fd.get('_subject') || 'Website inquiry') +
+      '?subject=' + encodeURIComponent(MAILTO_SUBJECTS[source] || 'Website inquiry') +
       '&body=' + encodeURIComponent(lines.join('\n'));
   }
 
@@ -1517,14 +1534,40 @@
     }
 
     /* One submit path for both forms. Which form this is rides along in the
-       hidden form_source and _subject fields, so nothing here is per-form. */
-    fetch(CONFIG.formEndpoint, {
+       hidden form_source field, so nothing here is per-form. JSON as a
+       plain string and no Content-Type header: see FORM_ENDPOINT. */
+    const payload = JSON.stringify(formToObject(form));
+
+    /* Success needs a reply that parses and says ok. A network error, a
+       non-2xx status, a body that is not JSON, ok:false, or no reply within
+       15 seconds all land in the catch below. The fetch is aborted on
+       timeout where the browser supports it; the race covers the rest. */
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    let timer = null;
+    const timedOut = new Promise(function (ignore, reject) {
+      timer = setTimeout(function () {
+        if (controller) controller.abort();
+        reject(new Error('No response within 15 seconds'));
+      }, 15000);
+    });
+    const request = fetch(FORM_ENDPOINT, {
       method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' }
-    })
+      body: payload,
+      signal: controller ? controller.signal : undefined
+    });
+    /* If the race loses on timeout, the aborted fetch still rejects later;
+       this keeps that from surfacing as an unhandled rejection. */
+    request.catch(function () {});
+
+    Promise.race([request, timedOut])
       .then(function (response) {
         if (!response.ok) throw new Error('Form endpoint returned ' + response.status);
+        return response.json();
+      })
+      .then(function (reply) {
+        if (!reply || reply.ok !== true) {
+          throw new Error(reply && reply.error ? reply.error : 'Form endpoint did not confirm');
+        }
         /* The form is replaced, so focus would fall back to body and a
            screen reader would hear nothing. Announce the message and put
            focus on it, so the next Tab continues from here. */
@@ -1548,7 +1591,8 @@
             '<a href="mailto:' + B.email + '">' + B.email + '</a> ' +
             'or <a href="' + mailtoFallback(form) + '">open an email with your answers filled in</a>.';
         }
-      });
+      })
+      .then(function () { clearTimeout(timer); });
   }
 
   /* === EVENT DELEGATION ===

@@ -50,16 +50,16 @@ router at navigation time.
 
 ## Forms
 
-Contact and Order both post to Formspree through one shared submit
-function, with a plain `fetch` and no Formspree script library. Each form
-carries its own hidden `form_source` and `_subject`. The submit button
+Contact and Order both post to the Google Apps Script web app in
+`apps-script/` through one shared submit function, as JSON with a plain
+`fetch`. Each form carries its own hidden `form_source`. The submit button
 disables while sending. On success the form is replaced with a
 confirmation. On failure the form is kept, the button is re-enabled, and
 an error offers `hello@tastemakerscollective.us` plus a mailto prefilled
 from the answers already typed in.
 
 To add a third form, give it `class="tmc-form"`, its own hidden
-`form_source` and `_subject`, a field named `email`, a
+`form_source`, a field named `email`, a
 `p.tmc-form-status` and a submit button. No JavaScript changes needed.
 
 ## Update workflow
