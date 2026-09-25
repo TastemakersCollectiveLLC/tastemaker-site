@@ -29,8 +29,13 @@ var DEFAULT_NOTIFY_EMAIL = 'hello@tastemakerscollective.us';
 var FIXED_COLUMNS = ['Received', 'Status', 'Flag'];
 
 /* The tabs setup() creates. A form_source value with no tab gets one on
-   first use, so a new form needs no change here. */
-var KNOWN_FORMS = ['contact', 'order'];
+   first use, so a new form needs no change here.
+
+   review: a customer review from the website's /reviews/ form. It is
+   written and emailed like everything else and is NEVER published by
+   this script or by anything automatic. Danny reads the row, marks
+   Status, and only then does a review go on the site, by hand. */
+var KNOWN_FORMS = ['contact', 'order', 'review'];
 
 var TIME_ZONE = 'America/Los_Angeles';
 
@@ -267,6 +272,8 @@ function subjectFor(formSource, data, flagged) {
     subject = 'New inquiry: ' + type + ' from ' + name;
   } else if (formSource === 'order') {
     subject = 'New drop-off order request from ' + name;
+  } else if (formSource === 'review') {
+    subject = 'New review from ' + name;
   } else {
     subject = 'New website submission (' + formSource + ') from ' + name;
   }
@@ -330,7 +337,8 @@ function setup() {
       'Tabs created: ' + (made.length ? made.join(', ') : 'none, both existed already'),
       'Notifications go to: ' + to,
       '',
-      'Next: Deploy > New deployment > Web app, execute as Me, access Anyone, then send the /exec URL back.'
+      'If this is a re-run after an update, the existing deployment stays as it is; publish the new code with Deploy > Manage deployments > edit > New version.',
+      'First time: Deploy > New deployment > Web app, execute as Me, access Anyone, then send the /exec URL back.'
     ].join('\n'),
     { name: 'Tastemakers Collective website' }
   );
