@@ -498,14 +498,17 @@ const pages = {
       '<section class="tmc-hero">' +
         /* The lockup IS the page heading. script.js splits the letters for
            the reveal; without it the word is simply there. */
-        '<h1 class="tmc-brand-stack" aria-label="' + esc(B.name) + '">' +
+        '<h1 class="tmc-brand-stack" aria-label="' + esc(B.name + ', ' + CONFIG.homeH1Line.charAt(0).toLowerCase() + CONFIG.homeH1Line.slice(1)) + '">' +
           '<span class="tmc-brand-line" id="brand-line-1">TASTEMAKERS</span>' +
           '<span class="tmc-brand-sub-row" aria-hidden="true">' +
             '<span class="tmc-brand-rule"></span><span class="tmc-brand-sub">COLLECTIVE</span><span class="tmc-brand-rule"></span>' +
           '</span>' +
+          /* Inside the h1, so the heading reads as the business and what it
+             does. It replaces the separate Los Angeles line that sat under
+             the tagline. */
+          '<span class="tmc-hero-sub tmc-hero-line">' + CONFIG.homeH1Line + '</span>' +
         '</h1>' +
         '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
-        '<div class="tmc-hero-sub">' + B.city + '</div>' +
         '<div class="tmc-hero-dishes">' + CONFIG.heroDishes.join(' &nbsp;&middot;&nbsp; ') + '</div>' +
       '</section>' +
       '<section class="tmc-why">' +

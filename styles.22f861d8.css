@@ -420,6 +420,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
+/* The line inside the home h1, under COLLECTIVE. It carries the hero-sub
+   style and fades in with the sub row. */
+.tmc-hero-line { display: block; margin-top: 18px; }
+
 .tmc-hero-sub {
   font-family: var(--font-sans);
   font-size: 10px;

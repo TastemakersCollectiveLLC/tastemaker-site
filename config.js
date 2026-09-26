@@ -135,6 +135,11 @@
       home: 'Tastemakers Collective | Catering and Events in Los Angeles'
     },
 
+    /* Home's h1 is the wordmark plus this line, set under COLLECTIVE in
+       the small amethyst capitals, so the heading names the service and
+       the city. Chosen by Danny 9/26/2026, option A. */
+    homeH1Line: 'Catering and events in Los Angeles',
+
     /* One meta description per page, 120 to 155 characters, built only
        from copy already on the site. The build asserts the length. */
     descriptions: {
