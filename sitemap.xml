@@ -1,15 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Hash routes are one document to a crawler, so only the two real URLs
-     are listed. -->
+<!-- One URL per real page. Written by build/build.js; do not edit by hand. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.tastemakerscollective.us/</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-25</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://www.tastemakerscollective.us/weddings</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/corporate</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/events</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/vending</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/order</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/menus</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/about</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/contact</loc>
+    <lastmod>2026-09-25</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.tastemakerscollective.us/card</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-25</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>

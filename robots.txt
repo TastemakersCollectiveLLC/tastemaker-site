@@ -1,4 +1,15 @@
+# Everyone is welcome, and the assistants that read for people are named
+# so there is no doubt.
 User-agent: *
+Allow: /
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: Applebot
 Allow: /
 
 Sitemap: https://www.tastemakerscollective.us/sitemap.xml
