@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Written by build/build.js from build/card.template.html. Edit the template. -->
+<!-- Template for /card. build/build.js fills the double-brace tokens from CONFIG and writes card/index.html; edit here, not there. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -215,13 +215,13 @@
       <span class="sub-word">COLLECTIVE</span>
       <span class="rule"></span>
     </div>
-    <p class="tagline">Custom menus for every event and every diet.</p>
+    <p class="tagline">{{tagline}}</p>
   </div>
 
   <nav class="actions" aria-label="Contact">
-    <a class="btn" href="tel:+12132938518">Call</a>
-    <a class="btn" href="sms:+12132938518">Text</a>
-    <a class="btn" href="mailto:hello@tastemakerscollective.us">Email</a>
+    <a class="btn" href="{{phoneHref}}">Call</a>
+    <a class="btn" href="{{smsHref}}">Text</a>
+    <a class="btn" href="mailto:{{email}}">Email</a>
     <a class="btn filled" href="/contact">Start an inquiry</a>
     <a class="btn" href="/">Visit the website</a>
   </nav>
@@ -234,8 +234,6 @@
 
 </main>
 
-<!-- Deferred, for tap measurement only; the card is complete without them. -->
-<script defer src="/config.d5d72edd.js"></script>
-<script defer src="/script.9143c3a3.js"></script>
+{{scripts}}
 </body>
 </html>

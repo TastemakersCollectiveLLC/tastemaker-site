@@ -502,6 +502,20 @@
     handleFormSubmit(form);
   });
 
+  /* Taps on the ways to reach us, measured by what they are rather than
+     where they sit, so a new tel: link anywhere is counted without a code
+     change. Capture phase, so a later handler can never swallow it. */
+  document.addEventListener('click', function (e) {
+    const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    const at = { link_location: window.location.pathname };
+    if (href.indexOf('tel:') === 0) track('phone_tap', at);
+    else if (href.indexOf('sms:') === 0) track('sms_tap', at);
+    else if (href.indexOf('mailto:') === 0) track('email_tap', at);
+    else if (/\.vcf$/.test(href)) track('vcard_download', at);
+  }, true);
+
   /* === MEASUREMENT, gated ===
      While GA4_ID and META_PIXEL_ID are empty nothing loads and track() is
      a no-op. The event names are wired now so that filling in an id is

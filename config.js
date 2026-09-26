@@ -41,6 +41,10 @@
      ============================================ */
   var GA4_ID = '';
   var META_PIXEL_ID = '';
+  /* Google Search Console. Paste only the content value of the
+     google-site-verification meta tag here; the build then writes the tag
+     into every page head. Empty means no tag. */
+  var GSC_VERIFICATION = '';
 
   var CONFIG = {
     /* The canonical origin. Canonical links, Open Graph URLs, the sitemap,
@@ -59,6 +63,9 @@
          digits below, so the three can never disagree. */
       phone: '(213) 293-8518',
       email: 'hello@tastemakerscollective.us',
+      /* Street address, when there is one to publish. Empty means the
+         structured data carries the city and state only. */
+      address: '',
       /* Public profiles. Empty until the Instagram handle lands; the
          structured data carries sameAs as an empty list until then. */
       sameAs: []
@@ -536,6 +543,7 @@
     CONFIG: CONFIG,
     FORM_ENDPOINT: FORM_ENDPOINT,
     GA4_ID: GA4_ID,
-    META_PIXEL_ID: META_PIXEL_ID
+    META_PIXEL_ID: META_PIXEL_ID,
+    GSC_VERIFICATION: GSC_VERIFICATION
   };
 });

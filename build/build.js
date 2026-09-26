@@ -62,6 +62,14 @@ T.PAGES.forEach(page => {
   ok(page.file + '  ' + html.length + ' bytes');
 });
 
+/* ---------- 2b. /card and its vCard, from CONFIG.business ---------- */
+console.log('card');
+const cardHtml = T.cardPage(read('build/card.template.html'), assets);
+write('card/index.html', cardHtml.replace(/<!-- Template for \/card\.[^>]*-->/, '<!-- Written by build/build.js from build/card.template.html. Edit the template. -->'));
+ok('card/index.html');
+write('card/tastemakers.vcf', T.vcard());
+ok('card/tastemakers.vcf');
+
 /* ---------- 3. sitemap, robots, llms, 404 ---------- */
 console.log('site files');
 const now = new Date();
@@ -182,6 +190,42 @@ built.forEach(b => {
   CONFIG.trust.forEach(t => { if (b.html.indexOf(t) === -1) fail(b.file + ': trust strip missing "' + t + '"'); });
 });
 ok('every internal link resolves, trust strip and footer on every page');
+
+/* I. no orphans: every indexable page, and /card, is linked from at least
+   one OTHER page. /reviews is exempt while its form is disabled. */
+const linkedFrom = {};
+built.forEach(b => {
+  const targets = new Set((b.html.match(/href="(\/[^"?#]*)/g) || []).map(h => h.slice(6)));
+  targets.forEach(t => { if (t !== b.path) (linkedFrom[t] = linkedFrom[t] || []).push(b.path); });
+});
+T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
+  if (!linkedFrom[p] || !linkedFrom[p].length) fail('orphan: nothing links to ' + p);
+});
+const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order'];
+built.filter(b => serviceRoutes.indexOf(b.path) > -1).forEach(b => {
+  const body = b.html.slice(b.html.indexOf('<main'), b.html.indexOf('</main>'));
+  if (body.indexOf('href="/menus"') === -1) fail(b.file + ': body does not link to Menus');
+  if (!/href="\/contact[?"]/.test(body)) fail(b.file + ': body does not link to Contact');
+});
+const menusBody = built.filter(b => b.path === '/menus')[0].html;
+serviceRoutes.forEach(r => { if (menusBody.indexOf('href="' + r + '"') === -1) fail('menus.html does not link to ' + r); });
+const homeBody = built[0].html.slice(built[0].html.indexOf('<main'), built[0].html.indexOf('</main>'));
+serviceRoutes.forEach(r => { if (homeBody.indexOf('href="' + r + '"') === -1) fail('index.html body does not link to ' + r); });
+const footerHtml = built[0].html.slice(built[0].html.indexOf('<footer'));
+T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
+  if (footerHtml.indexOf('href="' + p + '"') === -1) fail('footer does not list ' + p);
+});
+ok('no orphans; service pages link to Menus and Contact in the body; Menus and Home link to all five; the footer lists every page');
+
+/* G. with every measurement constant empty, no page carries a third party script */
+if (!TMC.GA4_ID && !TMC.META_PIXEL_ID) {
+  built.concat([{ file: 'card/index.html', html: read('card/index.html') }]).forEach(b => {
+    const srcs = (b.html.match(/<script[^>]+src="([^"]+)"/g) || []).map(m => m.match(/src="([^"]+)"/)[1]);
+    srcs.forEach(src => { if (/^https?:/.test(src)) fail(b.file + ': third party script ' + src); });
+    if (/googletagmanager|connect\.facebook\.net|google-site-verification/.test(b.html) && !TMC.GSC_VERIFICATION) fail(b.file + ': measurement markup present while the constants are empty');
+  });
+  ok('measurement constants empty: no third party script, no pixel, no verification tag on any page or /card');
+}
 
 /* F. the reviews page stays out of the index, the nav and the sitemap until enabled */
 if (!CONFIG.reviewForm.enabled) {

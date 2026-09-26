@@ -11,8 +11,9 @@ standalone contact page that the printed business card QR codes point to.
 - `styles.css`: complete design system and all page styles
 - `script.js`: enhancement only. Phone menu, form submit, contact prefill, sticky bar, motion. Every page is complete without it.
 - `styles.<hash>.css`, `script.<hash>.js`, `config.<hash>.js`: content-hashed copies the pages reference, written by the build, cached for a year.
-- `card/index.html`: standalone contact page at `/card`, self contained with its own inline CSS
-- `card/tastemakers.vcf`: vCard the Save contact button downloads
+- `card/index.html`: standalone contact page at `/card`, self contained with its own inline CSS. Written by the build from `build/card.template.html`; edit the template.
+- `card/tastemakers.vcf`: vCard the Save contact button downloads, written by the build from `CONFIG.business`
+- `build/verify.js`: `node build/verify.js <base url>` checks a served copy: every page as GPTBot and ClaudeBot, the per-page table, and every link answering 200
 - `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`: written by the build
 - `vercel.json`: `cleanUrls`, `trailingSlash: false`, and the cache headers
 - `apps-script/`: the Google Apps Script form backend, versioned here, not served
@@ -65,14 +66,17 @@ creates its tab on first use.
 
 ## Measurement
 
-`GA4_ID` and `META_PIXEL_ID` in `config.js` are empty. While they are empty
-nothing loads and every tracking call is a no-op. Fill one in and rebuild to
-switch it on.
+`GA4_ID`, `META_PIXEL_ID` and `GSC_VERIFICATION` in `config.js` are empty.
+While they are empty nothing loads, no tag is written and every tracking
+call is a no-op. Fill one in and rebuild to switch it on. The events are
+already wired: `form_submit` with `form_source`, and `phone_tap`, `sms_tap`,
+`email_tap` and `vcard_download` with the page path, on every tel:, sms:,
+mailto: and vCard link, `/card` included.
 
 ## Known placeholders to fill in
 
 - Logo: the favicon and share image are interim marks drawn from the wordmark.
 - Instagram: `CONFIG.business.sameAs` is empty until the handle is confirmed.
-- Phone: `CONFIG.business.phone` is the one display string; the tel and sms links derive from it. `card/tastemakers.vcf` changes with it.
+- Phone: `CONFIG.business.phone` is the one display string; the tel and sms links, `/card` and the vCard all derive from it.
 - Order page: currently a drop-off request form. It becomes a clickable order-from menu once the menu matrix exists.
 - Service page copy: `CONFIG.pageCopy`, empty until Danny's paragraphs arrive.

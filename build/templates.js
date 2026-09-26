@@ -92,6 +92,7 @@ function head(page, assets, extra) {
       ? '<meta name="robots" content="index,follow,max-image-preview:large">'
       : '<meta name="robots" content="noindex,nofollow">',
     '<link rel="canonical" href="' + url + '">',
+    TMC.GSC_VERIFICATION ? '<meta name="google-site-verification" content="' + esc(TMC.GSC_VERIFICATION) + '">' : '',
     redirectScript(),
     '<!-- Interim mark: TC in Playfair Display, amethyst on the site black, drawn',
     '     from the wordmark. Replaced when the real logo lands. -->',
@@ -158,7 +159,7 @@ function jsonLd(page) {
     email: B.email,
     servesCuisine: 'Californian',
     areaServed: B.serviceArea,
-    address: { '@type': 'PostalAddress', addressLocality: B.city, addressRegion: 'CA', addressCountry: 'US' },
+    address: Object.assign({ '@type': 'PostalAddress' }, B.address ? { streetAddress: B.address } : {}, { addressLocality: B.city, addressRegion: 'CA', addressCountry: 'US' }),
     parentOrganization: { '@id': orgId },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -722,4 +723,37 @@ function llmsFullTxt(builtPages) {
   return out.join('\n') + '\n';
 }
 
-module.exports = { PAGES, CARD, pathFor, absolute, plain, esc, h1For, titleFor, descriptionFor, jsonLd, document: document_, textOf, llmsTxt, llmsFullTxt };
+/* ============================================
+   /card and its vCard, from CONFIG.business
+   ============================================ */
+function cardPage(template, assets) {
+  const tokens = {
+    '{{tagline}}': B.tagline,
+    '{{phoneHref}}': B.phoneHref,
+    '{{smsHref}}': B.smsHref,
+    '{{email}}': B.email,
+    '{{scripts}}': '<!-- Deferred, for tap measurement only; the card is complete without them. -->\n' +
+      '<script defer src="/' + assets.config + '"></script>\n<script defer src="/' + assets.script + '"></script>'
+  };
+  let out = template;
+  Object.keys(tokens).forEach(k => { out = out.split(k).join(tokens[k]); });
+  if (/\{\{[a-zA-Z]+\}\}/.test(out)) throw new Error('card template has an unfilled token: ' + out.match(/\{\{[a-zA-Z]+\}\}/)[0]);
+  return out;
+}
+
+function vcard() {
+  return [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    'N:;' + B.name + ';;;',
+    'FN:' + B.name,
+    'ORG:' + B.name,
+    'TEL;TYPE=WORK,VOICE:' + B.phoneE164,
+    'EMAIL;TYPE=INTERNET,PREF:' + B.email,
+    'URL:' + SITE,
+    'END:VCARD',
+    ''
+  ].join('\n');
+}
+
+module.exports = { PAGES, CARD, pathFor, absolute, plain, esc, h1For, titleFor, descriptionFor, jsonLd, document: document_, textOf, llmsTxt, llmsFullTxt, cardPage, vcard };
