@@ -45,6 +45,11 @@
      google-site-verification meta tag here; the build then writes the tag
      into every page head. Empty means no tag. */
   var GSC_VERIFICATION = '';
+  /* IndexNow. The build hosts this key as /<key>.txt, which is how the
+     search engines that share IndexNow confirm the site is ours, and
+     build/indexnow.js submits the sitemap URLs with it after each push.
+     Public by design; it grants nothing beyond announcing our own URLs. */
+  var INDEXNOW_KEY = 'b02557f74d6091d7f396c794d077595e';
 
   var CONFIG = {
     /* The canonical origin. Canonical links, Open Graph URLs, the sitemap,
@@ -121,6 +126,8 @@
       about: 'About Tastemakers Collective',
       contact: 'Contact Tastemakers Collective',
       reviews: 'Reviews',
+      vegan: 'Vegan catering in Los Angeles',
+      glutenFree: 'Gluten-free catering in Los Angeles',
       notFound: 'Page not found'
     },
 
@@ -140,6 +147,8 @@
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
       about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
       contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles. Call or text (213) 293-8518.',
+      vegan: 'Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
+      glutenFree: 'Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       /* noindex while the form is disabled, so the length rule is not applied */
       reviews: 'Reviews for Tastemakers Collective, a Los Angeles catering and events company.'
     },
@@ -186,12 +195,30 @@
       reviews: {
         eyebrow: 'Reviews',
         intro: ''
+      },
+      /* The dietary pages: the tag word as the eyebrow, the tagline as the
+         supporting line. */
+      vegan: {
+        eyebrow: 'Vegan',
+        intro: 'Custom menus for every event and every diet.'
+      },
+      glutenFree: {
+        eyebrow: 'Gluten free',
+        intro: 'Custom menus for every event and every diet.'
       }
     },
 
     /* Danny's paragraphs for the service pages go here when they arrive,
        one per page, plain text. Empty means the page renders without the
        paragraph and nothing else changes. */
+    /* Danny's allergy-handling sentences for the dietary pages. Empty means
+       nothing renders; no allergen or cross-contact claim is ever made on
+       his behalf. */
+    allergyNote: {
+      vegan: '',
+      glutenFree: ''
+    },
+
     pageCopy: {
       weddings: '',
       corporate: '',
@@ -341,6 +368,17 @@
       { route: 'order', name: 'Drop-off catering', desc: 'Drop-off catering for offices and gatherings.' }
     ],
 
+    /* The dietary pages. Each lists the dishes carrying its tag in the menus
+       above, and nothing else. */
+    dietaryPages: [
+      { route: 'vegan', tag: 'Vegan', name: 'Vegan catering', diet: 'https://schema.org/VeganDiet' },
+      { route: 'glutenFree', tag: 'Gluten free', name: 'Gluten-free catering', diet: 'https://schema.org/GlutenFreeDiet' }
+    ],
+
+    /* The subjects the business knows, for the structured data. */
+    knowsAbout: ['Catering', 'Wedding catering', 'Corporate catering', 'Event catering', 'Festival food vending',
+                 'Drop-off catering', 'Vegan catering', 'Gluten-free catering'],
+
     /* Shared by Weddings and Events, which run the same process. */
     process: [
       { title: 'Inquiry', desc: 'You tell us the date, the place, the guest count and any dietary needs.' },
@@ -445,7 +483,9 @@
         vending: 'Book us for your festival or event.',
         about: 'Work with us.',
         menus: 'Book your event.',
-        reviews: 'Book your event.'
+        reviews: 'Book your event.',
+        vegan: 'Book your event.',
+        glutenFree: 'Book your event.'
       },
       buttons: {
         home:      { primary: 'Book', secondary: 'Order drop-off' },
@@ -456,7 +496,9 @@
         vending:   { primary: 'Book', secondary: 'Order drop-off', type: 'vending', style: 'vending' },
         about:     { primary: 'Book' },
         menus:     { primary: 'Book an event', secondary: 'Order drop-off' },
-        reviews:   { primary: 'Book' }
+        reviews:   { primary: 'Book' },
+        vegan:     { primary: 'Book' },
+        glutenFree: { primary: 'Book' }
       }
     },
 
@@ -516,7 +558,9 @@
             { route: 'events', label: 'Events' },
             { route: 'vending', label: 'Vending' },
             { route: 'order', label: 'Order' },
-            { route: 'menus', label: 'Menus' }
+            { route: 'menus', label: 'Menus' },
+            { route: 'vegan', label: 'Vegan catering' },
+            { route: 'glutenFree', label: 'Gluten-free catering' }
           ]
         },
         {
@@ -544,6 +588,7 @@
     FORM_ENDPOINT: FORM_ENDPOINT,
     GA4_ID: GA4_ID,
     META_PIXEL_ID: META_PIXEL_ID,
-    GSC_VERIFICATION: GSC_VERIFICATION
+    GSC_VERIFICATION: GSC_VERIFICATION,
+    INDEXNOW_KEY: INDEXNOW_KEY
   };
 });

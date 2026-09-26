@@ -15,7 +15,7 @@
 'use strict';
 
 const BASE = (process.argv[2] || 'https://www.tastemakerscollective.us').replace(/\/$/, '');
-const PAGES = ['/', '/weddings', '/corporate', '/events', '/vending', '/order', '/menus', '/about', '/contact', '/reviews', '/card'];
+const PAGES = ['/', '/weddings', '/corporate', '/events', '/vending', '/order', '/menus', '/about', '/contact', '/vegan', '/gluten-free', '/reviews', '/card'];
 const AGENTS = ['GPTBot', 'ClaudeBot'];
 
 const failures = [];

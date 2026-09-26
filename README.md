@@ -13,6 +13,7 @@ standalone contact page that the printed business card QR codes point to.
 - `styles.<hash>.css`, `script.<hash>.js`, `config.<hash>.js`: content-hashed copies the pages reference, written by the build, cached for a year.
 - `card/index.html`: standalone contact page at `/card`, self contained with its own inline CSS. Written by the build from `build/card.template.html`; edit the template.
 - `card/tastemakers.vcf`: vCard the Save contact button downloads, written by the build from `CONFIG.business`
+- `build/indexnow.js`: `node build/indexnow.js` after every push, once the deploy is live. Submits every sitemap URL to IndexNow using the key in `config.js`, hosted by the build as `/<key>.txt`.
 - `build/verify.js`: `node build/verify.js <base url>` checks a served copy: every page as GPTBot and ClaudeBot, the per-page table, and every link answering 200
 - `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt`: written by the build
 - `vercel.json`: `cleanUrls`, `trailingSlash: false`, and the cache headers
@@ -39,7 +40,9 @@ slot renders nothing.
 ## URLs
 
 Pages are `/`, `/weddings`, `/corporate`, `/events`, `/vending`, `/order`,
-`/menus`, `/about`, `/contact` and `/card`. `/reviews` exists but is
+`/menus`, `/about`, `/contact`, `/vegan`, `/gluten-free` and `/card`. The two
+dietary pages list exactly the dishes tagged Vegan or Gluten free in
+`CONFIG.menus`, so tagging a dish is the whole change. `/reviews` exists but is
 noindex, unlinked and its form is disabled until the reviews handler is
 published. Vercel's `cleanUrls` serves `weddings.html` at `/weddings` and
 redirects `/weddings.html` and `/weddings/` to it. Unknown paths get

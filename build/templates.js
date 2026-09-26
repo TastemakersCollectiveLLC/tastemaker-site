@@ -27,6 +27,8 @@ const PAGES = [
   { route: 'menus',     path: '/menus',     file: 'menus.html' },
   { route: 'about',     path: '/about',     file: 'about.html' },
   { route: 'contact',   path: '/contact',   file: 'contact.html' },
+  { route: 'vegan',      path: '/vegan',       file: 'vegan.html' },
+  { route: 'glutenFree', path: '/gluten-free', file: 'gluten-free.html' },
   { route: 'reviews',   path: '/reviews',   file: 'reviews.html', indexable: false },
   { route: 'notFound',  path: '/404',       file: '404.html',     indexable: false, unlisted: true }
 ];
@@ -38,7 +40,8 @@ const CARD = { route: 'card', path: '/card', file: 'card/index.html', title: 'Ta
 function pathFor(route) {
   if (route === 'home') return '/';
   if (route === 'card') return '/card';
-  return '/' + route;
+  const page = PAGES.filter(p => p.route === route)[0];
+  return page ? page.path : '/' + route;
 }
 function absolute(path) { return SITE + (path === '/' ? '/' : path); }
 
@@ -68,7 +71,7 @@ function descriptionFor(route) { return CONFIG.descriptions[route] || CONFIG.des
    so it runs before anything paints, and again on hashchange, so a #/route
    typed onto a page that is already open is forwarded too. */
 function redirectScript() {
-  const known = PAGES.filter(p => !p.unlisted).map(p => p.route === 'home' ? '' : p.route);
+  const known = PAGES.filter(p => !p.unlisted).map(p => p.path === '/' ? '' : p.path.slice(1));
   return '<script>(function(){function go(){var h=location.hash;if(!h||h.indexOf("#/")!==0)return;' +
     'var m=' + JSON.stringify(CONFIG.redirects) + ',k=' + JSON.stringify(known) + ';' +
     'var r=h.slice(2),q="",i=r.indexOf("?");if(i>-1){q=r.slice(i);r=r.slice(0,i);}' +
@@ -131,6 +134,41 @@ function head(page, assets, extra) {
 /* ============================================
    STRUCTURED DATA, one graph per page
    ============================================ */
+/* The five services and the two dietary pages, each pointing at its page. */
+function offerCatalog() {
+  const entries = CONFIG.serviceList.map(sv => ({ name: sv.name, description: sv.desc, url: absolute(pathFor(sv.route)) }))
+    .concat(CONFIG.dietaryPages.map(d => ({ name: d.name, description: plain(descriptionFor(d.route)), url: absolute(pathFor(d.route)) })));
+  return {
+    '@type': 'OfferCatalog',
+    '@id': SITE + '/#services',
+    name: 'Services',
+    itemListElement: entries.map(e => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: e.name, description: e.description, url: e.url } }))
+  };
+}
+
+/* A schema.org Menu of the dishes, optionally only those carrying one tag. */
+function menuNode(id, name, description, url, tag) {
+  const sections = CONFIG.menus.map(section => ({
+    '@type': 'MenuSection',
+    name: section.section,
+    hasMenuSection: section.groups.map(group => ({
+      '@type': 'MenuSection',
+      name: group.title,
+      hasMenuItem: group.items.filter(item => !tag || (item.tags || []).indexOf(tag) > -1).map(item => {
+        const mi = { '@type': 'MenuItem', name: plain(item.name), description: plain(item.detail || '') };
+        const diets = [];
+        (item.tags || []).forEach(t => {
+          if (t === 'Vegan') diets.push('https://schema.org/VeganDiet');
+          if (t === 'Gluten free') diets.push('https://schema.org/GlutenFreeDiet');
+        });
+        if (diets.length) mi.suitableForDiet = diets;
+        return mi;
+      })
+    })).filter(g => g.hasMenuItem.length)
+  })).filter(sec => sec.hasMenuSection.length);
+  return { '@type': 'Menu', '@id': id, name: name, description: description, url: url, hasMenuSection: sections };
+}
+
 function jsonLd(page) {
   const route = page.route;
   const url = absolute(page.path);
@@ -147,6 +185,17 @@ function jsonLd(page) {
     telephone: B.phoneE164,
     email: B.email,
     areaServed: B.serviceArea,
+    slogan: B.tagline,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: B.phoneE164,
+      email: B.email,
+      contactType: 'customer service',
+      areaServed: B.city,
+      availableLanguage: 'English'
+    },
+    knowsAbout: CONFIG.knowsAbout.slice(),
+    hasOfferCatalog: offerCatalog(),
     /* Empty until the Instagram handle lands. */
     sameAs: B.sameAs.slice()
   };
@@ -161,14 +210,8 @@ function jsonLd(page) {
     areaServed: B.serviceArea,
     address: Object.assign({ '@type': 'PostalAddress' }, B.address ? { streetAddress: B.address } : {}, { addressLocality: B.city, addressRegion: 'CA', addressCountry: 'US' }),
     parentOrganization: { '@id': orgId },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Services',
-      itemListElement: CONFIG.serviceList.map(s => ({
-        '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: s.name, description: s.desc, url: absolute(pathFor(s.route)) }
-      }))
-    }
+    /* The same catalog as the Organization, referenced rather than repeated. */
+    hasOfferCatalog: { '@id': SITE + '/#services' }
   };
   const website = {
     '@type': 'WebSite',
@@ -213,31 +256,21 @@ function jsonLd(page) {
     });
   }
   if (route === 'menus') {
+    graph.push(menuNode(url + '#menu', 'Example menus', plain(CONFIG.heroes.menus.intro), url));
+  }
+  const diet = CONFIG.dietaryPages.filter(d => d.route === route)[0];
+  if (diet) {
     graph.push({
-      '@type': 'Menu',
-      '@id': url + '#menu',
-      name: 'Example menus',
-      description: plain(CONFIG.heroes.menus.intro),
-      url: url,
-      hasMenuSection: CONFIG.menus.map(section => ({
-        '@type': 'MenuSection',
-        name: section.section,
-        hasMenuSection: section.groups.map(group => ({
-          '@type': 'MenuSection',
-          name: group.title,
-          hasMenuItem: group.items.map(item => {
-            const mi = { '@type': 'MenuItem', name: plain(item.name), description: plain(item.detail || '') };
-            const diets = [];
-            (item.tags || []).forEach(t => {
-              if (t === 'Vegan') diets.push('https://schema.org/VeganDiet');
-              if (t === 'Gluten free') diets.push('https://schema.org/GlutenFreeDiet');
-            });
-            if (diets.length) mi.suitableForDiet = diets;
-            return mi;
-          })
-        }))
-      }))
+      '@type': 'Service',
+      '@id': url + '#service',
+      name: diet.name,
+      description: plain(descriptionFor(route)),
+      serviceType: diet.name,
+      provider: { '@id': orgId },
+      areaServed: B.serviceArea,
+      url: url
     });
+    graph.push(menuNode(url + '#menu', h1For(route), plain(CONFIG.heroes[route].intro), url, diet.tag));
   }
   return { '@context': 'https://schema.org', '@graph': graph };
 }
@@ -394,9 +427,13 @@ function rows(items) {
 
 /* The in-page Menus pointer. Every service page links to Menus here and
    to Contact in the closing band. */
+function dietaryLinks() {
+  return CONFIG.dietaryPages.map(d => '<a class="tmc-service-menu-link" href="' + pathFor(d.route) + '">' + d.name + ' <span class="tmc-arrow">&rarr;</span></a>').join('');
+}
+
 function menusBlock(label) {
   return block(label || '', 'Example menus', CONFIG.heroes.menus.intro,
-    '<div class="tmc-block-cta"><a class="tmc-service-menu-link" href="/menus">See the menus <span class="tmc-arrow">&rarr;</span></a></div>');
+    '<div class="tmc-block-cta tmc-service-links"><a class="tmc-service-menu-link" href="/menus">See the menus <span class="tmc-arrow">&rarr;</span></a>' + dietaryLinks() + '</div>');
 }
 
 function honeypot() {
@@ -408,6 +445,46 @@ function honeypot() {
 /* ============================================
    PAGES
    ============================================ */
+/* One menu section. With a tag, only the dishes carrying it; groups and
+   sections left empty are dropped. */
+function renderMenuSection(section, tag) {
+  const groups = section.groups.map(group => {
+    const items = group.items.filter(item => !tag || (item.tags || []).indexOf(tag) > -1);
+    if (!items.length) return '';
+    return '<div class="tmc-menu-group">' +
+      '<h3 class="tmc-menu-section-title">' + group.title + '</h3>' +
+      '<div class="tmc-menu-items">' +
+        items.map(item =>
+          '<div class="tmc-menu-item">' +
+            '<div class="tmc-menu-item-name">' + item.name + '</div>' +
+            (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
+            (item.tags && item.tags.length ? '<div class="tmc-menu-tags">' + item.tags.map(t => '<span class="tmc-menu-tag">' + t + '</span>').join('') + '</div>' : '') +
+          '</div>').join('') +
+      '</div>' +
+    '</div>';
+  }).join('');
+  if (!groups) return '';
+  return '<section class="tmc-menu-section" data-section="' + esc(section.section) + '">' +
+    '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' + groups + '</section>';
+}
+
+/* Danny's allergy-handling sentences, when they exist. Until then a marked,
+   empty slot: no allergen or cross-contact claim is made for him. */
+function allergySlot(route) {
+  const text = (CONFIG.allergyNote || {})[route] || '';
+  if (!text) return '<!-- ALLERGY SLOT: CONFIG.allergyNote.' + route + ' is empty. The allergy-handling sentences render here when they land. -->';
+  return '<section class="tmc-block"><p class="tmc-block-intro tmc-allergy-note">' + text + '</p></section>';
+}
+
+function dietaryPage(route) {
+  const diet = CONFIG.dietaryPages.filter(d => d.route === route)[0];
+  return pageHero(route) +
+    '<div class="tmc-menu-detail">' + CONFIG.menus.map(sec => renderMenuSection(sec, diet.tag)).join('') + '</div>' +
+    allergySlot(route) +
+    menusBlock() +
+    contactBand(route);
+}
+
 const pages = {
   home() {
     const cards = CONFIG.services.map(s =>
@@ -459,22 +536,7 @@ const pages = {
   },
 
   menus() {
-    const renderSection = section =>
-      '<section class="tmc-menu-section" data-section="' + esc(section.section) + '">' +
-        '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' +
-        section.groups.map(group =>
-          '<div class="tmc-menu-group">' +
-            '<h3 class="tmc-menu-section-title">' + group.title + '</h3>' +
-            '<div class="tmc-menu-items">' +
-              group.items.map(item =>
-                '<div class="tmc-menu-item">' +
-                  '<div class="tmc-menu-item-name">' + item.name + '</div>' +
-                  (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
-                  (item.tags && item.tags.length ? '<div class="tmc-menu-tags">' + item.tags.map(t => '<span class="tmc-menu-tag">' + t + '</span>').join('') + '</div>' : '') +
-                '</div>').join('') +
-            '</div>' +
-          '</div>').join('') +
-      '</section>';
+    const renderSection = section => renderMenuSection(section);
     const sections = CONFIG.menus.map(renderSection);
     /* Pop-ups lead in the HTML. script.js puts Private dining first when
        the visitor came from Weddings, Corporate or Events. The Book and
@@ -492,6 +554,7 @@ const pages = {
       '<section class="tmc-block"><div class="tmc-block-head"><h2 class="tmc-block-heading">Catering, events and vending</h2></div>' +
         '<div class="tmc-block-cta tmc-service-links">' +
           CONFIG.serviceList.map(s => '<a class="tmc-service-menu-link" href="' + pathFor(s.route) + '">' + s.name + ' <span class="tmc-arrow">&rarr;</span></a>').join('') +
+          dietaryLinks() +
         '</div>' +
       '</section>' +
       contactBand('menus');
@@ -613,6 +676,9 @@ const pages = {
         '</form>' +
       '</section>';
   },
+
+  vegan() { return dietaryPage('vegan'); },
+  glutenFree() { return dietaryPage('glutenFree'); },
 
   reviews() {
     const r = CONFIG.reviewForm;

@@ -9,7 +9,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://www.tastemakerscollective.us/reviews">
 
-<script>(function(){function go(){var h=location.hash;if(!h||h.indexOf("#/")!==0)return;var m={"inquire":"contact","menu-catering":"events","menu-vending":"vending","menu-private-chef":"contact"},k=["","weddings","corporate","events","vending","order","menus","about","contact","reviews"];var r=h.slice(2),q="",i=r.indexOf("?");if(i>-1){q=r.slice(i);r=r.slice(0,i);}while(r.slice(-1)==="/")r=r.slice(0,-1);if(m[r])r=m[r];if(k.indexOf(r)===-1)r="";location.replace((r===""?"/":"/"+r)+q);}go();addEventListener("hashchange",go);})();</script>
+<script>(function(){function go(){var h=location.hash;if(!h||h.indexOf("#/")!==0)return;var m={"inquire":"contact","menu-catering":"events","menu-vending":"vending","menu-private-chef":"contact"},k=["","weddings","corporate","events","vending","order","menus","about","contact","vegan","gluten-free","reviews"];var r=h.slice(2),q="",i=r.indexOf("?");if(i>-1){q=r.slice(i);r=r.slice(0,i);}while(r.slice(-1)==="/")r=r.slice(0,-1);if(m[r])r=m[r];if(k.indexOf(r)===-1)r="";location.replace((r===""?"/":"/"+r)+q);}go();addEventListener("hashchange",go);})();</script>
 <!-- Interim mark: TC in Playfair Display, amethyst on the site black, drawn
      from the wordmark. Replaced when the real logo lands. -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -49,28 +49,28 @@
       "telephone": "+12132938518",
       "email": "hello@tastemakerscollective.us",
       "areaServed": "Los Angeles, CA",
-      "sameAs": []
-    },
-    {
-      "@type": "FoodEstablishment",
-      "@id": "https://www.tastemakerscollective.us/#foodestablishment",
-      "name": "Tastemakers Collective",
-      "url": "https://www.tastemakerscollective.us/",
-      "telephone": "+12132938518",
-      "email": "hello@tastemakerscollective.us",
-      "servesCuisine": "Californian",
-      "areaServed": "Los Angeles, CA",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Los Angeles",
-        "addressRegion": "CA",
-        "addressCountry": "US"
+      "slogan": "Custom menus for every event and every diet.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+12132938518",
+        "email": "hello@tastemakerscollective.us",
+        "contactType": "customer service",
+        "areaServed": "Los Angeles",
+        "availableLanguage": "English"
       },
-      "parentOrganization": {
-        "@id": "https://www.tastemakerscollective.us/#organization"
-      },
+      "knowsAbout": [
+        "Catering",
+        "Wedding catering",
+        "Corporate catering",
+        "Event catering",
+        "Festival food vending",
+        "Drop-off catering",
+        "Vegan catering",
+        "Gluten-free catering"
+      ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
+        "@id": "https://www.tastemakerscollective.us/#services",
         "name": "Services",
         "itemListElement": [
           {
@@ -117,8 +117,49 @@
               "description": "Drop-off catering for offices and gatherings.",
               "url": "https://www.tastemakerscollective.us/order"
             }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Vegan catering",
+              "description": "Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.",
+              "url": "https://www.tastemakerscollective.us/vegan"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Gluten-free catering",
+              "description": "Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.",
+              "url": "https://www.tastemakerscollective.us/gluten-free"
+            }
           }
         ]
+      },
+      "sameAs": []
+    },
+    {
+      "@type": "FoodEstablishment",
+      "@id": "https://www.tastemakerscollective.us/#foodestablishment",
+      "name": "Tastemakers Collective",
+      "url": "https://www.tastemakerscollective.us/",
+      "telephone": "+12132938518",
+      "email": "hello@tastemakerscollective.us",
+      "servesCuisine": "Californian",
+      "areaServed": "Los Angeles, CA",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Los Angeles",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "parentOrganization": {
+        "@id": "https://www.tastemakerscollective.us/#organization"
+      },
+      "hasOfferCatalog": {
+        "@id": "https://www.tastemakerscollective.us/#services"
       }
     },
     {
@@ -164,7 +205,7 @@
   ]
 }</script>
 <!-- Both deferred: the page is complete without them and nothing waits on them. -->
-<script defer src="/config.d5d72edd.js"></script>
+<script defer src="/config.00029c28.js"></script>
 <script defer src="/script.9143c3a3.js"></script>
 
 </head>
@@ -176,7 +217,7 @@
 <section class="tmc-page-hero tmc-page-hero-reviews"><div class="tmc-page-hero-inner"><div class="tmc-page-eyebrow">Reviews</div><span class="tmc-page-rule"></span><h1 class="tmc-page-title">Reviews</h1></div></section><section class="tmc-body"><p class="tmc-form-note">The review form is not open yet.</p><form class="tmc-form" id="tmc-review-form" autocomplete="on" data-enabled="false"><input type="hidden" name="form_source" value="review"><input class="tmc-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"><fieldset class="tmc-fieldset" disabled><div class="tmc-form-step"><h3>Your review</h3><div class="tmc-form-field"><label for="r-name">Name</label><input id="r-name" name="name" type="text" required></div><div class="tmc-form-field"><label for="r-email">Email</label><input id="r-email" name="email" type="email" required></div><div class="tmc-form-field"><label for="r-event">Your event</label><input id="r-event" name="event" type="text"></div><div class="tmc-form-field"><label for="r-rating">Rating</label><select id="r-rating" name="rating" required><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div class="tmc-form-field"><label for="r-review">Your review</label><textarea id="r-review" name="review" rows="5" required></textarea></div><div class="tmc-form-field tmc-form-check"><input id="r-consent" name="consent" type="checkbox" value="yes"><label for="r-consent">OK to publish this review with my first name</label></div><p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p><button type="submit" class="tmc-form-submit" disabled>Send review</button></div></fieldset></form></section><section class="tmc-primary-cta-band"><div class="tmc-primary-cta-inner"><div class="tmc-primary-cta-label">Contact</div><h2 class="tmc-primary-cta-headline">Book your event.</h2><div class="tmc-cta-actions"><a class="tmc-btn tmc-btn-primary" href="/contact">Book <span class="tmc-arrow">&rarr;</span></a></div></div></section>
 <section class="tmc-trust" aria-label="Permits and insurance"><ul class="tmc-trust-list"><li>Permitted by LA County Public Health.</li><li>Prepared in a permitted commercial kitchen.</li><li>$2M general liability insurance.</li><li>ServSafe certified manager.</li><li>Certificate of insurance available on request.</li></ul></section>
   </main>
-<footer class="tmc-footer"><div class="tmc-footer-grid"><div><div class="tmc-footer-brand">TASTEMAKERS COLLECTIVE</div><div class="tmc-footer-tag">Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles.</div></div><div class="tmc-footer-col"><h4>Services</h4><a href="/weddings">Weddings</a><a href="/corporate">Corporate</a><a href="/events">Events</a><a href="/vending">Vending</a><a href="/order">Order</a><a href="/menus">Menus</a></div><div class="tmc-footer-col"><h4>Site</h4><a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/card">Card</a></div><div class="tmc-footer-col"><h4>Connect</h4><a href="mailto:hello@tastemakerscollective.us">hello<wbr>@tastemakerscollective.us</a><a href="tel:+12132938518">(213) 293-8518</a></div></div><div class="tmc-footer-bottom"><div>&copy; 2026 Tastemakers Collective LLC</div><div>All rights reserved</div></div></footer>
+<footer class="tmc-footer"><div class="tmc-footer-grid"><div><div class="tmc-footer-brand">TASTEMAKERS COLLECTIVE</div><div class="tmc-footer-tag">Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles.</div></div><div class="tmc-footer-col"><h4>Services</h4><a href="/weddings">Weddings</a><a href="/corporate">Corporate</a><a href="/events">Events</a><a href="/vending">Vending</a><a href="/order">Order</a><a href="/menus">Menus</a><a href="/vegan">Vegan catering</a><a href="/gluten-free">Gluten-free catering</a></div><div class="tmc-footer-col"><h4>Site</h4><a href="/">Home</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/card">Card</a></div><div class="tmc-footer-col"><h4>Connect</h4><a href="mailto:hello@tastemakerscollective.us">hello<wbr>@tastemakerscollective.us</a><a href="tel:+12132938518">(213) 293-8518</a></div></div><div class="tmc-footer-bottom"><div>&copy; 2026 Tastemakers Collective LLC</div><div>All rights reserved</div></div></footer>
 </div>
 <!-- Vercel Web Analytics. Deferred, so it never blocks rendering. The path
      is served by Vercel only, so on localhost it simply 404s and nothing

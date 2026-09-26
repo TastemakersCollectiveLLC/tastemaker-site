@@ -70,6 +70,13 @@ ok('card/index.html');
 write('card/tastemakers.vcf', T.vcard());
 ok('card/tastemakers.vcf');
 
+/* ---------- 2c. the IndexNow key file ---------- */
+if (TMC.INDEXNOW_KEY) {
+  fs.readdirSync(ROOT).forEach(f => { if (/^[a-f0-9]{32}\.txt$/.test(f) && f !== TMC.INDEXNOW_KEY + '.txt') fs.unlinkSync(path.join(ROOT, f)); });
+  write(TMC.INDEXNOW_KEY + '.txt', TMC.INDEXNOW_KEY);
+  ok(TMC.INDEXNOW_KEY + '.txt');
+}
+
 /* ---------- 3. sitemap, robots, llms, 404 ---------- */
 console.log('site files');
 const now = new Date();
@@ -202,6 +209,27 @@ T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).fo
   if (!linkedFrom[p] || !linkedFrom[p].length) fail('orphan: nothing links to ' + p);
 });
 const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order'];
+const dietaryRoutes = ['/vegan', '/gluten-free'];
+built.forEach(bp => {
+  const body = bp.html.slice(bp.html.indexOf('<main'), bp.html.indexOf('</main>'));
+  if (serviceRoutes.indexOf(bp.path) > -1) {
+    dietaryRoutes.forEach(r => { if (body.indexOf('href="' + r + '"') === -1) fail(bp.file + ': body does not link to ' + r); });
+  }
+  if (dietaryRoutes.indexOf(bp.path) > -1) {
+    if (body.indexOf('href="/menus"') === -1) fail(bp.file + ': body does not link to Menus');
+    if (!/href="\/contact[?"]/.test(body)) fail(bp.file + ': body does not link to Contact');
+  }
+});
+dietaryRoutes.forEach(r => { if (built.filter(x => x.path === '/menus')[0].html.indexOf('href="' + r + '"') === -1) fail('menus.html does not link to ' + r); });
+/* the dietary pages carry exactly the tagged dishes */
+[['/vegan', 'Vegan'], ['/gluten-free', 'Gluten free']].forEach(pair => {
+  const want = [];
+  CONFIG.menus.forEach(sec => sec.groups.forEach(g => g.items.forEach(it => { if ((it.tags || []).indexOf(pair[1]) > -1) want.push(T.plain(it.name)); })));
+  const html = built.filter(x => x.path === pair[0])[0].html;
+  const got = (html.match(/<div class="tmc-menu-item-name">[\s\S]*?<\/div>/g) || []).map(m => T.plain(m.replace(/<[^>]+>/g, '')));
+  if (got.join('|') !== want.join('|')) fail(pair[0] + ': dishes are not exactly the ' + pair[1] + ' ones, got ' + got.length + ', want ' + want.length);
+  else ok(pair[0] + ': exactly the ' + want.length + ' ' + pair[1] + ' dishes');
+});
 built.filter(b => serviceRoutes.indexOf(b.path) > -1).forEach(b => {
   const body = b.html.slice(b.html.indexOf('<main'), b.html.indexOf('</main>'));
   if (body.indexOf('href="/menus"') === -1) fail(b.file + ': body does not link to Menus');
