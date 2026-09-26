@@ -65,14 +65,15 @@ function descriptionFor(route) { return CONFIG.descriptions[route] || CONFIG.des
 /* Sends an old hash URL to its page. #/weddings -> /weddings, the four
    retired routes forward, #/contact?type=x keeps its query, and an unknown
    route lands on Home, as the old router did. Inline and first in the head
-   so it runs before anything paints. */
+   so it runs before anything paints, and again on hashchange, so a #/route
+   typed onto a page that is already open is forwarded too. */
 function redirectScript() {
   const known = PAGES.filter(p => !p.unlisted).map(p => p.route === 'home' ? '' : p.route);
-  return '<script>(function(){var h=location.hash;if(!h||h.indexOf("#/")!==0)return;' +
+  return '<script>(function(){function go(){var h=location.hash;if(!h||h.indexOf("#/")!==0)return;' +
     'var m=' + JSON.stringify(CONFIG.redirects) + ',k=' + JSON.stringify(known) + ';' +
     'var r=h.slice(2),q="",i=r.indexOf("?");if(i>-1){q=r.slice(i);r=r.slice(0,i);}' +
     'while(r.slice(-1)==="/")r=r.slice(0,-1);if(m[r])r=m[r];if(k.indexOf(r)===-1)r="";' +
-    'location.replace((r===""?"/":"/"+r)+q);})();</script>';
+    'location.replace((r===""?"/":"/"+r)+q);}go();addEventListener("hashchange",go);})();</script>';
 }
 
 function head(page, assets, extra) {
