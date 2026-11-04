@@ -775,7 +775,7 @@ const pages = {
               '<div class="tmc-form-field"><label for="r-event">Your event</label><input id="r-event" name="event" type="text"></div>' +
               '<div class="tmc-form-field"><label for="r-rating">Rating</label><select id="r-rating" name="rating" required>' + options(r.ratings) + '</select></div>' +
               '<div class="tmc-form-field"><label for="r-review">Your review</label><textarea id="r-review" name="review" rows="5" required></textarea></div>' +
-              '<div class="tmc-form-field tmc-form-check"><input id="r-consent" name="consent" type="checkbox" value="yes"><label for="r-consent">OK to publish this review with my first name</label></div>' +
+              '<div class="tmc-form-field tmc-form-check"><input id="r-consent" name="consent" type="checkbox" value="yes" required><label for="r-consent">OK to publish this review with my first name</label></div>' +
               '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
               '<button type="submit" class="tmc-form-submit"' + off + '>Send review</button>' +
             '</div>' +
