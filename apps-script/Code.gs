@@ -31,11 +31,21 @@ var FIXED_COLUMNS = ['Received', 'Status', 'Flag'];
 /* The tabs setup() creates. A form_source value with no tab gets one on
    first use, so a new form needs no change here.
 
-   review: a customer review from the website's /reviews/ form. It is
+   onset: a production catering quote request from the website's /on-set
+   form.
+
+   review: a customer review from the website's /reviews form. It is
    written and emailed like everything else and is NEVER published by
    this script or by anything automatic. Danny reads the row, marks
    Status, and only then does a review go on the site, by hand. */
-var KNOWN_FORMS = ['contact', 'order', 'review'];
+var KNOWN_FORMS = ['contact', 'order', 'onset', 'review'];
+
+/* A form_source whose tab is named differently. Every other form_source
+   is its own tab name. */
+var TAB_NAMES = {
+  onset: 'onset',
+  review: 'reviews'
+};
 
 var TIME_ZONE = 'America/Los_Angeles';
 
@@ -162,10 +172,13 @@ function handleSubmission(data) {
    THE SPREADSHEET
    ============================================ */
 
-/* A sheet tab name may not contain : \ / ? * [ ] and is capped at 100
-   characters. Anything else in form_source is kept as sent. */
+/* The tab for a form_source: its TAB_NAMES entry if it has one, otherwise
+   the form_source itself. A sheet tab name may not contain : \ / ? * [ ]
+   and is capped at 100 characters. Anything else is kept as sent. */
 function tabNameFor(formSource) {
-  var name = String(formSource).replace(/[:\\\/\?\*\[\]]/g, ' ').trim();
+  var source = String(formSource);
+  if (Object.prototype.hasOwnProperty.call(TAB_NAMES, source)) source = TAB_NAMES[source];
+  var name = source.replace(/[:\\\/\?\*\[\]]/g, ' ').trim();
   if (!name) name = 'unknown';
   return name.slice(0, 100);
 }
@@ -272,6 +285,9 @@ function subjectFor(formSource, data, flagged) {
     subject = 'New inquiry: ' + type + ' from ' + name;
   } else if (formSource === 'order') {
     subject = 'New drop-off order request from ' + name;
+  } else if (formSource === 'onset') {
+    var company = (data.production_company || '').trim();
+    subject = 'New production catering quote request from ' + name + (company ? ', ' + company : '');
   } else if (formSource === 'review') {
     subject = 'New review from ' + name;
   } else {
@@ -312,8 +328,9 @@ function sendNotification(formSource, data, flagged, sheetError) {
 /* ============================================
    ONE-TIME SETUP
    Run from the editor: Run > setup. The first run opens the authorization
-   prompt for the two scopes in the manifest. It creates the contact and
-   order tabs with the fixed columns, leaves any existing tab alone, and
+   prompt for the two scopes in the manifest. It creates the contact,
+   order, onset and reviews tabs with the fixed columns, leaves any
+   existing tab alone, and
    sends one test email so the mail path is proven before the site is
    pointed here.
    ============================================ */
@@ -323,7 +340,7 @@ function setup() {
   KNOWN_FORMS.forEach(function (form) {
     if (!ss.getSheetByName(tabNameFor(form))) {
       getOrCreateTab(form);
-      made.push(form);
+      made.push(tabNameFor(form));
     }
   });
   var to = notifyEmail();
@@ -334,7 +351,7 @@ function setup() {
       'The form backend is authorized and ready.',
       '',
       'Spreadsheet: ' + ss.getUrl(),
-      'Tabs created: ' + (made.length ? made.join(', ') : 'none, both existed already'),
+      'Tabs created: ' + (made.length ? made.join(', ') : 'none, all existed already'),
       'Notifications go to: ' + to,
       '',
       'If this is a re-run after an update, the existing deployment stays as it is; publish the new code with Deploy > Manage deployments > edit > New version.',
