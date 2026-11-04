@@ -71,9 +71,15 @@
       /* Street address, when there is one to publish. Empty means the
          structured data carries the city and state only. */
       address: '',
-      /* Public profiles. Empty until the Instagram handle lands; the
-         structured data carries sameAs as an empty list until then. */
-      sameAs: []
+      /* Public profiles. Each one renders as a footer link under Connect
+         and joins sameAs in the structured data only when it is filled in.
+         Paste the full https:// profile URL. */
+      /* TODO: handle to be supplied. */
+      INSTAGRAM_URL: '',
+      /* TODO: handle to be supplied. */
+      FACEBOOK_URL: '',
+      /* TODO: handle to be supplied. */
+      LINKEDIN_URL: ''
     },
 
     /* The trust strip, on every page above the footer. Exact wording. */

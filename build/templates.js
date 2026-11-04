@@ -197,8 +197,8 @@ function jsonLd(page) {
     },
     knowsAbout: CONFIG.knowsAbout.slice(),
     hasOfferCatalog: offerCatalog(),
-    /* Empty until the Instagram handle lands. */
-    sameAs: B.sameAs.slice()
+    /* The filled profile URLs; an empty list until a handle is supplied. */
+    sameAs: socialLinks().map(s => s.url)
   };
   const foodEstablishment = {
     '@type': 'FoodEstablishment',
@@ -318,6 +318,19 @@ function trustStrip() {
   );
 }
 
+/* Social profiles in the order Danny listed them, skipping any not yet
+   supplied. Feeds the footer Connect column and sameAs. */
+function socialLinks() {
+  return [
+    { label: 'Instagram', url: B.INSTAGRAM_URL },
+    { label: 'Facebook', url: B.FACEBOOK_URL },
+    { label: 'LinkedIn', url: B.LINKEDIN_URL }
+  ].filter(s => {
+    if (s.url && !/^https:\/\/\S+$/.test(s.url)) throw new Error(s.label + ' URL must be a full https:// address: ' + s.url);
+    return s.url;
+  });
+}
+
 function footer() {
   const cols = CONFIG.footer.columns.map(col =>
     '<div class="tmc-footer-col"><h4>' + col.heading + '</h4>' +
@@ -336,6 +349,7 @@ function footer() {
           /* The only break the address is allowed: before the @. */
           '<a href="mailto:' + B.email + '">' + B.email.replace('@', '<wbr>@') + '</a>' +
           '<a href="' + B.phoneHref + '">' + B.phone + '</a>' +
+          socialLinks().map(s => '<a href="' + s.url + '" rel="me noopener">' + s.label + '</a>').join('') +
         '</div>' +
       '</div>' +
       '<div class="tmc-footer-bottom">' +
