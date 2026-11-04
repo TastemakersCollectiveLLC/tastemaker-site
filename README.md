@@ -69,7 +69,7 @@ creates its tab on first use.
 
 ## Measurement
 
-`GA4_ID`, `META_PIXEL_ID` and `GSC_VERIFICATION` in `config.js` are empty.
+`GA4_ID`, `META_PIXEL_ID` and `META_VERIFICATION` in `config.js` are empty.
 While they are empty nothing loads, no tag is written and every tracking
 call is a no-op. Fill one in and rebuild to switch it on. The events are
 already wired: `form_submit` with `form_source`, and `phone_tap`, `sms_tap`,

@@ -256,7 +256,7 @@ if (!TMC.GA4_ID && !TMC.META_PIXEL_ID) {
   built.concat([{ file: 'card/index.html', html: read('card/index.html') }]).forEach(b => {
     const srcs = (b.html.match(/<script[^>]+src="([^"]+)"/g) || []).map(m => m.match(/src="([^"]+)"/)[1]);
     srcs.forEach(src => { if (/^https?:/.test(src)) fail(b.file + ': third party script ' + src); });
-    if (/googletagmanager|connect\.facebook\.net|google-site-verification/.test(b.html) && !TMC.GSC_VERIFICATION) fail(b.file + ': measurement markup present while the constants are empty');
+    if (/googletagmanager|connect\.facebook\.net|google-site-verification/.test(b.html) && !TMC.META_VERIFICATION) fail(b.file + ': measurement markup present while the constants are empty');
   });
   ok('measurement constants empty: no third party script, no pixel, no verification tag on any page or /card');
 }

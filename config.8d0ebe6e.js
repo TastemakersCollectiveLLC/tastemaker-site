@@ -44,7 +44,7 @@
   /* Google Search Console. Paste only the content value of the
      google-site-verification meta tag here; the build then writes the tag
      into every page head. Empty means no tag. */
-  var GSC_VERIFICATION = '';
+  var META_VERIFICATION = '';
   /* IndexNow. The build hosts this key as /<key>.txt, which is how the
      search engines that share IndexNow confirm the site is ours, and
      build/indexnow.js submits the sitemap URLs with it after each push.
@@ -689,7 +689,7 @@
     FORM_ENDPOINT: FORM_ENDPOINT,
     GA4_ID: GA4_ID,
     META_PIXEL_ID: META_PIXEL_ID,
-    GSC_VERIFICATION: GSC_VERIFICATION,
+    META_VERIFICATION: META_VERIFICATION,
     INDEXNOW_KEY: INDEXNOW_KEY
   };
 });

@@ -96,7 +96,7 @@ function head(page, assets, extra) {
       ? '<meta name="robots" content="index,follow,max-image-preview:large">'
       : '<meta name="robots" content="noindex,nofollow">',
     '<link rel="canonical" href="' + url + '">',
-    TMC.GSC_VERIFICATION ? '<meta name="google-site-verification" content="' + esc(TMC.GSC_VERIFICATION) + '">' : '',
+    TMC.META_VERIFICATION ? '<meta name="google-site-verification" content="' + esc(TMC.META_VERIFICATION) + '">' : '',
     redirectScript(),
     '<!-- Interim mark: TC in Playfair Display, amethyst on the site black, drawn',
     '     from the wordmark. Replaced when the real logo lands. -->',
@@ -879,7 +879,8 @@ function cardPage(template, assets) {
     '{{smsHref}}': B.smsHref,
     '{{email}}': B.email,
     '{{scripts}}': '<!-- Deferred, for tap measurement only; the card is complete without them. -->\n' +
-      '<script defer src="/' + assets.config + '"></script>\n<script defer src="/' + assets.script + '"></script>'
+      '<script defer src="/' + assets.config + '"></script>\n<script defer src="/' + assets.script + '"></script>\n' +
+      '<!-- Vercel Web Analytics, as on every other page. -->\n<script defer src="/_vercel/insights/script.js"></script>'
   };
   let out = template;
   Object.keys(tokens).forEach(k => { out = out.split(k).join(tokens[k]); });
