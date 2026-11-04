@@ -146,7 +146,7 @@
       home: 'A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.',
       menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom. Built around any dietary needs and allergies.',
       order: 'Drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count. Delivered ready to serve.',
-      weddings: 'Wedding catering in Los Angeles. Custom menus, full service, plated, family style, buffet or stations. Built around any dietary needs and allergies.',
+      weddings: 'Wedding catering in Los Angeles. Custom menus, tasting on booking, full service, plated, family style, buffet or stations. Every dietary need handled dish by dish.',
       corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings and all-day events, company parties and client dinners. Every dish labeled for dietary needs.',
       events: 'Catering for private parties, celebrations and milestones in Los Angeles. Custom menus and full service. Built around any dietary needs and allergies.',
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
@@ -225,7 +225,6 @@
     },
 
     pageCopy: {
-      weddings: '',
       events: '',
       vending: ''
     },
@@ -236,6 +235,35 @@
        optional button. A list item written "Label: text" shows the label
        in white. Rendered by sections() in build/templates.js.
        ============================================ */
+    weddingsPage: [
+      { heading: 'How we work',
+        list: [
+          'Inquiry: send the date, the venue, the guest count and any dietary needs.',
+          'Consultation: a call to talk through the food, the service style and how the day runs.',
+          'Custom menu and quote: we write a menu for your wedding and send a per-person quote with nothing hidden.',
+          'Tasting: a tasting is available once you book.'
+        ] },
+      { heading: 'Service styles',
+        body: 'Plated, family style, buffet or stations. Any of them, or a mix across the evening.' },
+      { heading: 'What is included',
+        list: [
+          'A menu written for your wedding',
+          'Chef team and service staff through the event',
+          'Our own cooking equipment, setup and breakdown',
+          'Plateware, glassware and rentals coordinated on request',
+          'Bar service as an add-on: bartenders, house-made mixers and the bar; you supply the alcohol'
+        ] },
+      { heading: 'Dietary needs',
+        body: 'Every menu is built around your guests. Vegan, vegetarian, gluten free, dairy free, nut free and halal are handled dish by dish and labeled on the day.' },
+      /* TODO: deposit percentage and exact timing to confirm with Danny. */
+      { heading: 'Deposit and timing',
+        list: [
+          'A deposit holds the date; the balance is due before the wedding.',
+          'Final guest count is due two weeks before.',
+          'Menu changes are welcome up to the final count.'
+        ] }
+    ],
+
     corporatePage: [
       { heading: 'Office lunch',
         body: 'Lunch delivered to the office, ready to serve. Menus rotate so the team is not eating the same thing every week. Every dish is labeled for dietary needs and allergens. Order online or send a request and we confirm the same business day.',
@@ -524,7 +552,7 @@
       buttons: {
         home:      { primary: 'Book', secondary: 'Order drop-off' },
         order:     { primary: 'Book' },
-        weddings:  { primary: 'Book', secondary: 'Order drop-off', type: 'wedding' },
+        weddings:  { primary: 'Book', type: 'wedding' },
         corporate: { primary: 'Book', secondary: 'Order drop-off', type: 'corporate' },
         events:    { primary: 'Book', secondary: 'Order drop-off', type: 'private-party' },
         vending:   { primary: 'Book', secondary: 'Order drop-off', type: 'vending', style: 'vending' },

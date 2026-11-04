@@ -613,11 +613,7 @@ const pages = {
   },
 
   weddings() {
-    return pageHero('weddings') + copySlot('weddings') +
-      block('', 'How it works', '', tiles(CONFIG.process, 4)) +
-      block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
-      block('', 'What is included', '', tiles(CONFIG.included, 3), '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
-      block('', 'Dietary needs', CONFIG.dietaryNote) +
+    return pageHero('weddings') + sections(CONFIG.weddingsPage) +
       menusBlock() + contactBand('weddings');
   },
 
