@@ -62,7 +62,7 @@
       city: 'Los Angeles',
       /* The service area as it may be stated today. Danny supplies the
          full list later; until then it is Los Angeles only. */
-      serviceArea: 'Los Angeles, CA',
+      serviceArea: 'Los Angeles and Southern California',
       tagline: 'Custom menus for every event and every diet.',
       /* The display form. The tel: and sms: hrefs are derived from its
          digits below, so the three can never disagree. */
@@ -172,7 +172,7 @@
     heroes: {
       order: {
         eyebrow: 'Order',
-        intro: 'Drop-off catering for offices and gatherings.'
+        intro: 'Drop-off catering for offices and gatherings. Boxed meals or pans, delivered ready to serve.'
       },
       weddings: {
         eyebrow: 'Weddings',
@@ -200,7 +200,7 @@
       },
       contact: {
         eyebrow: 'Contact',
-        intro: 'Tell us about your event and we&rsquo;ll get back to you. Serving Los Angeles.'
+        intro: 'Tell us about your event and we&rsquo;ll get back to you. Serving Los Angeles and Southern California.'
       },
       menus: {
         eyebrow: 'Menus',
@@ -430,7 +430,17 @@
     heroDishes: ['Duck Tacos', 'Panang Beef Barbacoa', 'Lobster Tortelloni',
                  'Crispy Maitake Tacos', 'Chateaubriand'],
 
-    /* Home services cards. */
+    /* Home Who we are: the headline and paragraphs under the hero. */
+    homeWho: {
+      headline: 'A Los Angeles catering and events company.',
+      body: [
+        'We cook for offices, weddings, private parties, productions on set and music festivals.',
+        'Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and chicken and beef are halal.',
+        'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals.'
+      ]
+    },
+
+    /* Home services cards. Six, three by two on desktop. */
     services: [
       {
         route: 'weddings',
@@ -455,6 +465,18 @@
         title: 'Vending',
         desc: 'Festival food vending, staff meals and artist hospitality.',
         styles: 'Festivals &nbsp;&middot;&nbsp; Staff meals &nbsp;&middot;&nbsp; Artist hospitality'
+      },
+      {
+        route: 'onSet',
+        title: 'On set',
+        desc: 'Crew breakfast and lunch delivered to location on your schedule.',
+        styles: 'Walking breakfast &nbsp;&middot;&nbsp; Hot lunch &nbsp;&middot;&nbsp; Boxed lunch'
+      },
+      {
+        route: 'order',
+        title: 'Drop-off',
+        desc: 'Lunch for offices and gatherings in boxed meals or pans, delivered ready to serve.',
+        styles: 'Boxed meals &nbsp;&middot;&nbsp; Pans'
       }
     ],
 
@@ -477,7 +499,8 @@
 
     /* The subjects the business knows, for the structured data. */
     knowsAbout: ['Catering', 'Wedding catering', 'Corporate catering', 'Event catering', 'Festival food vending',
-                 'Drop-off catering', 'Vegan catering', 'Gluten-free catering'],
+                 'Drop-off catering', 'Production catering', 'Vegan catering', 'Gluten-free catering',
+                 'Dairy-free catering', 'Bar service'],
 
     /* Shared by Weddings and Events, which run the same process. */
     process: [
@@ -535,6 +558,8 @@
     /* Drop-off order request. Lead time is in hours so the date picker can
        compute its own minimum. */
     order: {
+      /* The one line above the form. */
+      note: 'Send the details below and we reply with a menu and a quote. Orders need at least 48 hours notice.',
       leadTimeHours: 48,
       deliveryWindows: ['11:00', '11:30', '12:00', '12:30', '1:00'],
       guestCounts: ['Under 20', '20 to 30', '30 to 50', '50 to 75', '75 to 100', 'More than 100']
@@ -543,13 +568,16 @@
     /* About. Company only, no personal credentials. */
     aboutWhatWeDo: [
       { title: 'Catering', desc: 'Custom menus cooked and served at your event.' },
+      { title: 'Drop-off', desc: 'Boxed meals and pans delivered ready to serve.' },
+      { title: 'On set', desc: 'Crew breakfast and lunch delivered to location.' },
       { title: 'Events', desc: 'Corporate events, private parties and celebrations.' },
       { title: 'Festival vending', desc: 'Food vending, staff meals and artist hospitality.' },
+      { title: 'Bar service', desc: 'Bartenders and house-made mixers. You supply the alcohol.' },
       { title: 'Pop-ups', desc: 'One-night events we run ourselves.' },
       { title: 'Supper clubs', desc: 'Private dinners announced to our guest list.' }
     ],
 
-    aboutWhoWeAre: 'Tastemakers Collective is run by a working chef and a small team. The kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
+    aboutWhoWeAre: 'Tastemakers Collective is a chef-driven catering, events and food vending company in Los Angeles. Our specialty is food for people with dietary restrictions, cooked from whole foods. Our kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
     /* No permit or policy numbers here. */
     aboutCredentials: [
       'Permitted by LA County Public Health',
@@ -642,7 +670,7 @@
     },
 
     footer: {
-      tagline: 'Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles.',
+      tagline: 'Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles and Southern California.',
       columns: [
         {
           heading: 'Services',

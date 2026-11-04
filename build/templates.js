@@ -12,6 +12,9 @@
 const TMC = require('../config.js');
 const CONFIG = TMC.CONFIG;
 const B = CONFIG.business;
+/* areaServed as separate entries, from the service area plus the state
+   the festivals reach. Schema.org takes an array of Text here. */
+const AREA_SERVED = ['Los Angeles', 'Southern California', 'California'];
 const SITE = CONFIG.siteUrl;
 const SUFFIX = ' | ' + B.name;
 
@@ -185,14 +188,14 @@ function jsonLd(page) {
     logo: SITE + '/apple-touch-icon.png',
     telephone: B.phoneE164,
     email: B.email,
-    areaServed: B.serviceArea,
+    areaServed: AREA_SERVED.slice(),
     slogan: B.tagline,
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: B.phoneE164,
       email: B.email,
       contactType: 'customer service',
-      areaServed: B.city,
+      areaServed: AREA_SERVED.slice(),
       availableLanguage: 'English'
     },
     knowsAbout: CONFIG.knowsAbout.slice(),
@@ -208,7 +211,7 @@ function jsonLd(page) {
     telephone: B.phoneE164,
     email: B.email,
     servesCuisine: 'Californian',
-    areaServed: B.serviceArea,
+    areaServed: AREA_SERVED.slice(),
     address: Object.assign({ '@type': 'PostalAddress' }, B.address ? { streetAddress: B.address } : {}, { addressLocality: B.city, addressRegion: 'CA', addressCountry: 'US' }),
     parentOrganization: { '@id': orgId },
     /* The same catalog as the Organization, referenced rather than repeated. */
@@ -252,7 +255,7 @@ function jsonLd(page) {
       description: service.desc,
       serviceType: service.name,
       provider: { '@id': orgId },
-      areaServed: B.serviceArea,
+      areaServed: AREA_SERVED.slice(),
       url: url
     });
   }
@@ -268,7 +271,7 @@ function jsonLd(page) {
       description: plain(descriptionFor(route)),
       serviceType: diet.name,
       provider: { '@id': orgId },
-      areaServed: B.serviceArea,
+      areaServed: AREA_SERVED.slice(),
       url: url
     });
     graph.push(menuNode(url + '#menu', h1For(route), plain(CONFIG.heroes[route].intro), url, diet.tag));
@@ -549,9 +552,8 @@ const pages = {
       '</section>' +
       '<section class="tmc-why">' +
         '<div class="tmc-why-label">Who we are</div>' +
-        '<h2 class="tmc-why-headline">A Los Angeles catering and events company.</h2>' +
-        '<p class="tmc-why-body">We cook for music festivals, corporate events, weddings and private dinners.</p>' +
-        '<p class="tmc-why-body">Over a decade cooking for artist green rooms, VIP areas and staff at music festivals.</p>' +
+        '<h2 class="tmc-why-headline">' + CONFIG.homeWho.headline + '</h2>' +
+        CONFIG.homeWho.body.map(p => '<p class="tmc-why-body">' + p + '</p>').join('') +
       '</section>' +
       '<section class="tmc-section-header">' +
         '<div class="tmc-section-label">Services</div>' +
@@ -602,10 +604,11 @@ const pages = {
   order() {
     return pageHero('order') +
       '<section class="tmc-body">' +
+        '<p class="tmc-form-note">' + CONFIG.order.note + '</p>' +
         '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
           '<input type="hidden" name="form_source" value="order">' + honeypot() +
           '<div class="tmc-form-step"><h3>Delivery</h3>' +
-            '<div class="tmc-form-field"><label for="o-date">Date</label><input id="o-date" name="date" type="date" required></div>' +
+            '<div class="tmc-form-field"><label for="o-date">Delivery date</label><input id="o-date" name="date" type="date" required></div>' +
             '<div class="tmc-form-field"><label for="o-window">Delivery window</label><select id="o-window" name="delivery_window" required>' + options(CONFIG.order.deliveryWindows) + '</select></div>' +
             '<div class="tmc-form-field"><label for="o-address">Delivery address or area</label><input id="o-address" name="address" type="text" required></div>' +
             '<div class="tmc-form-field"><label for="o-guests">Guest count</label><select id="o-guests" name="guests" required>' + options(CONFIG.order.guestCounts) + '</select></div>' +
@@ -831,7 +834,8 @@ function llmsTxt() {
   lines.push('');
   lines.push('> ' + B.tagline);
   lines.push('');
-  lines.push(B.name + ' is a Los Angeles catering and events company. We cook for music festivals, corporate events, weddings and private dinners. Over a decade cooking for artist green rooms, VIP areas and staff at music festivals.');
+  /* The same Who we are copy the Home page renders, so the two cannot drift. */
+  lines.push(B.name + ' is a Los Angeles catering and events company. ' + CONFIG.homeWho.body.join(' '));
   lines.push('');
   lines.push('## What we do');
   lines.push('');
@@ -841,7 +845,7 @@ function llmsTxt() {
   lines.push('');
   lines.push('- Phone: ' + B.phone);
   lines.push('- Email: ' + B.email);
-  lines.push('- Service area: ' + B.city);
+  lines.push('- Service area: ' + B.serviceArea);
   lines.push('');
   lines.push('## Pages');
   lines.push('');

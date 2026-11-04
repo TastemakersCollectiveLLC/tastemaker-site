@@ -534,7 +534,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-services-wrap { background: transparent; padding: 0 24px 88px; }
 .tmc-services-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* Six cards since 11/4/2026: three by two on desktop, two columns at
+     1024px, one on phones, same card design. */
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   max-width: 1280px;
   margin: 0 auto;
