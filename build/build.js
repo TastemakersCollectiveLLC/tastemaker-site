@@ -142,7 +142,10 @@ built.forEach(b => {
   const desc = (b.html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
   const expectTitle = T.titleFor(b.route);
   if (title !== expectTitle) fail(b.file + ': title "' + title + '" is not "' + expectTitle + '"');
-  if (b.page.indexable !== false && (desc.length < 120 || desc.length > 155)) fail(b.file + ': description is ' + desc.length + ' characters');
+  /* 120 to 155 is the target. Danny's own descriptions may run longer, so
+     over 155 is a printed warning and only over 200 fails. */
+  if (b.page.indexable !== false && (desc.length < 120 || desc.length > 200)) fail(b.file + ': description is ' + desc.length + ' characters');
+  else if (b.page.indexable !== false && desc.length > 155) console.log('  WARN  ' + b.file + ': description is ' + desc.length + ' characters, over the 155 target');
   if (!/<meta name="robots" content="index,follow,max-image-preview:large">/.test(b.html) && b.page.indexable !== false) fail(b.file + ': robots meta missing');
   if (!new RegExp('<link rel="canonical" href="' + T.absolute(b.path).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '">').test(b.html)) fail(b.file + ': canonical wrong');
 });

@@ -436,6 +436,27 @@ function menusBlock(label) {
     '<div class="tmc-block-cta tmc-service-links"><a class="tmc-service-menu-link" href="/menus">See the menus <span class="tmc-arrow">&rarr;</span></a>' + dietaryLinks() + '</div>');
 }
 
+/* A plain list. An item written "Label: text" shows the label in white;
+   the words themselves are exactly as written in CONFIG. */
+function bullets(items) {
+  return '<ul class="tmc-bullets">' + items.map(item => {
+    const i = item.indexOf(': ');
+    const labelled = i > 0 && i < 48 && !/[.,;]/.test(item.slice(0, i));
+    return '<li>' + (labelled
+      ? '<span class="tmc-bullet-label">' + item.slice(0, i + 1) + '</span>' + item.slice(i + 1)
+      : item) + '</li>';
+  }).join('') + '</ul>';
+}
+
+/* A page body written as sections in CONFIG: heading, then a paragraph,
+   a list, or both, then an optional button. */
+function sections(list) {
+  return list.map(sec => block('', sec.heading, sec.body || '',
+    (sec.list ? bullets(sec.list) : '') +
+    (sec.button ? '<div class="tmc-block-cta"><a class="tmc-service-menu-link" href="' + sec.button.href + '">' + sec.button.label + ' <span class="tmc-arrow">&rarr;</span></a></div>' : '')
+  )).join('');
+}
+
 function honeypot() {
   /* Off screen rather than display:none, so a bot still sees a fillable
      field, and out of the tab order so a person never lands on it. */
@@ -601,12 +622,7 @@ const pages = {
   },
 
   corporate() {
-    return pageHero('corporate') + copySlot('corporate') +
-      block('', 'What we cater', '', tiles(CONFIG.corporateTypes, 4)) +
-      block('', 'How it works', '', tiles(CONFIG.process, 4)) +
-      block('', 'Service styles', '', tiles(CONFIG.corporateStyles, 5)) +
-      block('', 'What is included', '', tiles(CONFIG.included, 3), '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
-      block('', 'Dietary needs', CONFIG.dietaryNote) +
+    return pageHero('corporate') + sections(CONFIG.corporatePage) +
       menusBlock() + contactBand('corporate');
   },
 

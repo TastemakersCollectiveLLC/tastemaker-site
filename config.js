@@ -147,7 +147,7 @@
       menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom. Built around any dietary needs and allergies.',
       order: 'Drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count. Delivered ready to serve.',
       weddings: 'Wedding catering in Los Angeles. Custom menus, full service, plated, family style, buffet or stations. Built around any dietary needs and allergies.',
-      corporate: 'Corporate catering in Los Angeles. Office lunches, meetings, company events and client dinners. Plated, family style, buffet, stations or drop-off.',
+      corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings and all-day events, company parties and client dinners. Every dish labeled for dietary needs.',
       events: 'Catering for private parties, celebrations and milestones in Los Angeles. Custom menus and full service. Built around any dietary needs and allergies.',
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
       about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
@@ -226,10 +226,39 @@
 
     pageCopy: {
       weddings: '',
-      corporate: '',
       events: '',
       vending: ''
     },
+
+    /* ============================================
+       PAGE SECTIONS, Danny's copy, in page order
+       Each section is a heading with a paragraph, a list, or both, and an
+       optional button. A list item written "Label: text" shows the label
+       in white. Rendered by sections() in build/templates.js.
+       ============================================ */
+    corporatePage: [
+      { heading: 'Office lunch',
+        body: 'Lunch delivered to the office, ready to serve. Menus rotate so the team is not eating the same thing every week. Every dish is labeled for dietary needs and allergens. Order online or send a request and we confirm the same business day.',
+        button: { label: 'Order drop-off', href: '/order' } },
+      { heading: 'Meetings and all-day events',
+        body: 'Breakfast, lunch and breaks timed to the agenda. Delivered and set, or staffed through the day.' },
+      { heading: 'Company events and client dinners',
+        body: 'Holiday parties, launches, team dinners and client dinners, plated, family style, buffet or stations, cooked and served by our team.' },
+      { heading: 'Dietary needs',
+        body: 'Every menu is built around the dietary needs and allergies in the room. Every dish is labeled. Vegan, vegetarian, gluten free, dairy free, nut free and halal options are on every menu, not an afterthought.' },
+      /* TODO: minimum, lead time and starting price to be added when the lunch packages are published. */
+      { heading: 'How ordering works',
+        list: [
+          'Drop-off: order on the Order page or send a request. Minimum headcount and lead time are shown there.',
+          'Staffed events: send an inquiry with date, place, guest count and dietary needs. We reply with a custom menu and a quote.',
+          'Billing: invoice on confirmation. Net terms available for repeat corporate accounts.'
+        ] },
+      /* TODO: bar package details and pricing to follow. */
+      { heading: 'Bar',
+        body: 'Bar service is available as an add-on. We bring bartenders, house-made mixers, ice, glassware and the bar; you supply the alcohol from a shopping list we give you. Priced by cocktail menu, guest count and hours.' },
+      { heading: 'Who cooks',
+        body: 'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals. Permitted by LA County Public Health, ServSafe certified, prepared in a permitted commercial kitchen.' }
+    ],
 
     /* ============================================
        MENUS

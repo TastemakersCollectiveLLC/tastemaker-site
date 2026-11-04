@@ -844,6 +844,39 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-form-check input { width: 18px; height: 18px; margin-top: 3px; flex: 0 0 18px; accent-color: var(--amethyst); }
 .tmc-form-check label { margin: 0; text-transform: none; letter-spacing: 0.02em; font-size: 14px; line-height: 1.6; }
 
+/* A plain list inside a section: one fact per line, a short amethyst rule
+   for the marker, hairlines between. Left aligned in the centred column so
+   longer items read as sentences. */
+.tmc-bullets {
+  list-style: none;
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+}
+.tmc-bullets li {
+  position: relative;
+  padding: 14px 0 14px 24px;
+  border-top: 1px solid var(--hairline-soft);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--white-soft);
+}
+.tmc-bullets li:last-child { border-bottom: 1px solid var(--hairline-soft); }
+.tmc-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 27px;
+  width: 10px;
+  height: 1px;
+  background: var(--amethyst);
+}
+.tmc-bullet-label { color: var(--white); font-weight: 400; }
+.tmc-block-head + .tmc-bullets { margin-top: -8px; }
+
 /* Menus: the row of service links under the dishes. */
 .tmc-service-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
