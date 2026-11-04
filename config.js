@@ -558,9 +558,9 @@
        plain. */
     contactForm: {
       eventTypes: ['Wedding', 'Corporate event', 'Private party', 'Celebration',
-                   'Festival or event vending', 'Other'],
+                   'Festival or event vending', 'Production or on set', 'Other'],
       serviceStyles: ['Plated catering', 'Buffet catering', 'Family style catering',
-                      'Action stations', 'Drop-off catering', 'Vending', 'Not sure yet'],
+                      'Action stations', 'Drop-off catering', 'Vending', 'Dry hire bar', 'Not sure yet'],
       guestCounts: ['Under 25', '25 to 50', '50 to 100', '100 to 200', '200 to 500', 'More than 500'],
       typeFromQuery: {
         wedding: 'Wedding',
@@ -568,6 +568,7 @@
         'private-party': 'Private party',
         celebration: 'Celebration',
         vending: 'Festival or event vending',
+        production: 'Production or on set',
         other: 'Other'
       },
       styleFromQuery: {
@@ -576,7 +577,8 @@
         'family-style': 'Family style catering',
         stations: 'Action stations',
         'drop-off': 'Drop-off catering',
-        vending: 'Vending'
+        vending: 'Vending',
+        bar: 'Dry hire bar'
       },
       /* The extra questions a vending enquiry needs. */
       vendingType: 'Festival or event vending',

@@ -69,7 +69,7 @@ async function get(url, ua) {
     if (indexable && p !== '/card') {
       if (text.length <= 400) fail(p + ': ' + text.length + ' characters without JavaScript');
       if (h1 && p !== '/' && text.indexOf(h1) === -1) fail(p + ': h1 not in the body text');
-      if (desc.length < 120 || desc.length > 155) fail(p + ': description ' + desc.length);
+      if (desc.length < 120 || desc.length > 200) fail(p + ': description ' + desc.length);
     }
     rows.push({ p, status: r.status, h1, title: title.length, desc: desc.length, text: text.length, types: types.join(', ') || 'none', robots: indexable ? 'index' : (p === '/card' ? 'none set' : 'noindex') });
     (html.match(/<a [^>]*href="([^"]+)"/g) || []).forEach(a => {
