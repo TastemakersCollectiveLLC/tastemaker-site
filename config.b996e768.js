@@ -549,6 +549,14 @@
       { title: 'Supper clubs', desc: 'Private dinners announced to our guest list.' }
     ],
 
+    aboutWhoWeAre: 'Tastemakers Collective is run by a working chef and a small team. The kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
+    /* No permit or policy numbers here. */
+    aboutCredentials: [
+      'Permitted by LA County Public Health',
+      'ServSafe certified manager',
+      '$2M general liability insurance, certificate available on request',
+      'Licensed California LLC'
+    ],
     aboutWhereWeWork: 'Los Angeles and Southern California, plus festivals across California.',
 
     /* Closing band. One per page, always pointing at Contact. */

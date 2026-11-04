@@ -644,6 +644,10 @@ const pages = {
   about() {
     return pageHero('about') +
       block('', 'What we do', '', rows(CONFIG.aboutWhatWeDo)) +
+      sections([
+        { heading: 'Who we are', body: CONFIG.aboutWhoWeAre },
+        { heading: 'Credentials', list: CONFIG.aboutCredentials }
+      ]) +
       block('', 'Where we work', CONFIG.aboutWhereWeWork) +
       contactBand('about');
   },
