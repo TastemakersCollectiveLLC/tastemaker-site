@@ -474,7 +474,7 @@
         const host = form.parentNode;
         host.innerHTML =
           '<div class="tmc-form-success" role="status" aria-live="polite" tabindex="-1">' +
-            '<h3>Thanks. We&rsquo;ll get back to you soon.</h3>' +
+            '<h3>Thanks. We&rsquo;ll get back to you.</h3>' +
           '</div>';
         const done = host.querySelector('.tmc-form-success');
         if (done) done.focus({ preventScroll: true });

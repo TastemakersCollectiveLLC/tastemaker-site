@@ -154,13 +154,13 @@
       home: 'A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.',
       menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom. Built around any dietary needs and allergies.',
       order: 'Drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count. Delivered ready to serve.',
-      weddings: 'Wedding catering in Los Angeles. Custom menus, tasting on booking, full service, plated, family style, buffet or stations. Every dietary need handled dish by dish.',
-      corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings and all-day events, company parties and client dinners. Every dish labeled for dietary needs.',
+      weddings: 'Wedding catering in Los Angeles. Custom menus, a tasting once booked, full service in any style. Every dietary need handled dish by dish.',
+      corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings, company parties and client dinners. Every dish labeled for dietary needs.',
       events: 'Catering for private parties, celebrations and milestones in Los Angeles. Custom menus and full service. Built around any dietary needs and allergies.',
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
       about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
       contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles. Call or text (213) 293-8518.',
-      onSet: 'Production catering in Los Angeles. Crew breakfast and lunch delivered to location on the production schedule, labeled for every dietary need, with a certificate of insurance naming the production.',
+      onSet: 'Production catering in Los Angeles. Crew breakfast and lunch delivered to location on your schedule, labeled for every diet. COI on request.',
       vegan: 'Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       glutenFree: 'Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       /* noindex while the form is disabled, so the length rule is not applied */
@@ -253,7 +253,7 @@
         list: [
           'Inquiry: send the date, the venue, the guest count and any dietary needs.',
           'Consultation: a call to talk through the food, the service style and how the day runs.',
-          'Custom menu and quote: we write a menu for your wedding and send a per-person quote with nothing hidden.',
+          'Custom menu and quote: we write a menu for your wedding and send a quote.',
           'Tasting: a tasting is available once you book.'
         ] },
       { heading: 'Service styles',
@@ -263,17 +263,14 @@
           'A menu written for your wedding',
           'Chef team and service staff through the event',
           'Our own cooking equipment, setup and breakdown',
-          'Plateware, glassware and rentals coordinated on request',
-          'Bar service as an add-on: bartenders, house-made mixers and the bar; you supply the alcohol'
+          'Bar service as an add-on: bartenders and house-made mixers; you supply the alcohol'
         ] },
       { heading: 'Dietary needs',
-        body: 'Every menu is built around your guests. Vegan, vegetarian, gluten free, dairy free, nut free and halal are handled dish by dish and labeled on the day.' },
-      /* TODO: deposit percentage and exact timing to confirm with Danny. */
+        body: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and chicken and beef are halal.' },
       { heading: 'Deposit and timing',
         list: [
-          'A deposit holds the date; the balance is due before the wedding.',
-          'Final guest count is due two weeks before.',
-          'Menu changes are welcome up to the final count.'
+          'A 50% deposit holds the date.',
+          'Events booked on short notice are paid in full at signing.'
         ] }
     ],
 
@@ -282,8 +279,6 @@
         list: [
           'Walking breakfast at call',
           'Hot lunch or boxed lunch within the meal window',
-          'Second meal for long days',
-          'Craft service add-on',
           'Artist and talent hospitality'
         ] },
       { heading: 'How it runs',
@@ -291,12 +286,12 @@
           'You send call time, meal time, crew count, location and dietary counts.',
           'We deliver to location and set, or stay and serve.',
           'Every dish is labeled for dietary needs and allergens.',
-          'Meals are on the table before the window opens.'
+          'Meals are timed to your meal window.'
         ] },
       { heading: 'Dietary needs',
-        body: 'Vegan, gluten free and dairy free are built into every crew menu and prepared separately. Allergen counts from your sheet are matched dish by dish.' },
+        body: 'Vegan, gluten free and dairy free options are built into every crew menu. Allergen counts from your sheet are matched dish by dish.' },
       { heading: 'Insurance and permits',
-        body: 'General liability insurance with a certificate naming the production as additional insured, available within one business day. Permitted by LA County Public Health. Prepared in a permitted commercial kitchen.' }
+        body: 'General liability insurance with a certificate naming the production as additional insured, available on request. Permitted by LA County Public Health. Prepared in a permitted commercial kitchen.' }
     ],
 
     /* The On set quote form, posted with form_source onset. */
@@ -304,29 +299,28 @@
       projectTypes: ['Music video', 'Photo shoot', 'Commercial', 'Branded content', 'Film or TV', 'Other'],
       union: ['Union', 'Non-union', 'Not sure'],
       powerWater: ['Yes', 'No', 'Not sure'],
-      serviceStyles: ['Drop-off', 'Staffed buffet', 'Boxed meals', 'Walking breakfast', 'Second meal', 'Craft service add-on']
+      serviceStyles: ['Drop-off', 'Staffed buffet', 'Boxed meals', 'Walking breakfast']
     },
 
     corporatePage: [
       { heading: 'Office lunch',
-        body: 'Lunch delivered to the office, ready to serve. Menus rotate so the team is not eating the same thing every week. Every dish is labeled for dietary needs and allergens. Order online or send a request and we confirm the same business day.',
+        body: 'Lunch delivered to the office, ready to serve. Menus rotate so the team is not eating the same thing every week. Every dish is labeled for dietary needs and allergens. Send a request on the Order page.',
         button: { label: 'Order drop-off', href: '/order' } },
       { heading: 'Meetings and all-day events',
         body: 'Breakfast, lunch and breaks timed to the agenda. Delivered and set, or staffed through the day.' },
       { heading: 'Company events and client dinners',
         body: 'Holiday parties, launches, team dinners and client dinners, plated, family style, buffet or stations, cooked and served by our team.' },
       { heading: 'Dietary needs',
-        body: 'Every menu is built around the dietary needs and allergies in the room. Every dish is labeled. Vegan, vegetarian, gluten free, dairy free, nut free and halal options are on every menu, not an afterthought.' },
+        body: 'Every menu is built around the dietary needs and allergies in the room. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and chicken and beef are halal.' },
       /* TODO: minimum, lead time and starting price to be added when the lunch packages are published. */
       { heading: 'How ordering works',
         list: [
-          'Drop-off: order on the Order page or send a request. Minimum headcount and lead time are shown there.',
-          'Staffed events: send an inquiry with date, place, guest count and dietary needs. We reply with a custom menu and a quote.',
-          'Billing: invoice on confirmation. Net terms available for repeat corporate accounts.'
+          'Drop-off: send a request on the Order page.',
+          'Staffed events: send an inquiry with the date, place, guest count and dietary needs. We reply with a custom menu and a quote.'
         ] },
       /* TODO: bar package details and pricing to follow. */
       { heading: 'Bar',
-        body: 'Bar service is available as an add-on. We bring bartenders, house-made mixers, ice, glassware and the bar; you supply the alcohol from a shopping list we give you. Priced by cocktail menu, guest count and hours.' },
+        body: 'Bar service is available as an add-on. We provide bartenders and house-made mixers; you supply the alcohol from a shopping list we give you.' },
       { heading: 'Who cooks',
         body: 'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals. Permitted by LA County Public Health, ServSafe certified, prepared in a permitted commercial kitchen.' }
     ],
@@ -500,12 +494,12 @@
       { title: 'Menu design', desc: 'A menu written for your event, not picked off a list.' },
       { title: 'Service staff', desc: 'Our staff serve the food through the event.' },
       { title: 'Setup and breakdown', desc: 'We set up our own equipment and break it down when we are done.' },
-      { title: 'Bar service as an add-on', desc: 'Bartenders, house-made mixers and the bar; you supply the alcohol.' }
+      { title: 'Bar service as an add-on', desc: 'Bartenders and house-made mixers; you supply the alcohol.' }
     ],
 
     /* The one line that replaces the service style definitions. */
     serviceStylesLine: 'Plated, family style, buffet or stations. Any of them, or a mix across the evening.',
-    dietaryNote: 'Menus are built around any dietary needs and allergies. Tell us what they are in your inquiry.',
+    dietaryNote: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and chicken and beef are halal.',
 
     /* Two, not three. A third "Milestones" tile repeated "anniversaries"
        from the tile beside it and existed only to fill a row. */
@@ -529,7 +523,7 @@
 
     vendingWays: [
       { title: 'Public food vending', desc: 'We sell food to guests at your event.' },
-      { title: 'Staff meals and meal tickets', desc: 'We feed your crew, billed by meal ticket or by head.' },
+      { title: 'Staff meals and meal tickets', desc: 'We feed your crew and staff.' },
       { title: 'Artist hospitality', desc: 'We cook for green rooms and artist areas.' }
     ],
 
@@ -543,7 +537,7 @@
     order: {
       leadTimeHours: 48,
       deliveryWindows: ['11:00', '11:30', '12:00', '12:30', '1:00'],
-      guestCounts: ['20 to 30', '30 to 50', '50 to 75', '75 to 100', 'More than 100']
+      guestCounts: ['Under 20', '20 to 30', '30 to 50', '50 to 75', '75 to 100', 'More than 100']
     },
 
     /* About. Company only, no personal credentials. */
