@@ -449,22 +449,18 @@
       { title: 'Event day', desc: 'We handle the food and the service from start to finish.' }
     ],
 
-    serviceStyles: [
-      { title: 'Plated', desc: 'Courses plated in the kitchen and brought to each seat.' },
-      { title: 'Family style', desc: 'Large shared dishes set down on the table.' },
-      { title: 'Buffet', desc: 'Guests serve themselves from a set line.' },
-      { title: 'Stations', desc: 'Separate stations, cooked and served in front of guests.' }
-    ],
 
     /* Three. "Cooking: We cook your food." was a tile that said nothing a
        catering page needs saying, and it was only there to make four. */
     included: [
       { title: 'Menu design', desc: 'A menu written for your event, not picked off a list.' },
       { title: 'Service staff', desc: 'Our staff serve the food through the event.' },
-      { title: 'Setup and breakdown', desc: 'We set up our own equipment and break it down when we are done.' }
+      { title: 'Setup and breakdown', desc: 'We set up our own equipment and break it down when we are done.' },
+      { title: 'Bar service as an add-on', desc: 'Bartenders, house-made mixers and the bar; you supply the alcohol.' }
     ],
 
-    includedNote: 'We handle the food. We do not provide bar service, linens or decor.',
+    /* The one line that replaces the service style definitions. */
+    serviceStylesLine: 'Plated, family style, buffet or stations. Any of them, or a mix across the evening.',
     dietaryNote: 'Menus are built around any dietary needs and allergies. Tell us what they are in your inquiry.',
 
     /* Two, not three. A third "Milestones" tile repeated "anniversaries"
@@ -474,21 +470,7 @@
       { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
     ],
 
-    corporateTypes: [
-      { title: 'Office lunches', desc: 'Lunch brought in for the team.' },
-      { title: 'Meetings and all-day events', desc: 'Food through the day, timed to the agenda.' },
-      { title: 'Company parties', desc: 'Holiday parties, launches and team celebrations.' },
-      { title: 'Client dinners', desc: 'Dinner for clients and guests.' }
-    ],
 
-    /* Corporate adds drop-off to the shared list. */
-    corporateStyles: [
-      { title: 'Plated', desc: 'Courses plated in the kitchen and brought to each seat.' },
-      { title: 'Family style', desc: 'Large shared dishes set down on the table.' },
-      { title: 'Buffet', desc: 'Guests serve themselves from a set line.' },
-      { title: 'Stations', desc: 'Separate stations, cooked and served in front of guests.' },
-      { title: 'Drop-off', desc: 'Delivered ready to serve, with nothing to set up.' }
-    ],
 
     /* Vending. No rates anywhere, and no permit claims beyond the trust
        strip. The liability insurance line is the active general liability

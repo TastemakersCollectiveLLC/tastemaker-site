@@ -626,8 +626,8 @@ const pages = {
     return pageHero('events') + copySlot('events') +
       block('', 'Event types', '', tiles(CONFIG.eventTypes, 2)) +
       block('', 'How it works', '', tiles(CONFIG.process, 4)) +
-      block('', 'Service styles', '', tiles(CONFIG.serviceStyles, 4)) +
-      block('', 'What is included', '', tiles(CONFIG.included, 3), '<p class="tmc-block-note">' + CONFIG.includedNote + '</p>') +
+      block('', 'Service styles', CONFIG.serviceStylesLine) +
+      block('', 'What is included', '', tiles(CONFIG.included, 4)) +
       block('', 'Dietary needs', CONFIG.dietaryNote) +
       menusBlock() + contactBand('events');
   },
