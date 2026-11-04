@@ -877,6 +877,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tmc-bullet-label { color: var(--white); font-weight: 400; }
 .tmc-block-head + .tmc-bullets { margin-top: -8px; }
 
+/* A form inside a section rather than under a page hero: no extra top
+   padding, the section already provides it. */
+.tmc-body-inline { padding-top: 0; }
+.tmc-block-intro a { color: var(--amethyst-text); }
+
 /* Menus: the row of service links under the dishes. */
 .tmc-service-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
@@ -1718,14 +1723,16 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-services-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Eight links. Below 900 the row is tightened by gap, tracking and the
-   bar's own padding, never by size, so it keeps clear air on both sides
-   down to the point where the phone menu takes over. */
+/* Nine links fit with clear air down to 900px. Below that, rather than
+   shrinking the type, the phone menu takes over, as it already does below
+   768px. Measured 9/26 and 11/4/2026 with the nav probe. */
 @media (max-width: 900px) {
-  .tmc-nav { padding: 16px 16px; }
-  .tmc-nav-links { gap: 8px; letter-spacing: 0.08em; }
-  .tmc-nav-btn { padding: 13px 12px; letter-spacing: 0.12em; text-indent: 0.12em; }
+  .tmc-nav-links { display: none; }
+  .tmc-nav-cta { display: none; }
+  .tmc-nav-btn { display: none; }
+  .tmc-mobile-toggle { display: flex; }
 }
+
 
 @media (max-width: 768px) {
   /* Shorter header padding here, so the fallback shrinks with it. */

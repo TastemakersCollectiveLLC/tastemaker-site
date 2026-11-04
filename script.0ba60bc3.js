@@ -415,7 +415,8 @@
   const MAILTO_SUBJECTS = {
     contact: 'New inquiry from tastemakerscollective.us',
     order: 'New drop-off order request',
-    review: 'Review for Tastemakers Collective'
+    review: 'Review for Tastemakers Collective',
+    onset: 'Production catering quote request'
   };
 
   function formToObject(form) {

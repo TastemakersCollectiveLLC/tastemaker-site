@@ -211,7 +211,10 @@ built.forEach(b => {
 T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
   if (!linkedFrom[p] || !linkedFrom[p].length) fail('orphan: nothing links to ' + p);
 });
-const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order'];
+const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order', '/on-set'];
+/* Home links to the five original services in its body; On set is reached
+   from the nav, the footer, Menus and the structured data. */
+const homeRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order'];
 const dietaryRoutes = ['/vegan', '/gluten-free'];
 built.forEach(bp => {
   const body = bp.html.slice(bp.html.indexOf('<main'), bp.html.indexOf('</main>'));
@@ -241,7 +244,7 @@ built.filter(b => serviceRoutes.indexOf(b.path) > -1).forEach(b => {
 const menusBody = built.filter(b => b.path === '/menus')[0].html;
 serviceRoutes.forEach(r => { if (menusBody.indexOf('href="' + r + '"') === -1) fail('menus.html does not link to ' + r); });
 const homeBody = built[0].html.slice(built[0].html.indexOf('<main'), built[0].html.indexOf('</main>'));
-serviceRoutes.forEach(r => { if (homeBody.indexOf('href="' + r + '"') === -1) fail('index.html body does not link to ' + r); });
+homeRoutes.forEach(r => { if (homeBody.indexOf('href="' + r + '"') === -1) fail('index.html body does not link to ' + r); });
 const footerHtml = built[0].html.slice(built[0].html.indexOf('<footer'));
 T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
   if (footerHtml.indexOf('href="' + p + '"') === -1) fail('footer does not list ' + p);

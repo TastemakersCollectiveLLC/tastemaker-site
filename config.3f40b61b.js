@@ -94,6 +94,7 @@
       { route: 'corporate', label: 'Corporate' },
       { route: 'events', label: 'Events' },
       { route: 'vending', label: 'Vending' },
+      { route: 'onSet', label: 'On set' },
       /* In the nav since 9/21/2026. On a text only site the menus are the
          only evidence of the food, and a couple or a buyer wants that
          before the process. */
@@ -126,6 +127,7 @@
       about: 'About Tastemakers Collective',
       contact: 'Contact Tastemakers Collective',
       reviews: 'Reviews',
+      onSet: 'Production and on set catering in Los Angeles',
       vegan: 'Vegan catering in Los Angeles',
       glutenFree: 'Gluten-free catering in Los Angeles',
       notFound: 'Page not found'
@@ -152,6 +154,7 @@
       vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
       about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
       contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles. Call or text (213) 293-8518.',
+      onSet: 'Production catering in Los Angeles. Crew breakfast and lunch delivered to location on the production schedule, labeled for every dietary need, with a certificate of insurance naming the production.',
       vegan: 'Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       glutenFree: 'Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       /* noindex while the form is disabled, so the length rule is not applied */
@@ -200,6 +203,10 @@
       reviews: {
         eyebrow: 'Reviews',
         intro: ''
+      },
+      onSet: {
+        eyebrow: 'On set',
+        intro: 'Crew meals delivered to location on your schedule.'
       },
       /* The dietary pages: the tag word as the eyebrow, the tagline as the
          supporting line. */
@@ -263,6 +270,36 @@
           'Menu changes are welcome up to the final count.'
         ] }
     ],
+
+    onSetPage: [
+      { heading: 'What we do',
+        list: [
+          'Walking breakfast at call',
+          'Hot lunch or boxed lunch within the meal window',
+          'Second meal for long days',
+          'Craft service add-on',
+          'Artist and talent hospitality'
+        ] },
+      { heading: 'How it runs',
+        list: [
+          'You send call time, meal time, crew count, location and dietary counts.',
+          'We deliver to location and set, or stay and serve.',
+          'Every dish is labeled for dietary needs and allergens.',
+          'Meals are on the table before the window opens.'
+        ] },
+      { heading: 'Dietary needs',
+        body: 'Vegan, gluten free and dairy free are built into every crew menu and prepared separately. Allergen counts from your sheet are matched dish by dish.' },
+      { heading: 'Insurance and permits',
+        body: 'General liability insurance with a certificate naming the production as additional insured, available within one business day. Permitted by LA County Public Health. Prepared in a permitted commercial kitchen.' }
+    ],
+
+    /* The On set quote form, posted with form_source onset. */
+    onSetForm: {
+      projectTypes: ['Music video', 'Photo shoot', 'Commercial', 'Branded content', 'Film or TV', 'Other'],
+      union: ['Union', 'Non-union', 'Not sure'],
+      powerWater: ['Yes', 'No', 'Not sure'],
+      serviceStyles: ['Drop-off', 'Staffed buffet', 'Boxed meals', 'Walking breakfast', 'Second meal', 'Craft service add-on']
+    },
 
     corporatePage: [
       { heading: 'Office lunch',
@@ -427,7 +464,8 @@
       { route: 'corporate', name: 'Corporate catering', desc: 'Office lunches, meetings and company events in Los Angeles.' },
       { route: 'events', name: 'Event catering', desc: 'Catering for private parties, celebrations and milestones.' },
       { route: 'vending', name: 'Festival vending and event hospitality', desc: 'Food vending, staff meals and artist hospitality at festivals and large events.' },
-      { route: 'order', name: 'Drop-off catering', desc: 'Drop-off catering for offices and gatherings.' }
+      { route: 'order', name: 'Drop-off catering', desc: 'Drop-off catering for offices and gatherings.' },
+      { route: 'onSet', name: 'Production and on set catering', desc: 'Crew meals delivered to location on your schedule.' }
     ],
 
     /* The dietary pages. Each lists the dishes carrying its tag in the menus
@@ -529,7 +567,8 @@
         menus: 'Book your event.',
         reviews: 'Book your event.',
         vegan: 'Book your event.',
-        glutenFree: 'Book your event.'
+        glutenFree: 'Book your event.',
+        onSet: 'Book production catering.'
       },
       buttons: {
         home:      { primary: 'Book', secondary: 'Order drop-off' },
@@ -542,6 +581,7 @@
         menus:     { primary: 'Book an event', secondary: 'Order drop-off' },
         reviews:   { primary: 'Book' },
         vegan:     { primary: 'Book' },
+        onSet:     { primary: 'Book', type: 'production' },
         glutenFree: { primary: 'Book' }
       }
     },
@@ -549,8 +589,8 @@
     /* Phone sticky bar: the pages where a visitor is deciding. Every route
        in it gets Book; Order is dropped where drop-off is not what that
        visitor came for. */
-    stickyRoutes: ['weddings', 'corporate', 'events', 'vending', 'menus'],
-    stickyBookOnly: ['weddings'],
+    stickyRoutes: ['weddings', 'corporate', 'events', 'vending', 'onSet', 'menus'],
+    stickyBookOnly: ['weddings', 'onSet'],
 
     /* Contact form. The prefill maps turn a query value into the option a
        visitor would have picked, so a Book button carries its page's
@@ -603,6 +643,7 @@
             { route: 'corporate', label: 'Corporate' },
             { route: 'events', label: 'Events' },
             { route: 'vending', label: 'Vending' },
+            { route: 'onSet', label: 'On set' },
             { route: 'order', label: 'Order' },
             { route: 'menus', label: 'Menus' },
             { route: 'vegan', label: 'Vegan catering' },

@@ -23,6 +23,7 @@ const PAGES = [
   { route: 'corporate', path: '/corporate', file: 'corporate.html' },
   { route: 'events',    path: '/events',    file: 'events.html' },
   { route: 'vending',   path: '/vending',   file: 'vending.html' },
+  { route: 'onSet',     path: '/on-set',    file: 'on-set.html' },
   { route: 'order',     path: '/order',     file: 'order.html' },
   { route: 'menus',     path: '/menus',     file: 'menus.html' },
   { route: 'about',     path: '/about',     file: 'about.html' },
@@ -690,6 +691,52 @@ const pages = {
           contactStep + eventStep + detailsStep +
         '</form>' +
       '</section>';
+  },
+
+  onSet() {
+    const f = CONFIG.onSetForm;
+    const field = (id, name, label, type, opts) => '<div class="tmc-form-field"><label for="' + id + '">' + label + '</label>' +
+      (opts ? '<select id="' + id + '" name="' + name + '">' + options(opts) + '</select>'
+            : type === 'textarea' ? '<textarea id="' + id + '" name="' + name + '" rows="3"></textarea>'
+            : '<input id="' + id + '" name="' + name + '" type="' + (type || 'text') + '"' + (/^(name|email)$/.test(name) ? ' required' : '') + '>') +
+      '</div>';
+    const form =
+      '<form class="tmc-form" id="tmc-onset-form" autocomplete="on">' +
+        '<input type="hidden" name="form_source" value="onset">' + honeypot() +
+        '<div class="tmc-form-step">' +
+          field('s-company', 'production_company', 'Production company') +
+          field('s-name', 'name', 'Contact name') +
+          field('s-role', 'role', 'Role') +
+          field('s-email', 'email', 'Email', 'email') +
+          field('s-phone', 'phone', 'Phone', 'tel') +
+          field('s-project', 'project_type', 'Project type', null, f.projectTypes) +
+          field('s-union', 'union', 'Union or non-union', null, f.union) +
+          field('s-dates', 'shoot_dates', 'Shoot dates') +
+          field('s-call', 'call_time', 'Call time') +
+          field('s-meals', 'meal_times', 'Meal times') +
+          field('s-crew', 'crew_headcount', 'Crew headcount') +
+          field('s-talent', 'talent_headcount', 'Talent or client headcount') +
+          field('s-location', 'location', 'Location address or zone') +
+          field('s-parking', 'parking_access', 'Parking and access notes', 'textarea') +
+          field('s-power', 'power_water', 'Power and water on site', null, f.powerWater) +
+          field('s-style', 'service_style', 'Service style', null, f.serviceStyles) +
+          field('s-dietary', 'dietary_counts', 'Dietary counts (vegan, vegetarian, gluten free, allergies)', 'textarea') +
+          field('s-budget', 'budget_per_head', 'Budget per head (optional)') +
+          field('s-billing', 'billing_contact', 'Billing contact or PO') +
+          field('s-coi', 'coi_holder', 'Certificate of insurance holder name') +
+          '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
+          '<button type="submit" class="tmc-form-submit">Send quote request</button>' +
+        '</div>' +
+      '</form>';
+    /* The tel link carries data-track like the other measured links; the
+       click listener in script.js counts every tel: link by its href. */
+    const call = 'Call or text <a href="' + B.phoneHref + '" data-track="phone_tap">' + B.phone + '</a>';
+    return pageHero('onSet') + sections(CONFIG.onSetPage) +
+      '<section class="tmc-block"><div class="tmc-block-head"><h2 class="tmc-block-heading">Request a quote</h2>' +
+        '<p class="tmc-block-intro">' + call + '</p></div>' +
+        '<div class="tmc-body tmc-body-inline">' + form + '</div>' +
+      '</section>' +
+      menusBlock() + contactBand('onSet');
   },
 
   vegan() { return dietaryPage('vegan'); },
