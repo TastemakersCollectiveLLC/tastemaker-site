@@ -31,8 +31,54 @@ function read(rel) { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
 function write(rel, content) { fs.writeFileSync(path.join(ROOT, rel), content.replace(/\r\n/g, '\n'), 'utf8'); }
 
 /* ---------- 1. assets with a content hash ---------- */
-function hashed(src, ext) {
-  const body = read(src);
+
+/* The published hashed copies are stripped of comments; the sources stay
+   readable. A character walk, so nothing inside a quoted string is ever
+   touched. CSS also drops indentation and the whitespace around { } ; ,
+   where it cannot change meaning. In JS only comments, trailing spaces,
+   indentation and blank lines go; no line is ever joined, so automatic
+   semicolon insertion cannot bite. */
+function stripAsset(body, kind) {
+  let out = '';
+  let state = 'code';
+  let i = 0;
+  let pendingWs = false;
+  const drop = '{};,';
+  while (i < body.length) {
+    const c = body[i], d = body[i + 1];
+    if (state === 'code') {
+      if (c === "'") { state = 'sq'; }
+      else if (c === '"') { state = 'dq'; }
+      else if (kind === 'js' && c === '`') { state = 'bt'; }
+      else if (c === '/' && d === '*') { state = 'block'; i += 2; continue; }
+      else if (kind === 'js' && c === '/' && d === '/') { state = 'line'; i += 2; continue; }
+      else if (kind === 'css' && /\s/.test(c)) { pendingWs = true; i += 1; continue; }
+      if (pendingWs) {
+        const prev = out[out.length - 1] || '';
+        if (drop.indexOf(prev) === -1 && drop.indexOf(c) === -1 && prev !== '') out += ' ';
+        pendingWs = false;
+      }
+      out += c; i += 1; continue;
+    }
+    if (state === 'sq' || state === 'dq' || state === 'bt') {
+      out += c;
+      if (c === '\\') { out += d || ''; i += 2; continue; }
+      if ((state === 'sq' && c === "'") || (state === 'dq' && c === '"') || (state === 'bt' && c === '`')) state = 'code';
+      i += 1; continue;
+    }
+    if (state === 'block') { if (c === '*' && d === '/') { state = 'code'; i += 2; } else i += 1; continue; }
+    /* line comment */
+    if (c === '\n') { state = 'code'; } else { i += 1; continue; }
+  }
+  if (kind === 'js') {
+    out = out.split('\n').map(l => l.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '')).join('\n')
+      .replace(/\n{2,}/g, '\n');
+  }
+  return out.trim() + '\n';
+}
+
+function hashed(src, ext, strip) {
+  const body = strip ? stripAsset(read(src), strip) : read(src);
   const hash = crypto.createHash('sha256').update(body).digest('hex').slice(0, 8);
   const base = src.replace(/\.[^.]+$/, '');
   const name = base + '.' + hash + '.' + ext;
@@ -45,11 +91,17 @@ function hashed(src, ext) {
 }
 console.log('assets');
 const assets = {
-  css: hashed('styles.css', 'css'),
+  css: hashed('styles.css', 'css', 'css'),
   script: hashed('script.js', 'js'),
-  config: hashed('config.js', 'js')
+  config: hashed('config.js', 'js', 'js')
 };
 Object.keys(assets).forEach(k => ok(assets[k]));
+/* The stripped config must evaluate to exactly the same object. */
+{
+  const minted = require(path.join(ROOT, assets.config));
+  if (JSON.stringify(minted) !== JSON.stringify(TMC)) fail(assets.config + ' does not evaluate to the same CONFIG as config.js');
+  ok('stripped config.js evaluates identically');
+}
 
 /* ---------- 2. pages ---------- */
 console.log('pages');
@@ -162,10 +214,13 @@ built.forEach(b => {
   const types = (graph['@graph'] || []).map(n => n['@type']);
   const txt = JSON.stringify(graph);
   if (/"price"|"offers"|priceCurrency/.test(txt)) fail(b.file + ': JSON-LD carries a price or an offer');
-  if (/AggregateRating|"Review"|FAQPage/.test(txt)) fail(b.file + ': JSON-LD carries rating, review or FAQ markup');
+  if (/AggregateRating|"Review"/.test(txt)) fail(b.file + ': JSON-LD carries rating or review markup');
+  /* FAQPage lives on Contact alone, built from CONFIG.faq (11/4/2026). */
+  if (/FAQPage/.test(txt) && b.route !== 'contact') fail(b.file + ': FAQPage markup outside /contact');
+  if (b.route === 'contact' && !/FAQPage/.test(txt)) fail('contact.html: the FAQPage markup is missing');
   console.log('        ' + b.file.padEnd(16) + types.join(', '));
 });
-ok('JSON-LD parses on every page, no prices, no ratings, no FAQ');
+ok('JSON-LD parses on every page, no prices, no ratings, FAQPage on Contact alone');
 
 /* D. house rules on the built output. The one dollar sign allowed is the
    trust strip's own. */

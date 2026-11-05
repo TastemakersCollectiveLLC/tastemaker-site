@@ -921,7 +921,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.8;
   max-width: 280px;
 }
-.tmc-footer-col h4 {
+.tmc-footer-col .tmc-footer-head {
   font-family: var(--font-sans);
   font-size: 9px;
   letter-spacing: 0.3em;
@@ -1054,7 +1054,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 18px;
   text-align: left;
 }
-.tmc-form-step h3 {
+.tmc-form-step h2 {
   font-family: var(--font-sans);
   font-size: 10px;
   letter-spacing: 0.3em;
@@ -1843,7 +1843,7 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   /* Tighter rhythm, still two columns. Stacking starts at 400, below. */
   .tmc-footer { padding: 36px 24px 22px; }
   .tmc-footer-grid { gap: 22px; margin-bottom: 24px; }
-  .tmc-footer-col h4 { margin-bottom: 10px; }
+  .tmc-footer-col .tmc-footer-head { margin-bottom: 10px; }
   /* The link fills the column here rather than shrinking to its text. As a
      shrink to fit flex container it was resolving narrower than the address
      needs, which split it over two lines even with room to spare. Full

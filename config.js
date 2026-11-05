@@ -163,8 +163,7 @@
       onSet: 'Production catering in Los Angeles. Crew breakfast and lunch delivered to location on your schedule, labeled for every diet. COI on request.',
       vegan: 'Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
       glutenFree: 'Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
-      /* noindex while the form is disabled, so the length rule is not applied */
-      reviews: 'Reviews for Tastemakers Collective, a Los Angeles catering and events company.'
+      reviews: 'Reviews from Tastemakers Collective clients. Cooked an event with us? We would love to hear from you. Catering and events in Los Angeles.'
     },
 
     /* Interior page heroes: eyebrow, one supporting line, and the small
@@ -208,7 +207,7 @@
       },
       reviews: {
         eyebrow: 'Reviews',
-        intro: ''
+        intro: 'Reviews from our clients. Cooked an event with us? We would love to hear from you.'
       },
       onSet: {
         eyebrow: 'On set',
@@ -252,7 +251,7 @@
       { heading: 'How we work',
         list: [
           'Inquiry: send the date, the venue, the guest count and any dietary needs.',
-          'Consultation: a call to talk through the food, the service style and how the day runs.',
+          'Consultation: a call to talk through the food, the service style and how the day runs. The consultation and the custom menu are free.',
           'Custom menu and quote: we write a menu for your wedding and send a quote.',
           'Tasting: a tasting is available once you book.'
         ] },
@@ -316,7 +315,7 @@
       { heading: 'How ordering works',
         list: [
           'Drop-off: send a request on the Order page.',
-          'Staffed events: send an inquiry with the date, place, guest count and dietary needs. We reply with a custom menu and a quote.'
+          'Staffed events: send an inquiry with the date, place, guest count and dietary needs. We reply with a custom menu and a quote. The menu and consultation are free.'
         ] },
       /* TODO: bar package details and pricing to follow. */
       { heading: 'Bar',
@@ -506,7 +505,7 @@
     process: [
       { title: 'Inquiry', desc: 'You tell us the date, the place, the guest count and any dietary needs.' },
       { title: 'Consultation', desc: 'We talk through the food, the service style and how the day runs.' },
-      { title: 'Custom menu', desc: 'We write a menu for your event and quote it.' },
+      { title: 'Custom menu', desc: 'We write a menu for your event and quote it. The menu and consultation are free.' },
       { title: 'Event day', desc: 'We handle the food and the service from start to finish.' }
     ],
 
@@ -661,11 +660,36 @@
       powerWater: ['Yes', 'No', 'Not sure']
     },
 
-    /* The review form. enabled stays false until the reviews handler is
-       published; while false the page is noindex, unlinked, absent from
-       the sitemap, and its controls are disabled. */
+    /* Contact page FAQ. Decided facts only; rendered below the form and
+       carried as FAQPage structured data on /contact alone. */
+    faq: [
+      { q: 'How does booking work?',
+        a: 'Send an inquiry with the date, the place, the guest count and any dietary needs. We reply with a custom menu and a quote. The menu and consultation are free.' },
+      { q: 'How does the deposit work?',
+        a: 'A 50% deposit holds the date. Events booked on short notice are paid in full at signing.' },
+      { q: 'Do you offer tastings?',
+        a: 'A tasting is available once a wedding is booked.' },
+      { q: 'Can you handle dietary restrictions and allergies?',
+        a: 'That is our specialty. Vegan, gluten free and dairy free options are on every menu, every dish is labeled for dietary needs and allergens, and chicken and beef are halal.' },
+      { q: 'How does drop-off work?',
+        a: 'Boxed meals or pans, delivered ready to serve. Send a request on the Order page at least 48 hours ahead.' },
+      { q: 'Do you deliver plated food?',
+        a: 'No. Nothing plated or assembled is delivered. Boards and spreads are built on site by our staff.' },
+      { q: 'Do you offer bar service?',
+        a: 'Yes, as an add-on. We provide bartenders and house-made mixers; you supply the alcohol from a shopping list we give you.' },
+      { q: 'Where do you work?',
+        a: 'Los Angeles and Southern California, plus festivals across California.' },
+      { q: 'Can you provide a certificate of insurance?',
+        a: 'Yes. We carry $2M general liability insurance and the certificate can name your event or production as additional insured.' }
+    ],
+
+    /* The review form. Enabled 11/4/2026: the deployed backend writes
+       form_source review to the reviews tab and emails hello@. While
+       enabled is false the page is noindex, unlinked, absent from the
+       sitemap, and its controls are disabled. Reviews are published by
+       hand only, never by anything automatic. */
     reviewForm: {
-      enabled: false,
+      enabled: true,
       ratings: ['5', '4', '3', '2', '1']
     },
 
@@ -692,6 +716,7 @@
             { route: 'home', label: 'Home' },
             { route: 'about', label: 'About' },
             { route: 'contact', label: 'Contact' },
+            { route: 'reviews', label: 'Reviews' },
             { route: 'card', label: 'Card' }
           ]
         }

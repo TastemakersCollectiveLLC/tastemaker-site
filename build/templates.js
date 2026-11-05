@@ -33,7 +33,7 @@ const PAGES = [
   { route: 'contact',   path: '/contact',   file: 'contact.html' },
   { route: 'vegan',      path: '/vegan',       file: 'vegan.html' },
   { route: 'glutenFree', path: '/gluten-free', file: 'gluten-free.html' },
-  { route: 'reviews',   path: '/reviews',   file: 'reviews.html', indexable: false },
+  { route: 'reviews',   path: '/reviews',   file: 'reviews.html', indexable: CONFIG.reviewForm.enabled },
   { route: 'notFound',  path: '/404',       file: '404.html',     indexable: false, unlisted: true }
 ];
 
@@ -259,6 +259,17 @@ function jsonLd(page) {
       url: url
     });
   }
+  if (route === 'contact') {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': url + '#faq',
+      mainEntity: CONFIG.faq.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a }
+      }))
+    });
+  }
   if (route === 'menus') {
     graph.push(menuNode(url + '#menu', 'Example menus', plain(CONFIG.heroes.menus.intro), url));
   }
@@ -293,7 +304,7 @@ function nav(current) {
   const cta = CONFIG.nav.filter(i => i.cta)[0];
   return (
     '<nav class="tmc-nav" aria-label="Primary">' +
-      '<a class="tmc-logo" href="/" aria-label="' + esc(B.name) + ', home">' +
+      '<a class="tmc-logo" href="/">' +
         '<span class="tmc-logo-word">TASTEMAKERS</span>' +
         '<span class="tmc-logo-sub-row"><span class="tmc-logo-sub">COLLECTIVE</span><span class="tmc-logo-rule"></span></span>' +
       '</a>' +
@@ -336,7 +347,7 @@ function socialLinks() {
 
 function footer() {
   const cols = CONFIG.footer.columns.map(col =>
-    '<div class="tmc-footer-col"><h4>' + col.heading + '</h4>' +
+    '<div class="tmc-footer-col"><div class="tmc-footer-head">' + col.heading + '</div>' +
       col.links.map(l => '<a href="' + pathFor(l.route) + '">' + l.label + '</a>').join('') +
     '</div>'
   ).join('');
@@ -348,7 +359,7 @@ function footer() {
           '<div class="tmc-footer-tag">' + CONFIG.footer.tagline + '</div>' +
         '</div>' +
         cols +
-        '<div class="tmc-footer-col"><h4>Connect</h4>' +
+        '<div class="tmc-footer-col"><div class="tmc-footer-head">Connect</div>' +
           /* The only break the address is allowed: before the @. */
           '<a href="mailto:' + B.email + '">' + B.email.replace('@', '<wbr>@') + '</a>' +
           '<a href="' + B.phoneHref + '">' + B.phone + '</a>' +
@@ -607,17 +618,17 @@ const pages = {
         '<p class="tmc-form-note">' + CONFIG.order.note + '</p>' +
         '<form class="tmc-form" id="tmc-order-form" autocomplete="on">' +
           '<input type="hidden" name="form_source" value="order">' + honeypot() +
-          '<div class="tmc-form-step"><h3>Delivery</h3>' +
+          '<div class="tmc-form-step"><h2>Delivery</h2>' +
             '<div class="tmc-form-field"><label for="o-date">Delivery date</label><input id="o-date" name="date" type="date" required></div>' +
             '<div class="tmc-form-field"><label for="o-window">Delivery window</label><select id="o-window" name="delivery_window" required>' + options(CONFIG.order.deliveryWindows) + '</select></div>' +
             '<div class="tmc-form-field"><label for="o-address">Delivery address or area</label><input id="o-address" name="address" type="text" required></div>' +
             '<div class="tmc-form-field"><label for="o-guests">Guest count</label><select id="o-guests" name="guests" required>' + options(CONFIG.order.guestCounts) + '</select></div>' +
           '</div>' +
-          '<div class="tmc-form-step"><h3>Food</h3>' +
+          '<div class="tmc-form-step"><h2>Food</h2>' +
             '<div class="tmc-form-field"><label for="o-dietary">Dietary needs and allergies</label><textarea id="o-dietary" name="dietary" rows="3"></textarea></div>' +
             '<div class="tmc-form-field"><label for="o-notes">Notes</label><textarea id="o-notes" name="notes" rows="3"></textarea></div>' +
           '</div>' +
-          '<div class="tmc-form-step"><h3>Contact</h3>' +
+          '<div class="tmc-form-step"><h2>Contact</h2>' +
             '<div class="tmc-form-field"><label for="o-name">Name</label><input id="o-name" name="name" type="text" required></div>' +
             '<div class="tmc-form-field"><label for="o-email">Email</label><input id="o-email" name="email" type="email" required></div>' +
             '<div class="tmc-form-field"><label for="o-phone">Phone</label><input id="o-phone" name="phone" type="tel"></div>' +
@@ -675,14 +686,14 @@ const pages = {
        moves The event first, because that visitor's hard question is already
        answered. Without JavaScript the plain order stands. */
     const contactStep =
-      '<div class="tmc-form-step" data-step="contact"><h3>Contact</h3>' +
+      '<div class="tmc-form-step" data-step="contact"><h2>Contact</h2>' +
         '<div class="tmc-form-field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" required></div>' +
         '<div class="tmc-form-field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required></div>' +
         '<div class="tmc-form-field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel"></div>' +
         '<div class="tmc-form-field"><label for="f-notes">Additional notes</label><textarea id="f-notes" name="notes" rows="3"></textarea></div>' +
       '</div>';
     const eventStep =
-      '<div class="tmc-form-step" data-step="event"><h3>The event</h3>' +
+      '<div class="tmc-form-step" data-step="event"><h2>The event</h2>' +
         '<div class="tmc-form-field"><label for="f-event-type">Event type</label><select id="f-event-type" name="event_type" required>' + options(f.eventTypes) + '</select></div>' +
         '<div class="tmc-form-field"><label for="f-style">Service style</label><select id="f-style" name="service_style" required>' + options(f.serviceStyles) + '</select></div>' +
         '<div class="tmc-vending-only" id="f-vending" hidden>' +
@@ -695,7 +706,7 @@ const pages = {
         '<div class="tmc-form-field"><label for="f-guests">Guest count</label><select id="f-guests" name="guests">' + options(f.guestCounts) + '</select></div>' +
       '</div>';
     const detailsStep =
-      '<div class="tmc-form-step" data-step="details"><h3>Details</h3>' +
+      '<div class="tmc-form-step" data-step="details"><h2>Details</h2>' +
         '<div class="tmc-form-field"><label for="f-dietary">Dietary needs and allergies</label><textarea id="f-dietary" name="dietary" rows="3"></textarea></div>' +
         '<div class="tmc-form-field"><label for="f-budget">Budget (optional)</label><input id="f-budget" name="budget" type="text"></div>' +
         '<p class="tmc-form-status" role="alert" aria-live="assertive" hidden></p>' +
@@ -711,7 +722,8 @@ const pages = {
           '<input type="hidden" name="form_source" value="contact">' + honeypot() +
           contactStep + eventStep + detailsStep +
         '</form>' +
-      '</section>';
+      '</section>' +
+      block('', 'Frequently asked questions', '', rows(CONFIG.faq.map(f => ({ title: f.q, desc: f.a }))));
   },
 
   onSet() {
@@ -772,7 +784,7 @@ const pages = {
         '<form class="tmc-form" id="tmc-review-form" autocomplete="on" data-enabled="' + (r.enabled ? 'true' : 'false') + '">' +
           '<input type="hidden" name="form_source" value="review">' + honeypot() +
           '<fieldset class="tmc-fieldset"' + off + '>' +
-            '<div class="tmc-form-step"><h3>Your review</h3>' +
+            '<div class="tmc-form-step"><h2>Your review</h2>' +
               '<div class="tmc-form-field"><label for="r-name">Name</label><input id="r-name" name="name" type="text" required></div>' +
               '<div class="tmc-form-field"><label for="r-email">Email</label><input id="r-email" name="email" type="email" required></div>' +
               '<div class="tmc-form-field"><label for="r-event">Your event</label><input id="r-event" name="event" type="text"></div>' +
