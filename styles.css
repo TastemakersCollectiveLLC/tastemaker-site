@@ -1602,10 +1602,11 @@ a:focus-visible > .tmc-arrow { transform: translateX(3px); }
   .tmc-services-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Nine links fit with clear air down to 900px. Below that, rather than
-   shrinking the type, the phone menu takes over, as it already does below
-   768px. Measured 9/26 and 11/4/2026 with the nav probe. */
-@media (max-width: 900px) {
+/* Nine links, one of them the two-word Private dining, fit with clear air
+   down to 1001px. Below that, rather than shrinking the type, the phone
+   menu takes over, as it already does below 768px. Measured 9/26, 11/4 and
+   11/5/2026 with the nav probe. */
+@media (max-width: 1000px) {
   .tmc-nav-links { display: none; }
   .tmc-nav-cta { display: none; }
   .tmc-nav-btn { display: none; }

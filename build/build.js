@@ -283,7 +283,7 @@ built.forEach(b => {
 T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
   if (!linkedFrom[p] || !linkedFrom[p].length) fail('orphan: nothing links to ' + p);
 });
-const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order', '/on-set'];
+const serviceRoutes = ['/weddings', '/corporate', '/events', '/private-dining', '/vending', '/order', '/on-set'];
 /* Every service page the Home body must link, now including On set,
    which has its own card. */
 const homeRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order', '/on-set'];

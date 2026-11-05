@@ -25,10 +25,15 @@ We sell, all real:
 - Festival vending, crew and staff meals, artist hospitality.
 - Dry hire bar add-on: we provide bartenders and house-made mixers; the
   client buys all alcohol from a shopping list we give them.
+- Private dining: dinner parties under twelve at your home, cooked by our
+  chefs, booked through us.
 - Pop-ups and supper clubs we run ourselves.
 
-NOT offered: private chef. Never add or imply it ("private dinners" for
-clients counts as implying it; our own supper clubs are fine).
+Private dining is an offered service (decided 11/5/2026): dinner parties
+under twelve at private residences, cooked by our chefs. The service is
+always called Private dining on the site. The chef management program is
+internal and never mentioned on the site: no managing chefs, no chef
+memberships, no program fees.
 
 Food identity: modern California Italian (internal working name Califas
 Italiano; the working name never appears on the site). California is half
@@ -78,7 +83,8 @@ Net terms, invoicing, billing method or payment methods. Cancellation or
 refund terms. Final count deadlines or change cutoffs. Rentals, plateware,
 glassware, ice, linens, decor or bar equipment. Staffing ratios. Separate
 allergen preparation or any cross-contact guarantee. Second meal or craft
-service on set. Nut free as a claim, or halal as anything stronger than
+service on set. Private dining pricing, its service style (plated, family
+style) and any chef program terms. Nut free as a claim, or halal as anything stronger than
 available on request.
 Checkout will someday run on Clover; it is never mentioned on the site.
 

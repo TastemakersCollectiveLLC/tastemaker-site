@@ -37,6 +37,7 @@ nav: [
 { route: 'weddings', label: 'Weddings' },
 { route: 'corporate', label: 'Corporate' },
 { route: 'events', label: 'Events' },
+{ route: 'privateDining', label: 'Private dining' },
 { route: 'vending', label: 'Vending' },
 { route: 'onSet', label: 'On set' },
 { route: 'about', label: 'About' },
@@ -46,13 +47,14 @@ redirects: {
 inquire: 'contact',
 'menu-catering': 'events',
 'menu-vending': 'vending',
-'menu-private-chef': 'contact'
+'menu-private-chef': 'private-dining'
 },
 h1: {
 home: 'Tastemakers Collective',
 weddings: 'Wedding catering in Los Angeles',
 corporate: 'Corporate catering in Los Angeles',
 events: 'Event catering in Los Angeles',
+privateDining: 'Private dining in Los Angeles',
 vending: 'Festival and event food vending',
 order: 'Drop-off catering orders',
 about: 'About Tastemakers Collective',
@@ -73,6 +75,7 @@ order: 'Drop-off catering from Tastemakers Collective in Los Angeles. Pick a dat
 weddings: 'Wedding catering in Los Angeles. Custom menus, a tasting once booked, full service in any style. Every dietary need handled dish by dish.',
 corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings, company parties and client dinners. Every dish labeled for dietary needs.',
 events: 'Catering for private parties, celebrations and milestones in Los Angeles. Custom menus and full service. Built around any dietary needs and allergies.',
+privateDining: 'Private dining in Los Angeles. A chef cooks dinner at your home for parties under twelve, with a custom menu built around your guests.',
 vending: 'Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.',
 about: 'Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.',
 contact: 'Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles. Call or text (213) 293-8518.',
@@ -100,6 +103,10 @@ events: {
 eyebrow: 'Events',
 intro: 'Private parties, celebrations and milestones.',
 styles: 'Plated &nbsp;&middot;&nbsp; Family style &nbsp;&middot;&nbsp; Buffet &nbsp;&middot;&nbsp; Stations'
+},
+privateDining: {
+eyebrow: 'Private dining',
+intro: 'Dinner at your home, cooked by our chefs.'
 },
 vending: {
 eyebrow: 'Vending',
@@ -163,6 +170,19 @@ list: [
 'A 50% deposit holds the date.',
 'Events booked on short notice are paid in full at signing.'
 ] }
+],
+privateDiningPage: [
+{ heading: 'What it is',
+body: 'Dinner parties under twelve, served at your home. A chef from our team cooks in your kitchen, and the menu is written for your table.' },
+{ heading: 'How it works',
+list: [
+'Inquiry: send the date, the place, the guest count and any dietary needs.',
+'Consultation: a call to talk through the food and the night. The consultation and the custom menu are free.',
+'Custom menu and quote: we write a menu for your dinner and send a quote.',
+'Dinner: we shop, cook at your home, serve, and leave the kitchen clean.'
+] },
+{ heading: 'Dietary needs',
+body: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and halal is available on request.' }
 ],
 onSetPage: [
 { heading: 'What we do',
@@ -259,6 +279,7 @@ serviceList: [
 { route: 'weddings', name: 'Wedding catering', desc: 'Custom menus and full service for weddings. Plated, family style, buffet or stations.' },
 { route: 'corporate', name: 'Corporate catering', desc: 'Office lunches, meetings and company events in Los Angeles.' },
 { route: 'events', name: 'Event catering', desc: 'Catering for private parties, celebrations and milestones.' },
+{ route: 'privateDining', name: 'Private dining', desc: 'Dinner parties under twelve at your home, cooked by our chefs.' },
 { route: 'vending', name: 'Festival vending and event hospitality', desc: 'Food vending, staff meals and artist hospitality at festivals and large events.' },
 { route: 'order', name: 'Drop-off catering', desc: 'Drop-off catering for offices and gatherings.' },
 { route: 'onSet', name: 'Production and on set catering', desc: 'Crew meals delivered to location on your schedule.' }
@@ -337,6 +358,7 @@ order: 'Book your event.',
 weddings: 'Book your wedding.',
 corporate: 'Book your office lunch or event.',
 events: 'Book your event.',
+privateDining: 'Book your dinner.',
 vending: 'Book us for your festival or event.',
 about: 'Work with us.',
 reviews: 'Book your event.',
@@ -350,6 +372,7 @@ order:     { primary: 'Book' },
 weddings:  { primary: 'Book', type: 'wedding' },
 corporate: { primary: 'Book', secondary: 'Order drop-off', type: 'corporate' },
 events:    { primary: 'Book', secondary: 'Order drop-off', type: 'private-party' },
+privateDining: { primary: 'Book', type: 'private-dining' },
 vending:   { primary: 'Book', secondary: 'Order drop-off', type: 'vending', style: 'vending' },
 about:     { primary: 'Book' },
 reviews:   { primary: 'Book' },
@@ -358,10 +381,10 @@ onSet:     { primary: 'Book', type: 'production' },
 glutenFree: { primary: 'Book' }
 }
 },
-stickyRoutes: ['weddings', 'corporate', 'events', 'vending', 'onSet'],
-stickyBookOnly: ['weddings', 'onSet'],
+stickyRoutes: ['weddings', 'corporate', 'events', 'privateDining', 'vending', 'onSet'],
+stickyBookOnly: ['weddings', 'onSet', 'privateDining'],
 contactForm: {
-eventTypes: ['Wedding', 'Corporate event', 'Private party', 'Celebration',
+eventTypes: ['Wedding', 'Corporate event', 'Private party', 'Private dining', 'Celebration',
 'Festival or event vending', 'Production or on set', 'Other'],
 serviceStyles: ['Plated catering', 'Buffet catering', 'Family style catering',
 'Action stations', 'Drop-off catering', 'Vending', 'Dry hire bar', 'Not sure yet'],
@@ -370,6 +393,7 @@ typeFromQuery: {
 wedding: 'Wedding',
 corporate: 'Corporate event',
 'private-party': 'Private party',
+'private-dining': 'Private dining',
 celebration: 'Celebration',
 vending: 'Festival or event vending',
 production: 'Production or on set',
@@ -390,6 +414,8 @@ powerWater: ['Yes', 'No', 'Not sure']
 faq: [
 { q: 'How does booking work?',
 a: 'Send an inquiry with the date, the place, the guest count and any dietary needs. We reply with a custom menu and a quote. The menu and consultation are free.' },
+{ q: 'Do you cook private dinners at home?',
+a: 'Yes. Private dining is dinner at your home for parties under twelve, with a custom menu built around your guests.' },
 { q: 'How does the deposit work?',
 a: 'A 50% deposit holds the date. Events booked on short notice are paid in full at signing.' },
 { q: 'Do you offer tastings?',
@@ -420,6 +446,7 @@ links: [
 { route: 'weddings', label: 'Weddings' },
 { route: 'corporate', label: 'Corporate' },
 { route: 'events', label: 'Events' },
+{ route: 'privateDining', label: 'Private dining' },
 { route: 'vending', label: 'Vending' },
 { route: 'onSet', label: 'On set' },
 { route: 'order', label: 'Order' },

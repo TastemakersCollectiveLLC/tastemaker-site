@@ -25,6 +25,7 @@ const PAGES = [
   { route: 'weddings',  path: '/weddings',  file: 'weddings.html' },
   { route: 'corporate', path: '/corporate', file: 'corporate.html' },
   { route: 'events',    path: '/events',    file: 'events.html' },
+  { route: 'privateDining', path: '/private-dining', file: 'private-dining.html' },
   { route: 'vending',   path: '/vending',   file: 'vending.html' },
   { route: 'onSet',     path: '/on-set',    file: 'on-set.html' },
   { route: 'order',     path: '/order',     file: 'order.html' },
@@ -678,6 +679,11 @@ const pages = {
         '<div class="tmc-body tmc-body-inline">' + form + '</div>' +
       '</section>' +
       contactBand('onSet');
+  },
+
+  privateDining() {
+    return pageHero('privateDining') + sections(CONFIG.privateDiningPage) +
+      contactBand('privateDining');
   },
 
   vegan() { return dietaryPage('vegan'); },
