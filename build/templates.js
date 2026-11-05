@@ -34,6 +34,9 @@ const PAGES = [
   { route: 'vegan',      path: '/vegan',       file: 'vegan.html' },
   { route: 'glutenFree', path: '/gluten-free', file: 'gluten-free.html' },
   { route: 'reviews',   path: '/reviews',   file: 'reviews.html', indexable: CONFIG.reviewForm.enabled },
+  { route: 'privacy',   path: '/privacy',   file: 'privacy.html' },
+  { route: 'terms',     path: '/terms',     file: 'terms.html' },
+  { route: 'refunds',   path: '/refunds',   file: 'refunds.html' },
   { route: 'notFound',  path: '/404',       file: '404.html',     indexable: false, unlisted: true }
 ];
 
@@ -340,6 +343,7 @@ function footer() {
           socialLinks().map(s => '<a href="' + s.url + '" rel="me noopener">' + s.label + '</a>').join('') +
         '</div>' +
       '</div>' +
+      '<div class="tmc-footer-legal">' + CONFIG.footer.legal.map(l => '<a href="' + pathFor(l.route) + '">' + l.label + '</a>').join('') + '</div>' +
       '<div class="tmc-footer-bottom">' +
         '<div>&copy; 2026 ' + B.legalName + '</div>' +
         '<div>All rights reserved</div>' +
@@ -462,6 +466,15 @@ function allergySlot(route) {
   const text = (CONFIG.allergyNote || {})[route] || '';
   if (!text) return '<!-- ALLERGY SLOT: CONFIG.allergyNote.' + route + ' is empty. The allergy-handling sentences render here when they land. -->';
   return '<section class="tmc-block"><p class="tmc-block-intro tmc-allergy-note">' + text + '</p></section>';
+}
+
+/* A policy page: the hero carries the h1 and the effective date, then
+   Danny's paragraphs, nothing else. */
+function policyPage(route) {
+  return pageHero(route) +
+    '<section class="tmc-block">' +
+      CONFIG.policyPages[route].map(p => '<p class="tmc-block-intro tmc-page-copy">' + p + '</p>').join('') +
+    '</section>';
 }
 
 function dietaryPage(route) {
@@ -685,6 +698,10 @@ const pages = {
     return pageHero('privateDining') + sections(CONFIG.privateDiningPage) +
       contactBand('privateDining');
   },
+
+  privacy() { return policyPage('privacy'); },
+  terms() { return policyPage('terms'); },
+  refunds() { return policyPage('refunds'); },
 
   vegan() { return dietaryPage('vegan'); },
   glutenFree() { return dietaryPage('glutenFree'); },

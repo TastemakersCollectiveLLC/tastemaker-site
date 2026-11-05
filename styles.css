@@ -926,6 +926,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   word-break: keep-all;
 }
 .tmc-footer-col a:hover { color: var(--white); }
+/* The legal row above the bottom line: the three policy pages, small,
+   in the footer's own type. */
+.tmc-footer-legal {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+}
+.tmc-footer-legal a {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--white-soft);
+}
+.tmc-footer-legal a:hover { color: var(--white); }
+
 .tmc-footer-bottom {
   border-top: 1px solid var(--hairline-soft);
   padding-top: 24px;

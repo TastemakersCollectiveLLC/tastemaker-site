@@ -67,6 +67,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.tastemakerscollective.us/privacy</loc>
+    <lastmod>2026-11-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/terms</loc>
+    <lastmod>2026-11-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tastemakerscollective.us/refunds</loc>
+    <lastmod>2026-11-05</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.tastemakerscollective.us/card</loc>
     <lastmod>2026-11-05</lastmod>
     <priority>0.5</priority>

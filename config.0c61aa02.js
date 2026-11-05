@@ -60,6 +60,9 @@ order: 'Drop-off catering orders',
 about: 'About Tastemakers Collective',
 contact: 'Contact Tastemakers Collective',
 reviews: 'Reviews',
+privacy: 'Privacy policy',
+terms: 'Terms and conditions',
+refunds: 'Refund and cancellation policy',
 onSet: 'Production and on set catering in Los Angeles',
 vegan: 'Vegan catering in Los Angeles',
 glutenFree: 'Gluten-free catering in Los Angeles',
@@ -82,6 +85,9 @@ contact: 'Contact Tastemakers Collective about catering, events, festival vendin
 onSet: 'Production catering in Los Angeles. Crew breakfast and lunch delivered to location on your schedule, labeled for every diet. COI on request.',
 vegan: 'Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
 glutenFree: 'Gluten-free catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.',
+privacy: 'The Tastemakers Collective privacy policy: what our forms collect, how we use it, and how to reach us about your information.',
+terms: 'Terms and conditions for Tastemakers Collective bookings and orders: quotes, deposits, payment timing, changes and dietary needs.',
+refunds: 'The Tastemakers Collective refund and cancellation policy: deposits, cancellation windows, date changes and drop-off orders.',
 reviews: 'Reviews from Tastemakers Collective clients. Cooked an event with us? We would love to hear from you. Catering and events in Los Angeles.'
 },
 heroes: {
@@ -128,6 +134,18 @@ intro: 'Reviews from our clients. Cooked an event with us? We would love to hear
 onSet: {
 eyebrow: 'On set',
 intro: 'Crew meals delivered to location on your schedule.'
+},
+privacy: {
+eyebrow: 'Privacy',
+intro: 'Effective November 5, 2026.'
+},
+terms: {
+eyebrow: 'Terms',
+intro: 'Effective November 5, 2026.'
+},
+refunds: {
+eyebrow: 'Refunds',
+intro: 'Effective November 5, 2026.'
 },
 vegan: {
 eyebrow: 'Vegan',
@@ -350,6 +368,32 @@ aboutCredentials: [
 'Licensed California LLC'
 ],
 aboutWhereWeWork: 'Los Angeles and Southern California, plus festivals across California.',
+policyPages: {
+privacy: [
+'Tastemakers Collective LLC runs this website. We collect what you send through our forms: your name, email, phone number and the details of your event or order. We use it to reply to you, prepare quotes and provide our services. Submissions are stored in our business systems and seen only by our team. We do not sell your information, and we do not share it except with the service providers that run our systems or when the law requires.',
+'This site does not set advertising or analytics cookies today. If that changes, this policy changes first. Payments made through this site are processed by our payment processor; we never see or store full card numbers.',
+'Email hello@tastemakerscollective.us to ask what we have about you, or to have it corrected or deleted.',
+'Tastemakers Collective LLC, Los Angeles, California.'
+],
+terms: [
+'These terms govern orders and event bookings with Tastemakers Collective LLC.',
+'Booking. Every menu is custom. We confirm availability and send a written quote. A booking is confirmed when the deposit is paid.',
+'Payment. A 50% deposit is due at booking. The balance is due 7 days before the event. Events booked on short notice are paid in full at signing. Payments made through this site are processed by our payment processor; we never see or store full card numbers.',
+'Changes. Guest count and menu changes after booking may change the quote. We confirm any new total in writing before it applies.',
+'Cancellations and refunds are covered by our <a href="/refunds">Refund and Cancellation Policy</a>.',
+'Dietary needs and allergies. We build menus around dietary needs and label every dish. Tell us about allergies when you book. We cook in a shared commercial kitchen and cannot guarantee any dish is free of trace allergens.',
+'Insurance. We carry general liability insurance; a certificate is available on request.',
+'These terms are governed by California law. Questions: hello@tastemakerscollective.us or (213) 293-8518.'
+],
+refunds: [
+'A 50% deposit holds your event date. $350 of every deposit is non-refundable in all cases.',
+'If you cancel more than 30 days before the event, we refund everything you have paid except the $350 non-refundable portion. If you cancel 30 to 7 days before the event, we refund what you have paid minus the $350 non-refundable portion and a $350 cancellation fee. Within 7 days of the event, payments are non-refundable.',
+'You may move your event to a new date once, subject to availability. Your deposit carries to the new date, and if the new date or event changes the quote, the deposit adjusts with it. The $350 non-refundable portion stays the same.',
+'Drop-off orders may be canceled up to 48 hours before delivery for a full refund. Inside 48 hours the order is charged in full.',
+'If we cancel your event for any reason other than a breach of our agreement, you receive a full refund, including the $350.',
+'Refunds are returned to the original payment method within 10 business days. Questions: hello@tastemakerscollective.us or (213) 293-8518, call or text.'
+]
+},
 cta: {
 kicker: 'Contact',
 headlines: {
@@ -413,11 +457,11 @@ powerWater: ['Yes', 'No', 'Not sure']
 },
 faq: [
 { q: 'How does booking work?',
-a: 'Send an inquiry with the date, the place, the guest count and any dietary needs. We reply with a custom menu and a quote. The menu and consultation are free.' },
+a: 'Send an inquiry with the date, the place, the guest count and any dietary needs. We reply with a custom menu and a quote. The menu and consultation are free. The balance is due 7 days before the event.' },
 { q: 'Do you cook private dinners at home?',
 a: 'Yes. Private dining is dinner at your home for parties under twelve, with a custom menu built around your guests.' },
 { q: 'How does the deposit work?',
-a: 'A 50% deposit holds the date. Events booked on short notice are paid in full at signing.' },
+a: 'A 50% deposit holds the date. The balance is due 7 days before the event. Events booked on short notice are paid in full at signing. Cancellation terms are in our <a href="/refunds">Refund and Cancellation Policy</a>.' },
 { q: 'Do you offer tastings?',
 a: 'A tasting is available once a wedding is booked.' },
 { q: 'Can you handle dietary restrictions and allergies?',
@@ -438,6 +482,11 @@ enabled: true,
 ratings: ['5', '4', '3', '2', '1']
 },
 footer: {
+legal: [
+{ route: 'privacy', label: 'Privacy Policy' },
+{ route: 'terms', label: 'Terms and Conditions' },
+{ route: 'refunds', label: 'Refund and Cancellation Policy' }
+],
 tagline: 'Custom menus for every event and every diet. Catering, events and festival vending across Los Angeles and Southern California.',
 columns: [
 {

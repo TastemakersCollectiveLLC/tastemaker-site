@@ -64,6 +64,15 @@ dish names appear anywhere on the site.
 ## DECIDED facts, fine to state
 
 - 50% deposit holds a date; short-notice events are paid in full at signing.
+- The balance is due 7 days before the event.
+- The refund terms exactly as /refunds states them: $350 of every deposit
+  non-refundable in all cases, the more-than-30-day and 30-to-7-day windows
+  with the $350 cancellation fee, non-refundable within 7 days, one date
+  move with the deposit carried, 48 hours for drop-off orders, a full
+  refund including the $350 if we cancel, refunds to the original method
+  within 10 business days.
+- Payments through the site are processed by our payment processor; we
+  never see or store full card numbers.
 - Custom menu and consultation are free. Tasting once a wedding is booked.
 - Every dish labeled for dietary needs and allergens. Vegan, gluten free and
   dairy free options on every menu. Halal is available on request.
@@ -79,8 +88,8 @@ dish names appear anywhere on the site.
 
 Any price, per-person rate, minimum spend or minimum headcount. Package names
 or contents. Delivery fees or zones. Tasting fee. Response-time promises.
-Net terms, invoicing, billing method or payment methods. Cancellation or
-refund terms. Final count deadlines or change cutoffs. Rentals, plateware,
+Net terms, invoicing, billing method or payment methods. Final count
+deadlines or change cutoffs. Rentals, plateware,
 glassware, ice, linens, decor or bar equipment. Staffing ratios. Separate
 allergen preparation or any cross-contact guarantee. Second meal or craft
 service on set. Private dining pricing, its service style (plated, family

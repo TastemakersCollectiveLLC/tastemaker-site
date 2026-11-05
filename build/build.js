@@ -242,6 +242,9 @@ ok('JSON-LD parses on every page, no prices, no ratings, FAQPage on Contact alon
 /* D. house rules on the built output. The one dollar sign allowed is the
    trust strip's own. */
 const TRUST_DOLLAR = '$2M general liability insurance';
+/* The refund policy's one fixed figure, Danny's wording; allowed only on
+   that page and in the full-text file that carries it. */
+const POLICY_DOLLAR = '$350';
 const outputs = built.map(b => b.file).concat(['llms.txt', 'llms-full.txt', 'sitemap.xml', 'robots.txt', assets.css, assets.script, assets.config, 'card/index.html', 'card/tastemakers.vcf']);
 outputs.forEach(f => {
   const s = read(f);
@@ -251,7 +254,8 @@ outputs.forEach(f => {
   if (/\bwook\b/i.test(s)) fail(f + ': Wook');
   if (/\u2014/.test(s)) fail(f + ': em dash');
   const dollars = (s.match(/\$/g) || []).length;
-  const allowed = (s.split(TRUST_DOLLAR).length - 1);
+  let allowed = (s.split(TRUST_DOLLAR).length - 1);
+  if (f === 'refunds.html' || f === 'llms-full.txt') allowed += (s.split(POLICY_DOLLAR).length - 1);
   /* script.js and config.js legitimately use $ in regexes; only page and text outputs are held to the rule */
   if (!/\.js$/.test(f) && dollars > allowed) fail(f + ': ' + (dollars - allowed) + ' dollar sign(s) besides the trust strip');
 });
