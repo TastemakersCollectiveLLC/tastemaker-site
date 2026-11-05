@@ -30,9 +30,10 @@ We sell, all real:
 NOT offered: private chef. Never add or imply it ("private dinners" for
 clients counts as implying it; our own supper clubs are fine).
 
-Food identity: modern Italian and Italian-adjacent, with California produce.
-Eastern techniques are an unstated influence only, never named as a style,
-and never the word fusion. Menu sections and dish names use American English
+Food identity: modern California Italian (internal working name Califas
+Italiano; the working name never appears on the site). California is half
+the cooking, not just the sourcing. Eastern techniques are an unstated
+influence only, never named as a style, and never the word fusion. Menu sections and dish names use American English
 nomenclature; no Italian section names. Pantry: pork and shellfish are
 allowed; halal is available on request. Specialty: food for people with
 dietary restrictions, cooked from whole foods.

@@ -212,7 +212,7 @@ body: 'Our kitchen is led by a chef with seventeen years in fine dining kitchens
 homeWho: {
 headline: 'A Los Angeles catering and events company.',
 body: [
-'We cook modern Italian food with California produce, for offices, weddings, private parties, productions on set and music festivals.',
+'We cook modern California Italian food for offices, weddings, private parties, productions on set and music festivals.',
 'Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and halal is available on request.',
 'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals.'
 ]
@@ -321,7 +321,7 @@ aboutWhatWeDo: [
 { title: 'Pop-ups', desc: 'One-night events we run ourselves.' },
 { title: 'Supper clubs', desc: 'Private dinners announced to our guest list.' }
 ],
-aboutWhoWeAre: 'Tastemakers Collective is a chef-driven catering, events and food vending company in Los Angeles cooking modern Italian food with California produce. Our specialty is food for people with dietary restrictions, cooked from whole foods. Our kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
+aboutWhoWeAre: 'Tastemakers Collective is a chef-driven catering, events and food vending company in Los Angeles cooking modern California Italian food. Our specialty is food for people with dietary restrictions, cooked from whole foods. Our kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
 aboutCredentials: [
 'Permitted by LA County Public Health',
 'ServSafe certified manager',
