@@ -30,7 +30,9 @@ const KEY = TMC.INDEXNOW_KEY;
   }
 
   const sm = await (await fetch(SITE + '/sitemap.xml?cb=' + Date.now())).text();
-  const urlList = (sm.match(/<loc>([^<]+)<\/loc>/g) || []).map(l => l.replace(/<\/?loc>/g, ''));
+  /* Extra URLs on the command line, for removed pages whose redirect the
+     engines should recrawl. */
+  const urlList = [...new Set((sm.match(/<loc>([^<]+)<\/loc>/g) || []).map(l => l.replace(/<\/?loc>/g, '')).concat(process.argv.slice(2)))];
   if (!urlList.length) { console.log('No URLs found in the live sitemap.'); process.exit(1); }
 
   const body = { host: new URL(SITE).host, key: KEY, keyLocation: keyLocation, urlList: urlList };

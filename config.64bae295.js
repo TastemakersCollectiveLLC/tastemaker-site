@@ -39,7 +39,6 @@ nav: [
 { route: 'events', label: 'Events' },
 { route: 'vending', label: 'Vending' },
 { route: 'onSet', label: 'On set' },
-{ route: 'menus', label: 'Menus' },
 { route: 'about', label: 'About' },
 { route: 'contact', label: 'Book', cta: true }
 ],
@@ -56,7 +55,6 @@ corporate: 'Corporate catering in Los Angeles',
 events: 'Event catering in Los Angeles',
 vending: 'Festival and event food vending',
 order: 'Drop-off catering orders',
-menus: 'Menus',
 about: 'About Tastemakers Collective',
 contact: 'Contact Tastemakers Collective',
 reviews: 'Reviews',
@@ -71,7 +69,6 @@ home: 'Tastemakers Collective | Catering and Events in Los Angeles'
 homeH1Line: 'Catering and events in Los Angeles',
 descriptions: {
 home: 'A Los Angeles catering and events company. Custom menus for every event and every diet: weddings, corporate events, festivals and drop-off catering.',
-menus: 'Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom. Built around any dietary needs and allergies.',
 order: 'Drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count. Delivered ready to serve.',
 weddings: 'Wedding catering in Los Angeles. Custom menus, a tasting once booked, full service in any style. Every dietary need handled dish by dish.',
 corporate: 'Corporate catering in Los Angeles. Office lunch delivered, meetings, company parties and client dinners. Every dish labeled for dietary needs.',
@@ -117,10 +114,6 @@ contact: {
 eyebrow: 'Contact',
 intro: 'Tell us about your event and we&rsquo;ll get back to you. Serving Los Angeles and Southern California.'
 },
-menus: {
-eyebrow: 'Menus',
-intro: 'Every menu is custom. These are examples from past events.'
-},
 reviews: {
 eyebrow: 'Reviews',
 intro: 'Reviews from our clients. Cooked an event with us? We would love to hear from you.'
@@ -164,7 +157,7 @@ list: [
 'Bar service as an add-on: bartenders and house-made mixers; you supply the alcohol'
 ] },
 { heading: 'Dietary needs',
-body: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and chicken and beef are halal.' },
+body: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and halal is available on request.' },
 { heading: 'Deposit and timing',
 list: [
 'A 50% deposit holds the date.',
@@ -205,7 +198,7 @@ body: 'Breakfast, lunch and breaks timed to the agenda. Delivered and set, or st
 { heading: 'Company events and client dinners',
 body: 'Holiday parties, launches, team dinners and client dinners, plated, family style, buffet or stations, cooked and served by our team.' },
 { heading: 'Dietary needs',
-body: 'Every menu is built around the dietary needs and allergies in the room. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and chicken and beef are halal.' },
+body: 'Every menu is built around the dietary needs and allergies in the room. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and halal is available on request.' },
 { heading: 'How ordering works',
 list: [
 'Drop-off: send a request on the Order page.',
@@ -216,103 +209,11 @@ body: 'Bar service is available as an add-on. We provide bartenders and house-ma
 { heading: 'Who cooks',
 body: 'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals. Permitted by LA County Public Health, ServSafe certified, prepared in a permitted commercial kitchen.' }
 ],
-menus: [
-{
-section: 'Pop-up menus',
-groups: [
-{
-title: 'Lunar New Year street menu',
-items: [
-{ name: 'Duck Tacos', detail: 'Blue corn tortilla, roasted duck, hoisin, cucumber, daikon, scallion, chili oil.' },
-{ name: 'Beef &amp; Black Bean Tacos', detail: 'Blue corn tortilla, sliced beef, black bean garlic, white onion, red bell pepper, celery, scallion.' },
-{ name: 'General Tso&rsquo;s Tofu', detail: 'Koji-marinated tofu fried in potato starch, roasted red pepper puree, orange, rice vinegar, coconut sugar, ginger, garlic, dried chiles, red bell pepper, white onion, toasted sesame.', tags: ['Vegan'] },
-{ name: 'Longevity Noodles', detail: 'Shanghai noodles, shiitake, Chinese chive, carrot, napa cabbage, bean sprouts, scallion oil, garlic, ginger, sesame.' },
-{ name: 'Dumplings', detail: 'Crispy fried gyoza, veggie or beef, chili oil, black vinegar, scallion oil, sambal.' },
-{ name: 'Cucumber Salad', detail: 'Smashed Persian cucumber, wood ear mushroom, daikon, cilantro, scallion, toasted peanuts, fried garlic, black and white sesame, coconut aminos, ginger rice vinaigrette, black vinegar, sesame oil, chili oil, Thai chili.', tags: ['Vegan', 'Gluten free'] }
-]
-},
-{
-title: 'Smash burgers and fries',
-items: [
-{ name: 'Single Smash', detail: 'Potato roll, smashed beef patty, American cheese, house sauce, pickle, white onion, chiles.' },
-{ name: 'Double Smash', detail: 'Potato roll, two smashed beef patties, double American cheese, house sauce, pickle, white onion, chiles.' },
-{ name: 'Fries', detail: 'Fried in corn oil, house seasoning blend.' },
-{ name: 'Feral Fries', detail: 'Fries, American cheese, caramelized onion, house sauce, chopped chiles.' }
-]
-},
-{
-title: 'Grilled wraps and salads',
-items: [
-{ name: 'Grilled Chicken Wrap', detail: 'Spinach herb tortilla, marinated grilled chicken, ginger cardamom rice, scallion oil, spring mix, mango, Persian cucumber, cherry tomato, Thai chili, celery, red onion, cilantro, basil, mint, lemon, lime.' },
-{ name: 'Kofta Beef Wrap', detail: 'Roasted red pepper tortilla, beef kofta with caramelized onion, tomato, gochugaru, mustard seed, coriander, fennel, cumin and allspice, seared cherry tomato, toum, hummus, pickled shallot, cucumber, scallion, mint, ginger cardamom rice, spring mix.' },
-{ name: 'Vegan Green Caesar', detail: 'Lacinato kale, arugula, cashew and oat milk caesar, basil, lemon, garlic, toum, lemon-cured cucumber ribbons, lemon supremes, lemon sunflower seeds, parsley, dill.', tags: ['Vegan'] },
-{ name: 'Pan de Elote', detail: 'Sweet corn, cornmeal, date sugar, olive oil, date syrup, ginger, raspberry compote, chamomile lavender, freeze-dried raspberry.', tags: ['Vegan', 'Gluten free'] }
-]
-},
-{
-title: 'Thai street tacos',
-items: [
-{ name: 'Panang Beef Barbacoa', detail: 'Beef chuck, panang curry, coconut milk, fish sauce, coconut sugar, makrut lime leaf, caramelized green cabbage, fried Thai basil, peanuts, dried mango and chile manzano sauce.' },
-{ name: 'Chicken Satay Tacos', detail: 'Corn tortilla, coconut-marinated chicken, Madras curry, green papaya, green cabbage, carrot, cucumber, Roma tomato, lime, fish sauce, peanut sauce of coconut cream, tamarind, makrut lime leaf, galangal, ginger and lemongrass.' },
-{ name: 'Crispy Maitake Tacos', detail: 'Maitake and king trumpet mushrooms, potato starch, coconut aminos, tamarind, coconut sugar, roasted mushroom glaze, kombu, avocado, kiwi, serrano, Thai basil, mint, scallion, lime.' },
-{ name: 'Thai Elote', detail: 'Charred corn, cashew lime aioli, makrut lime leaf, garlic, cilantro, chile lime dust, gochugaru, scallion, mint, Thai basil.' }
-]
-},
-{
-title: 'Italian sandwiches and snacks',
-items: [
-{ name: 'Bruschetta', detail: 'Grilled baguette, garlic, herb and lemon peel oil, tomato, shallot, basil, balsamic, lemon zest.', tags: ['Vegan'] },
-{ name: 'Crispy Gnocchi', detail: 'Gluten-free gnocchi seared in the wok, parsnip puree, leek soubise, basil, or tomato sauce.', tags: ['Vegan', 'Gluten free'] },
-{ name: 'Mortadella Sandwich', detail: 'Toasted ciabatta, pistachio lemon pesto, stracciatella, pistachio crumble, mortadella, arugula.' },
-{ name: 'Caprese Sandwich', detail: 'Toasted ciabatta, fresh mozzarella, salted Roma tomato, basil, olive oil, balsamic, prosciutto on request.' },
-{ name: 'Hot Meatball Sub', detail: 'Ciabatta, meatballs braised in marinara and roasted scrap jus, torched provolone.' },
-{ name: 'Cucumber Salad', detail: 'Oblique cucumber, grape tomato, lemon-cured shallot, ciliegine, basil, arugula, balsamic vinaigrette.' }
-]
-},
-{
-title: 'Noodle bowls',
-items: [
-{ name: 'Noodle Bowl', detail: 'Yakisoba noodles, napa cabbage, sugar snap peas, red bell pepper, shiitake, teriyaki chicken thigh or mushroom, pineapple chile salsa.' }
-]
-}
-]
-},
-{
-section: 'Private dining',
-groups: [
-{
-title: 'Salads',
-items: [
-{ name: 'Duck Caesar', detail: 'Duck confit, duck fat caesar dressing, no anchovy, duck fat croutons, manchego, romaine, lemon supremes.' },
-{ name: 'Spring Garden', detail: 'Butter lettuce, tomatoes peeled and brined in lemon and basil, lemon-pickled shallot, cucumber ribbons, dill, sunflower seeds, champagne yuzu date vinaigrette.', tags: ['Vegan', 'Gluten free'] },
-{ name: 'King Crab Louie', detail: 'Whole king crab leg, seven-minute egg, gochugaru and orange Louie, dijon, rice vinegar, cornichon, shallot, heirloom tomato, avocado, lemon.' }
-]
-},
-{
-title: 'Vegetables',
-items: [
-{ name: 'Potatoes Barigoule', detail: 'Pearl potatoes in coriander fennel stock, Castelvetrano olives, braised artichoke, roasted fennel, napa cabbage, white wine, olive brine, caramelized lemon, chervil, parsley.', tags: ['Vegan', 'Gluten free'] }
-]
-},
-{
-title: 'Proteins',
-items: [
-{ name: 'Salmon', detail: 'Salmon, prosecco beurre blanc on salmon dashi with kombu, bonito, leek, turnip and parsnip, radish, leek, sundried tomato.' },
-{ name: 'Duck Breast', detail: 'Duck breast, vanilla amontillado jus, cherry gastrique with red wine vinegar, mirin, pink peppercorn and thyme, three-texture corn, parsnip, hazelnut, pea shoots.' },
-{ name: 'Chateaubriand', detail: 'Beef tenderloin crusted in espresso, black garlic, gochugaru, orange zest and smoked salt, demi of roasted bones, burnt turnip, roasted orange, maitake, parsnip, shallot, amontillado, green peppercorns.' },
-{ name: 'Lobster Tortelloni', detail: 'House pasta filled with leek, turnip and trumpet mushroom, clarified lobster consomm&eacute;, claw meat, Japanese turnip, charred leek, chili oil of Aleppo, annatto, garlic and coriander.' }
-]
-}
-]
-}
-],
-heroDishes: ['Duck Tacos', 'Panang Beef Barbacoa', 'Lobster Tortelloni',
-'Crispy Maitake Tacos', 'Chateaubriand'],
 homeWho: {
 headline: 'A Los Angeles catering and events company.',
 body: [
-'We cook for offices, weddings, private parties, productions on set and music festivals.',
-'Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and chicken and beef are halal.',
+'We cook modern Italian food with California produce, for offices, weddings, private parties, productions on set and music festivals.',
+'Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and halal is available on request.',
 'Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals.'
 ]
 },
@@ -363,8 +264,10 @@ serviceList: [
 { route: 'onSet', name: 'Production and on set catering', desc: 'Crew meals delivered to location on your schedule.' }
 ],
 dietaryPages: [
-{ route: 'vegan', tag: 'Vegan', name: 'Vegan catering', diet: 'https://schema.org/VeganDiet' },
-{ route: 'glutenFree', tag: 'Gluten free', name: 'Gluten-free catering', diet: 'https://schema.org/GlutenFreeDiet' }
+{ route: 'vegan', name: 'Vegan catering', diet: 'https://schema.org/VeganDiet',
+body: 'Vegan, gluten free and dairy free options are on every menu and every dish is labeled for dietary needs and allergens. Tell us the dietary needs in the room and we build the menu around them.' },
+{ route: 'glutenFree', name: 'Gluten-free catering', diet: 'https://schema.org/GlutenFreeDiet',
+body: 'Vegan, gluten free and dairy free options are on every menu and every dish is labeled for dietary needs and allergens. Tell us the dietary needs in the room and we build the menu around them.' }
 ],
 knowsAbout: ['Catering', 'Wedding catering', 'Corporate catering', 'Event catering', 'Festival food vending',
 'Drop-off catering', 'Production catering', 'Vegan catering', 'Gluten-free catering',
@@ -382,7 +285,7 @@ included: [
 { title: 'Bar service as an add-on', desc: 'Bartenders and house-made mixers; you supply the alcohol.' }
 ],
 serviceStylesLine: 'Plated, family style, buffet or stations. Any of them, or a mix across the evening.',
-dietaryNote: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and chicken and beef are halal.',
+dietaryNote: 'Every menu is built around your guests. Vegan, gluten free and dairy free options are on every menu, every dish is labeled on the day, and halal is available on request.',
 eventTypes: [
 { title: 'Private parties', desc: 'Dinners and parties at home or at a venue.' },
 { title: 'Celebrations', desc: 'Birthdays, anniversaries and milestones.' }
@@ -418,7 +321,7 @@ aboutWhatWeDo: [
 { title: 'Pop-ups', desc: 'One-night events we run ourselves.' },
 { title: 'Supper clubs', desc: 'Private dinners announced to our guest list.' }
 ],
-aboutWhoWeAre: 'Tastemakers Collective is a chef-driven catering, events and food vending company in Los Angeles. Our specialty is food for people with dietary restrictions, cooked from whole foods. Our kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
+aboutWhoWeAre: 'Tastemakers Collective is a chef-driven catering, events and food vending company in Los Angeles cooking modern Italian food with California produce. Our specialty is food for people with dietary restrictions, cooked from whole foods. Our kitchen is led by a chef with seventeen years in fine dining kitchens in California and more than a decade cooking for artist hospitality, green rooms and crews at music festivals. We cook from a permitted commercial kitchen in Los Angeles.',
 aboutCredentials: [
 'Permitted by LA County Public Health',
 'ServSafe certified manager',
@@ -436,7 +339,6 @@ corporate: 'Book your office lunch or event.',
 events: 'Book your event.',
 vending: 'Book us for your festival or event.',
 about: 'Work with us.',
-menus: 'Book your event.',
 reviews: 'Book your event.',
 vegan: 'Book your event.',
 glutenFree: 'Book your event.',
@@ -450,14 +352,13 @@ corporate: { primary: 'Book', secondary: 'Order drop-off', type: 'corporate' },
 events:    { primary: 'Book', secondary: 'Order drop-off', type: 'private-party' },
 vending:   { primary: 'Book', secondary: 'Order drop-off', type: 'vending', style: 'vending' },
 about:     { primary: 'Book' },
-menus:     { primary: 'Book an event', secondary: 'Order drop-off' },
 reviews:   { primary: 'Book' },
 vegan:     { primary: 'Book' },
 onSet:     { primary: 'Book', type: 'production' },
 glutenFree: { primary: 'Book' }
 }
 },
-stickyRoutes: ['weddings', 'corporate', 'events', 'vending', 'onSet', 'menus'],
+stickyRoutes: ['weddings', 'corporate', 'events', 'vending', 'onSet'],
 stickyBookOnly: ['weddings', 'onSet'],
 contactForm: {
 eventTypes: ['Wedding', 'Corporate event', 'Private party', 'Celebration',
@@ -494,7 +395,7 @@ a: 'A 50% deposit holds the date. Events booked on short notice are paid in full
 { q: 'Do you offer tastings?',
 a: 'A tasting is available once a wedding is booked.' },
 { q: 'Can you handle dietary restrictions and allergies?',
-a: 'That is our specialty. Vegan, gluten free and dairy free options are on every menu, every dish is labeled for dietary needs and allergens, and chicken and beef are halal.' },
+a: 'That is our specialty. Vegan, gluten free and dairy free options are on every menu, every dish is labeled for dietary needs and allergens, and halal is available on request.' },
 { q: 'How does drop-off work?',
 a: 'Boxed meals or pans, delivered ready to serve. Send a request on the Order page at least 48 hours ahead.' },
 { q: 'Do you deliver plated food?',
@@ -522,7 +423,6 @@ links: [
 { route: 'vending', label: 'Vending' },
 { route: 'onSet', label: 'On set' },
 { route: 'order', label: 'Order' },
-{ route: 'menus', label: 'Menus' },
 { route: 'vegan', label: 'Vegan catering' },
 { route: 'glutenFree', label: 'Gluten-free catering' }
 ]

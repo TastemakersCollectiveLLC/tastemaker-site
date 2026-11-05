@@ -28,7 +28,6 @@ const PAGES = [
   { route: 'vending',   path: '/vending',   file: 'vending.html' },
   { route: 'onSet',     path: '/on-set',    file: 'on-set.html' },
   { route: 'order',     path: '/order',     file: 'order.html' },
-  { route: 'menus',     path: '/menus',     file: 'menus.html' },
   { route: 'about',     path: '/about',     file: 'about.html' },
   { route: 'contact',   path: '/contact',   file: 'contact.html' },
   { route: 'vegan',      path: '/vegan',       file: 'vegan.html' },
@@ -151,28 +150,6 @@ function offerCatalog() {
 }
 
 /* A schema.org Menu of the dishes, optionally only those carrying one tag. */
-function menuNode(id, name, description, url, tag) {
-  const sections = CONFIG.menus.map(section => ({
-    '@type': 'MenuSection',
-    name: section.section,
-    hasMenuSection: section.groups.map(group => ({
-      '@type': 'MenuSection',
-      name: group.title,
-      hasMenuItem: group.items.filter(item => !tag || (item.tags || []).indexOf(tag) > -1).map(item => {
-        const mi = { '@type': 'MenuItem', name: plain(item.name), description: plain(item.detail || '') };
-        const diets = [];
-        (item.tags || []).forEach(t => {
-          if (t === 'Vegan') diets.push('https://schema.org/VeganDiet');
-          if (t === 'Gluten free') diets.push('https://schema.org/GlutenFreeDiet');
-        });
-        if (diets.length) mi.suitableForDiet = diets;
-        return mi;
-      })
-    })).filter(g => g.hasMenuItem.length)
-  })).filter(sec => sec.hasMenuSection.length);
-  return { '@type': 'Menu', '@id': id, name: name, description: description, url: url, hasMenuSection: sections };
-}
-
 function jsonLd(page) {
   const route = page.route;
   const url = absolute(page.path);
@@ -270,9 +247,6 @@ function jsonLd(page) {
       }))
     });
   }
-  if (route === 'menus') {
-    graph.push(menuNode(url + '#menu', 'Example menus', plain(CONFIG.heroes.menus.intro), url));
-  }
   const diet = CONFIG.dietaryPages.filter(d => d.route === route)[0];
   if (diet) {
     graph.push({
@@ -285,7 +259,6 @@ function jsonLd(page) {
       areaServed: AREA_SERVED.slice(),
       url: url
     });
-    graph.push(menuNode(url + '#menu', h1For(route), plain(CONFIG.heroes[route].intro), url, diet.tag));
   }
   return { '@context': 'https://schema.org', '@graph': graph };
 }
@@ -454,19 +427,6 @@ function rows(items) {
   '</div>';
 }
 
-/* The in-page Menus pointer. Every service page links to Menus here and
-   to Contact in the closing band. */
-function dietaryLinks() {
-  return CONFIG.dietaryPages.map(d => '<a class="tmc-service-menu-link" href="' + pathFor(d.route) + '">' + d.name + ' <span class="tmc-arrow">&rarr;</span></a>').join('');
-}
-
-function menusBlock(label) {
-  return block(label || '', 'Example menus', CONFIG.heroes.menus.intro,
-    '<div class="tmc-block-cta tmc-service-links"><a class="tmc-service-menu-link" href="/menus">See the menus <span class="tmc-arrow">&rarr;</span></a>' + dietaryLinks() + '</div>');
-}
-
-/* A plain list. An item written "Label: text" shows the label in white;
-   the words themselves are exactly as written in CONFIG. */
 function bullets(items) {
   return '<ul class="tmc-bullets">' + items.map(item => {
     const i = item.indexOf(': ');
@@ -495,29 +455,6 @@ function honeypot() {
 /* ============================================
    PAGES
    ============================================ */
-/* One menu section. With a tag, only the dishes carrying it; groups and
-   sections left empty are dropped. */
-function renderMenuSection(section, tag) {
-  const groups = section.groups.map(group => {
-    const items = group.items.filter(item => !tag || (item.tags || []).indexOf(tag) > -1);
-    if (!items.length) return '';
-    return '<div class="tmc-menu-group">' +
-      '<h3 class="tmc-menu-section-title">' + group.title + '</h3>' +
-      '<div class="tmc-menu-items">' +
-        items.map(item =>
-          '<div class="tmc-menu-item">' +
-            '<div class="tmc-menu-item-name">' + item.name + '</div>' +
-            (item.detail ? '<div class="tmc-menu-item-desc">' + item.detail + '</div>' : '') +
-            (item.tags && item.tags.length ? '<div class="tmc-menu-tags">' + item.tags.map(t => '<span class="tmc-menu-tag">' + t + '</span>').join('') + '</div>' : '') +
-          '</div>').join('') +
-      '</div>' +
-    '</div>';
-  }).join('');
-  if (!groups) return '';
-  return '<section class="tmc-menu-section" data-section="' + esc(section.section) + '">' +
-    '<h2 class="tmc-menu-section-heading">' + section.section + '</h2>' + groups + '</section>';
-}
-
 /* Danny's allergy-handling sentences, when they exist. Until then a marked,
    empty slot: no allergen or cross-contact claim is made for him. */
 function allergySlot(route) {
@@ -529,9 +466,8 @@ function allergySlot(route) {
 function dietaryPage(route) {
   const diet = CONFIG.dietaryPages.filter(d => d.route === route)[0];
   return pageHero(route) +
-    '<div class="tmc-menu-detail">' + CONFIG.menus.map(sec => renderMenuSection(sec, diet.tag)).join('') + '</div>' +
+    '<section class="tmc-block"><p class="tmc-block-intro tmc-page-copy">' + diet.body + '</p></section>' +
     allergySlot(route) +
-    menusBlock() +
     contactBand(route);
 }
 
@@ -559,7 +495,6 @@ const pages = {
           '<span class="tmc-hero-sub tmc-hero-line">' + CONFIG.homeH1Line + '</span>' +
         '</h1>' +
         '<div class="tmc-hero-tagline">' + B.tagline + '</div>' +
-        '<div class="tmc-hero-dishes">' + CONFIG.heroDishes.join(' &nbsp;&middot;&nbsp; ') + '</div>' +
       '</section>' +
       '<section class="tmc-why">' +
         '<div class="tmc-why-label">Who we are</div>' +
@@ -582,34 +517,8 @@ const pages = {
           '<div class="tmc-wwd-tile"><div><div class="tmc-wwd-tile-label">Recurring dinners</div><h3 class="tmc-wwd-tile-title">Supper Clubs</h3></div><div class="tmc-wwd-tile-desc">Private dinners announced to our guest list.</div></div>' +
         '</div>' +
       '</section>' +
-      menusBlock('Menus') +
       contactBand('home')
     );
-  },
-
-  menus() {
-    const renderSection = section => renderMenuSection(section);
-    const sections = CONFIG.menus.map(renderSection);
-    /* Pop-ups lead in the HTML. script.js puts Private dining first when
-       the visitor came from Weddings, Corporate or Events. The Book and
-       Order pair sits under the first section and again at the end. */
-    return pageHero('menus') +
-      '<div class="tmc-menu-detail" id="tmc-menu-lead">' + sections[0] + '</div>' +
-      '<section class="tmc-primary-cta-band">' +
-        '<div class="tmc-primary-cta-inner">' +
-          '<div class="tmc-primary-cta-label">' + CONFIG.cta.kicker + '</div>' +
-          '<h2 class="tmc-primary-cta-headline">' + CONFIG.cta.headlines.menus + '</h2>' +
-          ctaButtons('menus') +
-        '</div>' +
-      '</section>' +
-      '<div class="tmc-menu-detail" id="tmc-menu-rest">' + sections.slice(1).join('') + '</div>' +
-      '<section class="tmc-block"><div class="tmc-block-head"><h2 class="tmc-block-heading">Catering, events and vending</h2></div>' +
-        '<div class="tmc-block-cta tmc-service-links">' +
-          CONFIG.serviceList.map(s => '<a class="tmc-service-menu-link" href="' + pathFor(s.route) + '">' + s.name + ' <span class="tmc-arrow">&rarr;</span></a>').join('') +
-          dietaryLinks() +
-        '</div>' +
-      '</section>' +
-      contactBand('menus');
   },
 
   order() {
@@ -637,18 +546,17 @@ const pages = {
           '</div>' +
         '</form>' +
       '</section>' +
-      menusBlock() +
       contactBand('order');
   },
 
   weddings() {
     return pageHero('weddings') + sections(CONFIG.weddingsPage) +
-      menusBlock() + contactBand('weddings');
+      contactBand('weddings');
   },
 
   corporate() {
     return pageHero('corporate') + sections(CONFIG.corporatePage) +
-      menusBlock() + contactBand('corporate');
+      contactBand('corporate');
   },
 
   events() {
@@ -658,7 +566,7 @@ const pages = {
       block('', 'Service styles', CONFIG.serviceStylesLine) +
       block('', 'What is included', '', tiles(CONFIG.included, 4)) +
       block('', 'Dietary needs', CONFIG.dietaryNote) +
-      menusBlock() + contactBand('events');
+      contactBand('events');
   },
 
   vending() {
@@ -666,7 +574,7 @@ const pages = {
       block('', 'What we bring', '', tiles(CONFIG.vendingBrings, 4)) +
       block('', 'Ways we work', '', tiles(CONFIG.vendingWays, 3)) +
       block('', 'Past events', '', rows(CONFIG.vendingPast)) +
-      menusBlock() + contactBand('vending');
+      contactBand('vending');
   },
 
   about() {
@@ -769,7 +677,7 @@ const pages = {
         '<p class="tmc-block-intro">' + call + '</p></div>' +
         '<div class="tmc-body tmc-body-inline">' + form + '</div>' +
       '</section>' +
-      menusBlock() + contactBand('onSet');
+      contactBand('onSet');
   },
 
   vegan() { return dietaryPage('vegan'); },
@@ -806,7 +714,7 @@ const pages = {
         '<div class="tmc-page-hero-inner">' +
           '<h1 class="tmc-page-title">' + h1For('notFound') + '</h1>' +
           '<p class="tmc-page-intro">Call or text <a href="' + B.phoneHref + '">' + B.phone + '</a> or email <a href="mailto:' + B.email + '">' + B.email + '</a>.</p>' +
-          '<div class="tmc-cta-actions"><a class="tmc-btn tmc-btn-primary" href="/">Home <span class="tmc-arrow">&rarr;</span></a><a class="tmc-btn tmc-btn-secondary" href="/menus">Menus <span class="tmc-arrow">&rarr;</span></a></div>' +
+          '<div class="tmc-cta-actions"><a class="tmc-btn tmc-btn-primary" href="/">Home <span class="tmc-arrow">&rarr;</span></a><a class="tmc-btn tmc-btn-secondary" href="/contact">Book <span class="tmc-arrow">&rarr;</span></a></div>' +
         '</div>' +
       '</section>'
     );

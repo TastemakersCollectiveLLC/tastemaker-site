@@ -2,7 +2,7 @@
 
 > Custom menus for every event and every diet.
 
-Tastemakers Collective is a Los Angeles catering and events company. We cook for offices, weddings, private parties, productions on set and music festivals. Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and chicken and beef are halal. Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals.
+Tastemakers Collective is a Los Angeles catering and events company. We cook modern Italian food with California produce, for offices, weddings, private parties, productions on set and music festivals. Our specialty is food for people with dietary restrictions, cooked from whole foods. Vegan, gluten free and dairy free options are on every menu, every dish is labeled, and halal is available on request. Our kitchen is led by a chef with seventeen years in fine dining kitchens and more than a decade cooking for artist hospitality and crews at music festivals.
 
 ## What we do
 
@@ -28,7 +28,6 @@ Tastemakers Collective is a Los Angeles catering and events company. We cook for
 - [Festival and event food vending](https://www.tastemakerscollective.us/vending): Festival vending and event hospitality. Food vending, staff meals and artist hospitality, with our own setup, staff and equipment.
 - [Production and on set catering in Los Angeles](https://www.tastemakerscollective.us/on-set): Production catering in Los Angeles. Crew breakfast and lunch delivered to location on your schedule, labeled for every diet. COI on request.
 - [Drop-off catering orders](https://www.tastemakerscollective.us/order): Drop-off catering from Tastemakers Collective in Los Angeles. Pick a date, a delivery window and a guest count. Delivered ready to serve.
-- [Menus](https://www.tastemakerscollective.us/menus): Example menus from past Tastemakers Collective pop-ups and private dining. Every menu is custom. Built around any dietary needs and allergies.
 - [About Tastemakers Collective](https://www.tastemakerscollective.us/about): Tastemakers Collective is a Los Angeles catering and events company working across Southern California and festivals across the state.
 - [Contact Tastemakers Collective](https://www.tastemakerscollective.us/contact): Contact Tastemakers Collective about catering, events, festival vending or drop-off catering in Los Angeles. Call or text (213) 293-8518.
 - [Vegan catering in Los Angeles](https://www.tastemakerscollective.us/vegan): Vegan catering in Los Angeles. Custom menus for every event and every diet. Built around any dietary needs and allergies.

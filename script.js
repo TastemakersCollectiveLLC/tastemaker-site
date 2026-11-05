@@ -152,25 +152,6 @@
     input.value = '';
   }
 
-  /* === MENUS ===
-     A couple from Weddings or a buyer from Corporate or Events wants the
-     private dining menus first, not the taco pop-ups. The HTML leads with
-     pop-ups; when the referrer is one of those three pages the two
-     sections swap. */
-  function orderMenus() {
-    const lead = document.getElementById('tmc-menu-lead');
-    const rest = document.getElementById('tmc-menu-rest');
-    if (!lead || !rest) return;
-    let from = '';
-    try { from = new URL(document.referrer).pathname.replace(/\/$/, ''); } catch (ignore) {}
-    if (['/weddings', '/corporate', '/events'].indexOf(from) === -1) return;
-    const priv = rest.querySelector('[data-section="Private dining"]');
-    const pop = lead.querySelector('[data-section="Pop-up menus"]');
-    if (!priv || !pop) return;
-    lead.appendChild(priv);
-    rest.insertBefore(pop, rest.firstChild);
-  }
-
   /* === STICKY ACTION BAR ===
      Mobile only, and only on the pages where a visitor is deciding. It
      appears once the hero is behind them and hides again as the footer
@@ -238,15 +219,15 @@
      every element is simply visible from the start. */
   const RULE_TARGETS = '.tmc-block, .tmc-primary-cta-band';
   const GROUP_TARGETS = ['.tmc-why', '.tmc-section-header', '.tmc-services-wrap',
-    '.tmc-wwd-section', '.tmc-block', '.tmc-primary-cta-band', '.tmc-menu-section',
+    '.tmc-wwd-section', '.tmc-block', '.tmc-primary-cta-band',
     '.tmc-body', '.tmc-contact-block', '.tmc-page-hero', '.tmc-trust'].join(',');
   const LEFTOVER_TARGETS = ['.tmc-block-cta', '.tmc-service-menu-link',
-    '.tmc-cta-actions', '.tmc-menu-section-heading', '.tmc-page-rule', '.tmc-trust-list'].join(',');
+    '.tmc-cta-actions', '.tmc-page-rule', '.tmc-trust-list'].join(',');
   const KICKER_TARGETS = '.tmc-why-label, .tmc-section-label, .tmc-page-eyebrow,' +
     '.tmc-wwd-tile-label, .tmc-block-label, .tmc-primary-cta-label';
-  const HEADING_TARGETS = 'h1, h2, .tmc-menu-section-title';
+  const HEADING_TARGETS = 'h1, h2';
   const CARD_TARGETS = '.tmc-service-block, .tmc-wwd-tile, .tmc-block-item,' +
-    '.tmc-list-item, .tmc-contact-card, .tmc-form-step, .tmc-menu-back-card';
+    '.tmc-list-item, .tmc-contact-card, .tmc-form-step';
 
   /* Splits a heading into one masked wrapper per rendered line. Anything
      with element children is left alone, which keeps the wordmark out. */
@@ -306,8 +287,8 @@
       });
       let bi = 0;
       [].forEach.call(group.querySelectorAll('p, .tmc-block-note, .tmc-list-item-desc,' +
-        '.tmc-service-styles, .tmc-page-styles, .tmc-menu-item-desc'), function (b) {
-        if (b.closest('.tmc-anim-card') || b.closest('.tmc-menu-item')) return;
+        '.tmc-service-styles, .tmc-page-styles'), function (b) {
+        if (b.closest('.tmc-anim-card')) return;
         b.classList.add('tmc-anim-fade', 'is-pre');
         b.style.setProperty('--d', (base + bi * 60) + 'ms');
         bi++;
@@ -324,15 +305,9 @@
         }
         ci++;
       });
-      let di = 0;
-      [].forEach.call(group.querySelectorAll('.tmc-menu-item'), function (dish) {
-        dish.classList.add('tmc-anim-dish', 'is-pre');
-        dish.style.setProperty('--d', (base + Math.min(di, 14) * 40) + 'ms');
-        di++;
-      });
       [].forEach.call(group.querySelectorAll(LEFTOVER_TARGETS), function (el) {
         if (el.classList.contains('tmc-anim-kicker') || el.classList.contains('tmc-anim-fade') ||
-            el.classList.contains('tmc-anim-card') || el.classList.contains('tmc-anim-dish') ||
+            el.classList.contains('tmc-anim-card') ||
             el.closest('.tmc-anim-card') || el.querySelector('.tmc-anim-line')) return;
         el.classList.add('tmc-reveal', 'is-pre');
         el.style.setProperty('--d', base + 'ms');
@@ -362,7 +337,7 @@
     /* Last line of defence: nothing stays marked pre for more than three
        seconds, and the swap suspends transitions so every element lands on
        its final value in one step. */
-    const ANIMATED = '.tmc-anim-fade, .tmc-anim-dish, .tmc-anim-kicker, .tmc-reveal,' +
+    const ANIMATED = '.tmc-anim-fade, .tmc-anim-kicker, .tmc-reveal,' +
       '.tmc-anim-card, .tmc-anim-card > *, .tmc-anim-line > span';
     setTimeout(function () {
       const parts = [].slice.call(main.querySelectorAll(ANIMATED));
@@ -554,7 +529,6 @@
     pageIn();
     applyLeadTime();
     applyPrefill(query());
-    orderMenus();
     setupStickyBar();
     setupHeroGlow();
     setupReveal();

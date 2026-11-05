@@ -288,40 +288,19 @@ const serviceRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order
    which has its own card. */
 const homeRoutes = ['/weddings', '/corporate', '/events', '/vending', '/order', '/on-set'];
 const dietaryRoutes = ['/vegan', '/gluten-free'];
-built.forEach(bp => {
-  const body = bp.html.slice(bp.html.indexOf('<main'), bp.html.indexOf('</main>'));
-  if (serviceRoutes.indexOf(bp.path) > -1) {
-    dietaryRoutes.forEach(r => { if (body.indexOf('href="' + r + '"') === -1) fail(bp.file + ': body does not link to ' + r); });
-  }
-  if (dietaryRoutes.indexOf(bp.path) > -1) {
-    if (body.indexOf('href="/menus"') === -1) fail(bp.file + ': body does not link to Menus');
-    if (!/href="\/contact[?"]/.test(body)) fail(bp.file + ': body does not link to Contact');
-  }
-});
-dietaryRoutes.forEach(r => { if (built.filter(x => x.path === '/menus')[0].html.indexOf('href="' + r + '"') === -1) fail('menus.html does not link to ' + r); });
-/* the dietary pages carry exactly the tagged dishes */
-[['/vegan', 'Vegan'], ['/gluten-free', 'Gluten free']].forEach(pair => {
-  const want = [];
-  CONFIG.menus.forEach(sec => sec.groups.forEach(g => g.items.forEach(it => { if ((it.tags || []).indexOf(pair[1]) > -1) want.push(T.plain(it.name)); })));
-  const html = built.filter(x => x.path === pair[0])[0].html;
-  const got = (html.match(/<div class="tmc-menu-item-name">[\s\S]*?<\/div>/g) || []).map(m => T.plain(m.replace(/<[^>]+>/g, '')));
-  if (got.join('|') !== want.join('|')) fail(pair[0] + ': dishes are not exactly the ' + pair[1] + ' ones, got ' + got.length + ', want ' + want.length);
-  else ok(pair[0] + ': exactly the ' + want.length + ' ' + pair[1] + ' dishes');
-});
-built.filter(b => serviceRoutes.indexOf(b.path) > -1).forEach(b => {
+/* Every service and dietary page links to Contact in its body. The menus
+   cross-links went with the Menus page (11/4/2026). */
+built.filter(b => serviceRoutes.concat(dietaryRoutes).indexOf(b.path) > -1).forEach(b => {
   const body = b.html.slice(b.html.indexOf('<main'), b.html.indexOf('</main>'));
-  if (body.indexOf('href="/menus"') === -1) fail(b.file + ': body does not link to Menus');
   if (!/href="\/contact[?"]/.test(body)) fail(b.file + ': body does not link to Contact');
 });
-const menusBody = built.filter(b => b.path === '/menus')[0].html;
-serviceRoutes.forEach(r => { if (menusBody.indexOf('href="' + r + '"') === -1) fail('menus.html does not link to ' + r); });
 const homeBody = built[0].html.slice(built[0].html.indexOf('<main'), built[0].html.indexOf('</main>'));
 homeRoutes.forEach(r => { if (homeBody.indexOf('href="' + r + '"') === -1) fail('index.html body does not link to ' + r); });
 const footerHtml = built[0].html.slice(built[0].html.indexOf('<footer'));
 T.PAGES.filter(p => p.indexable !== false).map(p => p.path).concat(['/card']).forEach(p => {
   if (footerHtml.indexOf('href="' + p + '"') === -1) fail('footer does not list ' + p);
 });
-ok('no orphans; service pages link to Menus and Contact in the body; Menus and Home link to all five; the footer lists every page');
+ok('no orphans; service and dietary pages link to Contact in the body; Home links to every service; the footer lists every page');
 
 /* G. with every measurement constant empty, no page carries a third party script */
 if (!TMC.GA4_ID && !TMC.META_PIXEL_ID) {
@@ -345,7 +324,7 @@ if (!CONFIG.reviewForm.enabled) {
 
 /* G. the redirect script knows every page and every retired route */
 const home = built[0].html;
-['weddings', 'corporate', 'events', 'vending', 'order', 'menus', 'about', 'contact'].forEach(r => {
+['weddings', 'corporate', 'events', 'vending', 'order', 'about', 'contact'].forEach(r => {
   if (home.indexOf('"' + r + '"') === -1) fail('redirect script does not know ' + r);
 });
 Object.keys(CONFIG.redirects).forEach(r => { if (home.indexOf('"' + r + '":"' + CONFIG.redirects[r] + '"') === -1) fail('redirect script does not forward ' + r); });

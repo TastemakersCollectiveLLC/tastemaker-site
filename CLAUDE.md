@@ -30,8 +30,16 @@ We sell, all real:
 NOT offered: private chef. Never add or imply it ("private dinners" for
 clients counts as implying it; our own supper clubs are fine).
 
-Food identity: modern California, globally inspired. Global, never "fusion".
-Specialty: food for people with dietary restrictions, cooked from whole foods.
+Food identity: modern Italian and Italian-adjacent, with California produce.
+Eastern techniques are an unstated influence only, never named as a style,
+and never the word fusion. Menu sections and dish names use American English
+nomenclature; no Italian section names. Pantry: pork and shellfish are
+allowed; halal is available on request. Specialty: food for people with
+dietary restrictions, cooked from whole foods.
+
+The example menus are removed from the site (11/4/2026); /menus 301s to /.
+The Menus page returns later as the orderable catch-all menu. Until then no
+dish names appear anywhere on the site.
 
 ## Who each page is for
 
@@ -52,7 +60,7 @@ Specialty: food for people with dietary restrictions, cooked from whole foods.
 - 50% deposit holds a date; short-notice events are paid in full at signing.
 - Custom menu and consultation are free. Tasting once a wedding is booked.
 - Every dish labeled for dietary needs and allergens. Vegan, gluten free and
-  dairy free options on every menu. Chicken and beef are halal.
+  dairy free options on every menu. Halal is available on request.
 - Drop-off is boxed meals or pans, ready to serve, at least 48 hours notice.
 - Dry hire bar as described above.
 - Service area: Los Angeles and Southern California, plus festivals across
@@ -69,7 +77,8 @@ Net terms, invoicing, billing method or payment methods. Cancellation or
 refund terms. Final count deadlines or change cutoffs. Rentals, plateware,
 glassware, ice, linens, decor or bar equipment. Staffing ratios. Separate
 allergen preparation or any cross-contact guarantee. Second meal or craft
-service on set. Nut free or halal as a blanket claim beyond chicken and beef.
+service on set. Nut free as a claim, or halal as anything stronger than
+available on request.
 Checkout will someday run on Clover; it is never mentioned on the site.
 
 ## Voice
