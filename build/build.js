@@ -44,6 +44,9 @@ function stripAsset(body, kind) {
   let i = 0;
   let pendingWs = false;
   const drop = '{};,';
+  /* A / after one of these starts a regex literal, not division. Tracked so
+     a regex body like /\// is never mistaken for a comment. */
+  let regexCanStart = true;
   while (i < body.length) {
     const c = body[i], d = body[i + 1];
     if (state === 'code') {
@@ -52,18 +55,26 @@ function stripAsset(body, kind) {
       else if (kind === 'js' && c === '`') { state = 'bt'; }
       else if (c === '/' && d === '*') { state = 'block'; i += 2; continue; }
       else if (kind === 'js' && c === '/' && d === '/') { state = 'line'; i += 2; continue; }
+      else if (kind === 'js' && c === '/' && regexCanStart) { state = 'regex'; out += c; i += 1; continue; }
       else if (kind === 'css' && /\s/.test(c)) { pendingWs = true; i += 1; continue; }
       if (pendingWs) {
         const prev = out[out.length - 1] || '';
         if (drop.indexOf(prev) === -1 && drop.indexOf(c) === -1 && prev !== '') out += ' ';
         pendingWs = false;
       }
+      if (!/\s/.test(c)) regexCanStart = '([{=,:;!&|?+*%~^<>-'.indexOf(c) !== -1;
       out += c; i += 1; continue;
     }
     if (state === 'sq' || state === 'dq' || state === 'bt') {
       out += c;
       if (c === '\\') { out += d || ''; i += 2; continue; }
       if ((state === 'sq' && c === "'") || (state === 'dq' && c === '"') || (state === 'bt' && c === '`')) state = 'code';
+      i += 1; continue;
+    }
+    if (state === 'regex') {
+      out += c;
+      if (c === '\\') { out += d || ''; i += 2; continue; }
+      if (c === '/') { state = 'code'; regexCanStart = false; }
       i += 1; continue;
     }
     if (state === 'block') { if (c === '*' && d === '/') { state = 'code'; i += 2; } else i += 1; continue; }
@@ -92,10 +103,16 @@ function hashed(src, ext, strip) {
 console.log('assets');
 const assets = {
   css: hashed('styles.css', 'css', 'css'),
-  script: hashed('script.js', 'js'),
+  script: hashed('script.js', 'js', 'js'),
   config: hashed('config.js', 'js', 'js')
 };
 Object.keys(assets).forEach(k => ok(assets[k]));
+/* Every stripped script must still parse, and the config must evaluate to
+   exactly the same object. */
+[assets.script, assets.config].forEach(f => {
+  try { new (require('vm').Script)(read(f)); } catch (e) { fail(f + ' does not parse after stripping: ' + e.message); }
+});
+ok('stripped scripts parse');
 /* The stripped config must evaluate to exactly the same object. */
 {
   const minted = require(path.join(ROOT, assets.config));
